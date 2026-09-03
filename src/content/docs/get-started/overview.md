@@ -1,0 +1,20 @@
+---
+title: Get started
+description: What the toolchain solves and how the three tools fit together
+---
+The toolchain covers the three recurring jobs of running your own software fleet:
+
+1. **Keep secrets out of the repo** — [skret](/skret/overview/) wraps cloud secret managers (AWS SSM Parameter Store today) with a developer-first CLI.
+2. **Release safely** — [better-semantic-release](/bsr/overview/) (bsr) is a drop-in fork of python-semantic-release with built-in release-safety guards and a signed action-pin registry.
+3. **Back up and restore** — [better-drive](/bdrive/overview/) is a cross-platform Google Drive sync and virtual-drive mount built on rclone.
+
+## The typical loop
+
+- Developers read secrets with `skret get` / `skret env`; CI reads them via OIDC instead of long-lived keys.
+- Merges to `main` are released by the bsr GitHub Action: version bump, tag, changelog and release assets — beta first, stable when you say so.
+- Machines back up through better-drive jobs with `.driveignore` filters; restores are pull-based from the same encrypted remotes.
+
+## Where to go next
+
+- Install each tool: [skret install](/skret/install/), [bsr usage](/bsr/overview/), [better-drive install](/bdrive/install/).
+- Understand the supply-chain model behind bsr action pins: [Action-pin registry](/bsr/registry/).
