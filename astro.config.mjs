@@ -15,6 +15,10 @@ export default defineConfig({
           { label: 'Overview', slug: 'skret/overview' },
           { label: 'Install', slug: 'skret/install' },
           { label: 'Secrets workflow', slug: 'skret/secrets' },
+          { label: 'Reference links', slug: 'skret/reference' },
+          { label: 'Commands', slug: 'skret/commands' },
+          { label: 'Providers', slug: 'skret/providers' },
+          { label: 'Error codes', slug: 'skret/errors' },
         ]},
         { label: 'better-semantic-release', collapsed: false, items: [
           { label: 'Overview', slug: 'bsr/overview' },

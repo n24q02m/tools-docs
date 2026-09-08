@@ -2,7 +2,7 @@
 title: Overview
 description: skret — secrets without the server
 ---
-skret wraps cloud-provider secret managers (currently AWS SSM Parameter Store and a local file provider) with Doppler/Infisical-grade developer experience. It is a single static CLI — no server to run.
+skret wraps cloud-provider secret managers (currently AWS SSM Parameter Store and a local file provider) with a developer-first CLI. It is a single static CLI — no server to run.
 
 ## Core ideas
 
@@ -15,12 +15,17 @@ skret wraps cloud-provider secret managers (currently AWS SSM Parameter Store an
 | Command | Purpose |
 |---|---|
 | `skret init` | Initialize `.skret.yaml` in the current directory |
+| `skret setup` | Initialize and authenticate the configured provider |
 | `skret bootstrap` | Provision a least-privilege skret key |
 | `skret get` / `skret env` | Read one secret / dump the whole set |
 | `skret import` | Import from dotenv, Doppler or Infisical |
 | `skret diff` | Compare two secret sets |
-| `skret history` | Version history of a secret |
-| `skret hub` | Publish secret inventory to the vault dashboard |
+| `skret hub` | Publish a names-only secret inventory |
 | `skret delete` | Delete a secret |
 
-Full reference lives at [skret.n24q02m.com](https://skret.n24q02m.com).
+## Continue with Skret
+
+- [Install and verify a release](/skret/install/)
+- [Configure a project and use secrets](/skret/secrets/)
+- [Full command and provider reference](https://github.com/n24q02m/skret/tree/main/docs/src/content/docs)
+- [Source and release assets](https://github.com/n24q02m/skret/releases)
