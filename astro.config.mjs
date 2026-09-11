@@ -3,6 +3,8 @@ import starlight from '@astrojs/starlight';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
+  // Enable prefetching for faster navigation between pages
+  prefetch: true,
   site: 'https://tools.n24q02m.com',
   integrations: [
     starlight({
