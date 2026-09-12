@@ -22,6 +22,7 @@ export default defineConfig({
         ]},
         { label: 'better-semantic-release', collapsed: false, items: [
           { label: 'Overview', slug: 'bsr/overview' },
+          { label: 'Install & usage', slug: 'bsr/install' },
           { label: 'Action pinning', slug: 'bsr/pinning' },
           { label: 'Action-pin registry', slug: 'bsr/registry' },
           { label: 'Release channels', slug: 'bsr/channels' },
