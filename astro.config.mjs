@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://tools.n24q02m.com',
+  prefetch: true, // ⚡ Bolt: Enable Astro link prefetching for faster navigation
   integrations: [
     starlight({
       title: 'n24q02m tools',
