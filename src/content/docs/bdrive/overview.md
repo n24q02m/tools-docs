@@ -2,6 +2,10 @@
 title: Overview
 description: better-drive — cross-platform Google Drive sync and virtual-drive mount
 ---
+
+> [!WARNING]
+> **better-drive đã ARCHIVE** (2026-09-13) — repo read-only, không phát triển thêm. Bản cuối vẫn cài/dùng được; docs dưới đây đóng băng ở trạng thái cuối.
+
 better-drive is a cross-platform Google Drive sync and virtual-drive mount — copy,
 sync, explicitly enrolled bisync, or a foreground mounted filesystem. It is a thin
 wrapper around the [rclone](https://rclone.org) binary: better-drive owns the job
