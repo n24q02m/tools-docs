@@ -3,6 +3,7 @@ import starlight from '@astrojs/starlight';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
+  prefetch: true, // Pre-load linked pages in the background
   site: 'https://tools.n24q02m.com',
   integrations: [
     starlight({
