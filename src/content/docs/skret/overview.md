@@ -3,8 +3,6 @@ title: Overview
 description: skret — secrets without the server
 ---
 
-> [!WARNING]
-> **skret đã ARCHIVE** (2026-09-13) — repo read-only, không phát triển thêm. Bản cuối vẫn cài/dùng được; docs dưới đây đóng băng ở trạng thái cuối.
 
 skret wraps cloud-provider secret managers (currently AWS SSM Parameter Store and a local file provider) with a developer-first CLI. It is a single static CLI — no server to run.
 
