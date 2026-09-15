@@ -3,3 +3,8 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+# Optimization: Cache Astro's immutable assets for a year
+# Expected Impact: Faster return visits since assets are loaded from browser cache, reducing bandwidth and TTFB.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
