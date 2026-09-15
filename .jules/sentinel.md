@@ -2,3 +2,8 @@
 **Vulnerability:** The Astro application deployed to Cloudflare Pages is missing basic HTTP security headers (like X-Frame-Options, X-Content-Type-Options, Strict-Transport-Security), leaving it vulnerable to clickjacking, MIME-sniffing, and potential downgrade attacks.
 **Learning:** For static sites on Cloudflare Pages, security headers aren't added automatically by the framework or hosting provider by default. They must be explicitly configured via a `_headers` file in the build output directory (`public/` in Astro).
 **Prevention:** Always ensure a `public/_headers` file is present in Cloudflare Pages static deployments to enforce essential HTTP security headers.
+
+## 2024-05-24 - Content Security Policy for Astro/Starlight
+**Vulnerability:** A strict Content-Security-Policy (CSP) that prevents inline scripts and styles breaks Astro/Starlight's theme toggles and built-in inline functionality, rendering parts of the UI unusable.
+**Learning:** The Astro/Starlight framework requires 'unsafe-inline' permissions for `script-src` and `style-src` within the Content-Security-Policy to function correctly.
+**Prevention:** When adding a Content-Security-Policy to an Astro/Starlight project, ensure that `script-src` and `style-src` directives explicitly include `'unsafe-inline'` to maintain framework functionality while still securing other resources.
