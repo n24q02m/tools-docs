@@ -3,6 +3,7 @@ title: Overview
 description: skret — secrets without the server
 ---
 
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
 
 skret wraps cloud-provider secret managers (currently AWS SSM Parameter Store and a local file provider) with a developer-first CLI. It is a single static CLI — no server to run.
 
@@ -27,7 +28,21 @@ skret wraps cloud-provider secret managers (currently AWS SSM Parameter Store an
 
 ## Continue with Skret
 
-- [Install and verify a release](/skret/install/)
-- [Configure a project and use secrets](/skret/secrets/)
-- [Full command and provider reference](https://github.com/n24q02m/skret/tree/main/docs/src/content/docs)
-- [Source and release assets](https://github.com/n24q02m/skret/releases)
+<CardGrid>
+  <LinkCard
+    title="Install and verify a release"
+    href="/skret/install/"
+  />
+  <LinkCard
+    title="Configure a project and use secrets"
+    href="/skret/secrets/"
+  />
+  <LinkCard
+    title="Full command and provider reference"
+    href="https://github.com/n24q02m/skret/tree/main/docs/src/content/docs"
+  />
+  <LinkCard
+    title="Source and release assets"
+    href="https://github.com/n24q02m/skret/releases"
+  />
+</CardGrid>
