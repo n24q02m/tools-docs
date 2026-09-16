@@ -2,6 +2,7 @@
 title: Overview
 description: better-drive — cross-platform Google Drive sync and virtual-drive mount
 ---
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
 
 > [!WARNING]
 > **better-drive đã ARCHIVE** (2026-09-13) — repo read-only, không phát triển thêm. Bản cuối vẫn cài/dùng được; docs dưới đây đóng băng ở trạng thái cuối.
@@ -29,7 +30,9 @@ Runs on Windows, Linux and macOS. Sync/account jobs require an enrolled absolute
 
 ## Continue with better-drive
 
-- [Install](https://tools.n24q02m.com/bdrive/install/) with release archives or package managers
-- [Sync and restore](https://tools.n24q02m.com/bdrive/sync-restore/)
-- [Source and release assets](https://github.com/n24q02m/better-drive/releases)
-- [Full command/configuration reference](https://github.com/n24q02m/better-drive#configuration)
+<CardGrid>
+  <LinkCard title="Install with release archives or package managers" href="https://tools.n24q02m.com/bdrive/install/" />
+  <LinkCard title="Sync and restore" href="https://tools.n24q02m.com/bdrive/sync-restore/" />
+  <LinkCard title="Source and release assets" href="https://github.com/n24q02m/better-drive/releases" />
+  <LinkCard title="Full command/configuration reference" href="https://github.com/n24q02m/better-drive#configuration" />
+</CardGrid>
