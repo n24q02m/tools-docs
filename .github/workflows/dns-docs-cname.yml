@@ -16,6 +16,8 @@ jobs:
           CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           ZONE_ID: d3d79502dd22074b08074c95f405e660
         run: |
+          zones=$(curl -s "https://api.cloudflare.com/client/v4/zones?name=n24q02m.com" -H "Authorization: Bearer $CF_TOKEN")
+          echo "$zones" | python3 -c "import json,sys; d=json.load(sys.stdin); print('zones success:', d.get('success'), 'errors:', d.get('errors')); [print('zone:', z.get('id'), z.get('name'), 'acct:', (z.get('account') or {}).get('id')) for z in (d.get('result') or [])]"
           resp=$(curl -s "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records?name=docs.n24q02m.com&type=CNAME" \
             -H "Authorization: Bearer $CF_TOKEN")
           echo "$resp" | python3 -c "import json,sys; d=json.load(sys.stdin); print('list success:', d.get('success'), 'errors:', d.get('errors'))"
