@@ -12,15 +12,7 @@ export default defineConfig({
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/n24q02m' }],
       sidebar: [
         { label: 'Get started', slug: 'get-started/overview' },
-        { label: 'skret', collapsed: false, items: [
-          { label: 'Overview', slug: 'skret/overview' },
-          { label: 'Install', slug: 'skret/install' },
-          { label: 'Secrets workflow', slug: 'skret/secrets' },
-          { label: 'Reference links', slug: 'skret/reference' },
-          { label: 'Commands', slug: 'skret/commands' },
-          { label: 'Providers', slug: 'skret/providers' },
-          { label: 'Error codes', slug: 'skret/errors' },
-        ]},
+        { label: 'skret', link: 'https://mcp.n24q02m.com/skret/', attrs: { target: '_blank' } },
         { label: 'better-semantic-release', collapsed: false, items: [
           { label: 'Overview', slug: 'bsr/overview' },
           { label: 'Install & usage', slug: 'bsr/install' },
