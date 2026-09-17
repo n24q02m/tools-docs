@@ -11,3 +11,13 @@
 /banner.png https://raw.githubusercontent.com/n24q02m/skret/main/docs/public/banner.png 302
 /install.sh https://raw.githubusercontent.com/n24q02m/skret/main/install.sh 302
 /install.ps1 https://raw.githubusercontent.com/n24q02m/skret/main/install.ps1 302
+# skret docs canonical home moved to the unified hub (docs.n24q02m.com/skret/)
+# — skret repo docs/src/content/docs is the source of truth (36 pages vs 7 here).
+/skret/overview/ https://mcp.n24q02m.com/skret/ 301
+/skret/install/ https://mcp.n24q02m.com/skret/guide/installation/ 301
+/skret/commands/ https://mcp.n24q02m.com/skret/reference/commands/ 301
+/skret/errors/ https://mcp.n24q02m.com/skret/reference/error-codes/ 301
+/skret/providers/ https://mcp.n24q02m.com/skret/providers/comparison/ 301
+/skret/reference/ https://mcp.n24q02m.com/skret/reference/ 301
+/skret/secrets/ https://mcp.n24q02m.com/skret/guide/configuration/ 301
+/skret/* https://mcp.n24q02m.com/skret/ 301
