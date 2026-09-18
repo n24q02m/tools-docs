@@ -2,6 +2,9 @@
 title: Get started
 description: What the toolchain solves and how the three tools fit together
 ---
+
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
 The toolchain covers the three recurring jobs of running your own software fleet:
 
 1. **Keep secrets out of the repo** — [skret](/skret/overview/) wraps cloud secret managers (AWS SSM Parameter Store today) with a developer-first CLI.
@@ -16,5 +19,9 @@ The toolchain covers the three recurring jobs of running your own software fleet
 
 ## Where to go next
 
-- Install each tool: [skret install](/skret/install/), [bsr usage](/bsr/overview/), [better-drive install](/bdrive/install/).
-- Understand the supply-chain model behind bsr action pins: [Action-pin registry](/bsr/registry/).
+<CardGrid>
+  <LinkCard title="skret install" href="/skret/install/" description="Install the secret manager CLI." />
+  <LinkCard title="bsr usage" href="/bsr/overview/" description="Learn how to use better-semantic-release." />
+  <LinkCard title="better-drive install" href="/bdrive/install/" description="Install the sync and virtual-drive tool." />
+  <LinkCard title="Action-pin registry" href="/bsr/registry/" description="Understand the supply-chain model behind bsr action pins." />
+</CardGrid>
