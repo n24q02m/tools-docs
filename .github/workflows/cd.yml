@@ -23,3 +23,35 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist --project-name=tools-n24q02m --branch=main
+
+  # mcp.n24q02m.com (the unified docs hub) is built and deployed by
+  # n24q02m/claude-plugins, which inlines tools-docs content at build time.
+  # A tools-docs push alone never redeploys it, so the hub served stale docs
+  # until something else pushed to claude-plugins. Fire the hub's
+  # tools-docs-sync repository_dispatch after a successful deploy here.
+  # Token: n24q02m-ci GitHub App (account-wide install), same mechanism the
+  # MCP repos use to dispatch plugin-sync.
+  notify-docs-hub:
+    name: Notify docs hub
+    needs: pages
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          app-id: ${{ vars.CI_APP_ID }}
+          private-key: ${{ secrets.CI_APP_KEY }}
+
+      - name: Dispatch hub redeploy
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          gh api repos/n24q02m/claude-plugins/dispatches \
+            -f event_type=tools-docs-sync \
+            -f 'client_payload[source]=tools-docs' \
+            -f 'client_payload[sha]=${{ github.sha }}' \
+            -f "client_payload[run_url]=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
