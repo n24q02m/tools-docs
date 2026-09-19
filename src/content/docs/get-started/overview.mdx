@@ -14,7 +14,26 @@ The toolchain covers the three recurring jobs of running your own software fleet
 - Merges to `main` are released by the bsr GitHub Action: version bump, tag, changelog and release assets — beta first, stable when you say so.
 - Machines back up through better-drive jobs with `.driveignore` filters; restores are pull-based from the same encrypted remotes.
 
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
 ## Where to go next
 
-- Install each tool: [skret install](/skret/install/), [bsr usage](/bsr/overview/), [better-drive install](/bdrive/install/).
-- Understand the supply-chain model behind bsr action pins: [Action-pin registry](/bsr/registry/).
+<CardGrid>
+  <LinkCard
+    title="skret install"
+    href="/skret/install/"
+  />
+  <LinkCard
+    title="bsr usage"
+    href="/bsr/overview/"
+  />
+  <LinkCard
+    title="better-drive install"
+    href="/bdrive/install/"
+  />
+  <LinkCard
+    title="Action-pin registry"
+    description="Understand the supply-chain model behind bsr action pins"
+    href="/bsr/registry/"
+  />
+</CardGrid>

@@ -27,9 +27,26 @@ Runs on Windows, Linux and macOS. Sync/account jobs require an enrolled absolute
 - Cleanup operations are **quarantine-first and reversible** — no permanent deletes.
 - Restores are pull-based from the configured remotes, so recovery never depends on the local machine surviving.
 
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
 ## Continue with better-drive
 
-- [Install](https://tools.n24q02m.com/bdrive/install/) with release archives or package managers
-- [Sync and restore](https://tools.n24q02m.com/bdrive/sync-restore/)
-- [Source and release assets](https://github.com/n24q02m/better-drive/releases)
-- [Full command/configuration reference](https://github.com/n24q02m/better-drive#configuration)
+<CardGrid>
+  <LinkCard
+    title="Install"
+    description="with release archives or package managers"
+    href="https://tools.n24q02m.com/bdrive/install/"
+  />
+  <LinkCard
+    title="Sync and restore"
+    href="https://tools.n24q02m.com/bdrive/sync-restore/"
+  />
+  <LinkCard
+    title="Source and release assets"
+    href="https://github.com/n24q02m/better-drive/releases"
+  />
+  <LinkCard
+    title="Full command/configuration reference"
+    href="https://github.com/n24q02m/better-drive#configuration"
+  />
+</CardGrid>
