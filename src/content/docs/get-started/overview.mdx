@@ -8,6 +8,8 @@ The toolchain covers the three recurring jobs of running your own software fleet
 2. **Release safely** — [better-semantic-release](/bsr/overview/) (bsr) is a drop-in fork of python-semantic-release with built-in release-safety guards and a signed action-pin registry.
 3. **Back up and restore** — [better-drive](/bdrive/overview/) is a cross-platform Google Drive sync and virtual-drive mount built on rclone.
 
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
 ## The typical loop
 
 - Developers read secrets with `skret get` / `skret env`; CI reads them via OIDC instead of long-lived keys.
@@ -16,5 +18,9 @@ The toolchain covers the three recurring jobs of running your own software fleet
 
 ## Where to go next
 
-- Install each tool: [skret install](/skret/install/), [bsr usage](/bsr/overview/), [better-drive install](/bdrive/install/).
-- Understand the supply-chain model behind bsr action pins: [Action-pin registry](/bsr/registry/).
+<CardGrid>
+  <LinkCard title="skret install" href="/skret/install/" description="Install the secret manager CLI" />
+  <LinkCard title="bsr usage" href="/bsr/overview/" description="Learn how to use better-semantic-release" />
+  <LinkCard title="better-drive install" href="/bdrive/install/" description="Install the Google Drive sync tool" />
+  <LinkCard title="Action-pin registry" href="/bsr/registry/" description="Understand the supply-chain model behind bsr action pins" />
+</CardGrid>
