@@ -12,6 +12,8 @@ wrapper around the [rclone](https://rclone.org) binary: better-drive owns the jo
 schema, `.driveignore`, system-tray daemon, per-OS autostart and the mount contract,
 while rclone performs transfers and mounting.
 
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
+
 ## Models
 
 - **Copy / sync jobs** — one-way transfers with filters.
@@ -29,7 +31,9 @@ Runs on Windows, Linux and macOS. Sync/account jobs require an enrolled absolute
 
 ## Continue with better-drive
 
-- [Install](https://tools.n24q02m.com/bdrive/install/) with release archives or package managers
-- [Sync and restore](https://tools.n24q02m.com/bdrive/sync-restore/)
-- [Source and release assets](https://github.com/n24q02m/better-drive/releases)
-- [Full command/configuration reference](https://github.com/n24q02m/better-drive#configuration)
+<CardGrid>
+  <LinkCard title="Install" href="https://tools.n24q02m.com/bdrive/install/" description="Install with release archives or package managers" />
+  <LinkCard title="Sync and restore" href="https://tools.n24q02m.com/bdrive/sync-restore/" description="Learn how to sync and restore data" />
+  <LinkCard title="Source and release assets" href="https://github.com/n24q02m/better-drive/releases" description="View releases on GitHub" />
+  <LinkCard title="Full command/configuration reference" href="https://github.com/n24q02m/better-drive#configuration" description="Read the configuration documentation" />
+</CardGrid>
