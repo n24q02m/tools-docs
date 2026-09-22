@@ -12,7 +12,7 @@ export default defineConfig({
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/n24q02m' }],
       sidebar: [
         { label: 'Get started', slug: 'get-started/overview' },
-        { label: 'skret', link: 'https://mcp.n24q02m.com/skret/', attrs: { target: '_blank' } },
+        { label: 'skret', link: 'https://mcp.n24q02m.com/skret/', attrs: { target: '_blank', rel: 'noopener noreferrer' } },
         { label: 'better-semantic-release', collapsed: false, items: [
           { label: 'Overview', slug: 'bsr/overview' },
           { label: 'Install & usage', slug: 'bsr/install' },
