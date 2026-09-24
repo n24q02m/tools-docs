@@ -1,8 +1,8 @@
 ---
 title: Tool matrix
-description: The three tools at a glance
+description: The tools at a glance
 ---
-| | skret | better-semantic-release | better-drive |
+| | skret | better-semantic-release | better-drive (archived) |
 |---|---|---|---|
 | Job | secrets management | release automation | Drive backup/sync |
 | Shape | single static CLI | Python package + GitHub Actions (main action + OCI publish-action) | Go binary wrapping rclone |
@@ -14,6 +14,6 @@ description: The three tools at a glance
 ## Cross-tool supply chain
 
 skret stores the CI credentials; bsr publishes releases through a digest-pinned,
-registry-verified publisher; better-drive artifacts follow the same release
+registry-verified publisher; better-drive artifacts followed the same release
 discipline (checksums, SBOMs, provenance). Verifying one link is the same habit as
 verifying all: compare against the provider-authoritative source before installing.

@@ -8,11 +8,11 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'n24q02m tools',
-      description: 'Docs for skret, better-semantic-release and better-drive',
+      description: 'Docs for skret and better-semantic-release (better-drive archived)',
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/n24q02m' }],
       sidebar: [
         { label: 'Get started', slug: 'get-started/overview' },
-        { label: 'skret', link: 'https://mcp.n24q02m.com/skret/', attrs: { target: '_blank', rel: 'noopener noreferrer' } },
+        { label: 'skret', link: 'https://docs.n24q02m.com/skret/', attrs: { target: '_blank', rel: 'noopener noreferrer' } },
         { label: 'better-semantic-release', collapsed: false, items: [
           { label: 'Overview', slug: 'bsr/overview' },
           { label: 'Install & usage', slug: 'bsr/install' },
@@ -20,10 +20,12 @@ export default defineConfig({
           { label: 'Action-pin registry', slug: 'bsr/registry' },
           { label: 'Release channels', slug: 'bsr/channels' },
         ]},
-        { label: 'better-drive', collapsed: false, items: [
-          { label: 'Overview', slug: 'bdrive/overview' },
-          { label: 'Install', slug: 'bdrive/install' },
-          { label: 'Sync & restore', slug: 'bdrive/sync-restore' },
+        { label: 'Archived', collapsed: true, items: [
+          { label: 'better-drive', collapsed: true, items: [
+            { label: 'Overview', slug: 'bdrive/overview' },
+            { label: 'Install', slug: 'bdrive/install' },
+            { label: 'Sync & restore', slug: 'bdrive/sync-restore' },
+          ]},
         ]},
         { label: 'Tool matrix', slug: 'reference/tool-matrix' },
       ],

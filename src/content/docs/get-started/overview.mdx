@@ -1,12 +1,12 @@
 ---
 title: Get started
-description: What the toolchain solves and how the three tools fit together
+description: What the toolchain solves and how the tools fit together
 ---
 The toolchain covers the three recurring jobs of running your own software fleet:
 
 1. **Keep secrets out of the repo** — [skret](/skret/overview/) wraps cloud secret managers (AWS SSM Parameter Store today) with a developer-first CLI.
 2. **Release safely** — [better-semantic-release](/bsr/overview/) (bsr) is a drop-in fork of python-semantic-release with built-in release-safety guards and a signed action-pin registry.
-3. **Back up and restore** — [better-drive](/bdrive/overview/) is a cross-platform Google Drive sync and virtual-drive mount built on rclone.
+3. **Back up and restore** — [better-drive](/bdrive/overview/) (archived 2026-09-13) was a cross-platform Google Drive sync and virtual-drive mount built on rclone; use rclone directly for new setups.
 
 import { CardGrid, LinkCard } from '@astrojs/starlight/components';
 
@@ -14,13 +14,12 @@ import { CardGrid, LinkCard } from '@astrojs/starlight/components';
 
 - Developers read secrets with `skret get` / `skret env`; CI reads them via OIDC instead of long-lived keys.
 - Merges to `main` are released by the bsr GitHub Action: version bump, tag, changelog and release assets — beta first, stable when you say so.
-- Machines back up through better-drive jobs with `.driveignore` filters; restores are pull-based from the same encrypted remotes.
+- Machines backed up through better-drive jobs with `.driveignore` filters; restores are pull-based from the same encrypted remotes. better-drive is archived — use rclone directly for new setups.
 
 ## Where to go next
 
 <CardGrid>
   <LinkCard title="skret install" href="/skret/install/" description="Install the secret manager CLI" />
   <LinkCard title="bsr usage" href="/bsr/overview/" description="Learn how to use better-semantic-release" />
-  <LinkCard title="better-drive install" href="/bdrive/install/" description="Install the Google Drive sync tool" />
   <LinkCard title="Action-pin registry" href="/bsr/registry/" description="Understand the supply-chain model behind bsr action pins" />
 </CardGrid>

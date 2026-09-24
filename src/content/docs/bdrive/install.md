@@ -2,6 +2,10 @@
 title: Install
 description: Installing better-drive
 ---
+
+:::caution[Archived]
+This project is archived and no longer maintained. The documentation below is kept for reference.
+:::
 Releases live on [GitHub releases](https://github.com/n24q02m/better-drive/releases) with archives per OS/arch plus checksums, SBOMs and provenance.
 
 ## One-shot installers

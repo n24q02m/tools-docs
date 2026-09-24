@@ -2,6 +2,10 @@
 title: Sync & restore
 description: Job models, filters and getting data back
 ---
+
+:::caution[Archived]
+This project is archived and no longer maintained. The documentation below is kept for reference.
+:::
 ## Job models
 
 | Model | Direction | Use for |
