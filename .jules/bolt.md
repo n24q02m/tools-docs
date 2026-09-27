@@ -5,3 +5,7 @@
 ## 2024-06-03 - [Cloudflare Pages Caching]
 **Learning:** Cloudflare Pages doesn't automatically set optimal long-term caching headers for immutable assets (like Astro's `_astro/` directory assets) by default. This leads to redundant downloads of static JS/CSS on repeat visits.
 **Action:** Always add an explicit `public/_headers` file containing a `Cache-Control: public, max-age=31536000, immutable` rule for the `/_astro/*` route when deploying Astro apps to Cloudflare Pages.
+
+## 2024-06-21 - [Pagefind Caching on Cloudflare Pages]
+**Learning:** Starlight's Pagefind search index assets (`dist/pagefind/`) do not include content hashes in their filenames, making them unsafe for the aggressive immutable caching used for `_astro/` assets. However, they can still be cached moderately to improve performance.
+**Action:** Use a moderate caching strategy, such as `Cache-Control: public, max-age=3600, must-revalidate` for `/pagefind/*` in `public/_headers` to balance performance (avoiding re-downloads on every search/page load) and ensuring search index freshness.
