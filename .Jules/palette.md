@@ -4,3 +4,6 @@
 ## 2025-03-05 - Enhance Next Steps Navigation Hit Areas
 **Learning:** Standard markdown lists on index/overview pages offer small click targets for primary navigational actions ("Where to go next" or "Continue with...").
 **Action:** Use Starlight's `<CardGrid>` and `<LinkCard>` components instead of standard markdown lists for these sections. This provides larger hit areas and better UX. Ensure the file extension is `.mdx` to allow component imports from `@astrojs/starlight/components`.
+## 2025-03-05 - Enhance Technical Documentation Navigation
+**Learning:** Starlight's `<Tabs>` component groups OS/environment-specific commands to reduce visual clutter, and `<Steps>` visually enhances standard markdown ordered lists for multi-step setup guides without custom markup.
+**Action:** For instructional content, use `<Steps>` for multi-step setup guides and `<Tabs>`/`<TabItem>` for OS-specific commands. Ensure the file extension is `.mdx`.
