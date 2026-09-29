@@ -8,3 +8,7 @@
 /_astro/*
   # ⚡ Bolt: Cache immutable assets for 1 year to improve repeat page load speed and reduce bandwidth
   Cache-Control: public, max-age=31536000, immutable
+
+/pagefind/*
+  # ⚡ Bolt: Cache Pagefind search index moderately to improve search speed while ensuring freshness
+  Cache-Control: public, max-age=3600, must-revalidate
