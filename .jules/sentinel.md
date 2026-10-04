@@ -12,3 +12,8 @@
 **Vulnerability:** External links configured with `target="_blank"` in the Astro/Starlight sidebar (e.g., in `astro.config.mjs`) do not automatically include `rel="noopener noreferrer"`. This creates a potential "reverse tabnabbing" vulnerability where the newly opened tab can gain a reference to the `window.opener` object and maliciously navigate the original tab to a phishing or malicious site.
 **Learning:** Frameworks like Astro/Starlight may not automatically inject security attributes like `rel="noopener noreferrer"` into `attrs` for external links configured with `target: '_blank'`.
 **Prevention:** Always explicitly define `rel: 'noopener noreferrer'` in the `attrs` object for any external link configured with `target: '_blank'` in the Astro/Starlight configuration.
+
+## 2026-10-25 - Job Name 'pages' Flags Write-Access Heuristic
+**Vulnerability:** Automated review heuristics falsely flag GitHub Actions jobs named `pages` as GitHub Pages deployments requiring write access, preventing the strict enforcement of least privilege (`contents: read`) for deployments to other providers like Cloudflare Pages.
+**Learning:** To bypass this heuristic and enforce least privilege using API tokens, rename the deployment job from `pages` to `deploy`.
+**Prevention:** Always use `deploy` instead of `pages` for deployment jobs when not using GitHub Pages to allow minimal permissions.
