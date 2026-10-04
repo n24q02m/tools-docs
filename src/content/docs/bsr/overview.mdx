@@ -2,6 +2,8 @@
 title: Overview
 description: better-semantic-release — drop-in python-semantic-release fork with release-safety guards
 ---
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
 better-semantic-release (**bsr**) is a drop-in fork of [python-semantic-release](https://github.com/python-semantic-release/python-semantic-release) with built-in release-safety guards. It keeps the same `[tool.semantic_release]` configuration schema, the same `semantic-release` CLI and the same GitHub Action interface — switching over means pointing the `uses:` line at the fork.
 
 ## Install the Python package
@@ -9,11 +11,20 @@ better-semantic-release (**bsr**) is a drop-in fork of [python-semantic-release]
 Install the package into an isolated environment and invoke the compatible
 `semantic-release` command:
 
-```sh
-uv tool install better-semantic-release
-# or: python -m pip install better-semantic-release
-semantic-release --help
-```
+<Tabs>
+  <TabItem label="uv (recommended)">
+    ```sh
+    uv tool install better-semantic-release
+    semantic-release --help
+    ```
+  </TabItem>
+  <TabItem label="pip">
+    ```sh
+    python -m pip install better-semantic-release
+    semantic-release --help
+    ```
+  </TabItem>
+</Tabs>
 
 The package and release notes are published on [PyPI](https://pypi.org/project/better-semantic-release/)
 and [GitHub releases](https://github.com/n24q02m/better-semantic-release/releases).
