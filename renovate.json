@@ -1,0 +1,13 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "timezone": "Asia/Ho_Chi_Minh",
+  "packageRules": [
+    {
+      "description": "Automerge low-risk updates (patch, digest, pin) once checks pass",
+      "matchUpdateTypes": ["patch", "digest", "pin"],
+      "automerge": true,
+      "automergeType": "pr"
+    }
+  ]
+}
