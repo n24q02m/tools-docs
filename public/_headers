@@ -1,9 +1,19 @@
 /*
+  # 🛡️ Sentinel: Prevent clickjacking attacks by forbidding framing
   X-Frame-Options: DENY
+  # 🛡️ Sentinel: Prevent MIME-sniffing vulnerabilities
   X-Content-Type-Options: nosniff
+  # 🛡️ Sentinel: Control referrer information sent to external sites
   Referrer-Policy: strict-origin-when-cross-origin
+  # 🛡️ Sentinel: Enforce HTTPS connections for 1 year, including subdomains
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  # 🛡️ Sentinel: Restrict resource loading to prevent XSS and data injection
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests;
+  # 🛡️ Sentinel: Isolate browsing context to prevent cross-origin information leaks and side-channel attacks
+  Cross-Origin-Opener-Policy: same-origin
+  # 🛡️ Sentinel: Prevent cross-origin sites from loading our resources directly
+  Cross-Origin-Resource-Policy: same-origin
+  # 🛡️ Sentinel: Disable unnecessary browser features to reduce attack surface
   Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
 
 /_astro/*
