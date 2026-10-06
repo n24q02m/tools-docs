@@ -21,7 +21,7 @@ export default defineConfig({
           { label: 'Release channels', slug: 'bsr/channels' },
         ]},
         { label: 'Archived', collapsed: true, items: [
-          { label: 'better-drive', collapsed: true, items: [
+          { label: 'better-drive', badge: { text: 'Archived', variant: 'danger' }, collapsed: true, items: [
             { label: 'Overview', slug: 'bdrive/overview' },
             { label: 'Install', slug: 'bdrive/install' },
             { label: 'Sync & restore', slug: 'bdrive/sync-restore' },
