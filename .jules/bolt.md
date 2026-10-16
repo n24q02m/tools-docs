@@ -9,3 +9,7 @@
 ## 2024-10-02 - [Pagefind Search Index Caching]
 **Learning:** Starlight's Pagefind search index assets (`dist/pagefind/`) lack content hashes in their filenames, making them unsafe for aggressive immutable caching.
 **Action:** Use a moderate caching strategy (e.g., `Cache-Control: public, max-age=3600, must-revalidate`) for `/pagefind/*` in `public/_headers` to ensure search index freshness while improving load times.
+
+## 2024-10-16 - [Astro Prefetch Viewport Strategy]
+**Learning:** While `prefetch: true` enables prefetching on hover by default in Astro, it can be further optimized by using the `viewport` strategy. This strategy aggressively preloads links as they scroll into view, rather than waiting for user interaction (hover). This significantly reduces perceived navigation time.
+**Action:** Configure `prefetch: { prefetchAll: true, defaultStrategy: 'viewport' }` in `astro.config.mjs` to achieve optimal navigation performance on statically generated documentation sites where resource payloads are small.
