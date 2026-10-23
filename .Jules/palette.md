@@ -7,3 +7,6 @@
 ## 2025-03-05 - Use Tabs and Steps for Setup Guides
 **Learning:** Grouping OS-specific commands reduces visual clutter, and using dedicated Step components improves the visual hierarchy of sequential instructions over standard numbered lists.
 **Action:** Use Starlight's `<Tabs>`, `<TabItem>`, and `<Steps>` components for instructional content, changing file extensions to `.mdx` where necessary.
+## 2025-03-05 - Avoid Steps for Non-Sequential Content
+**Learning:** Starlight's `<Steps>` component visually structures lists but is strictly for sequential instructions. Wrapping standard non-sequential lists creates a semantic and accessibility regression by implying order where none exists.
+**Action:** Use standard markdown unordered lists for non-sequential items and reserve `<Steps>` strictly for setup guides or multi-step processes.
