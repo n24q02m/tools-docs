@@ -3,7 +3,7 @@ import starlight from '@astrojs/starlight';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  prefetch: { prefetchAll: true, defaultStrategy: 'viewport' }, // ⚡ Bolt: Aggressively preload links as they enter viewport to make subsequent navigations instantaneous
+  prefetch: true, // Pre-load linked pages in the background
   site: 'https://tools.n24q02m.com',
   integrations: [
     starlight({
