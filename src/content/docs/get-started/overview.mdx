@@ -4,15 +4,11 @@ description: What the toolchain solves and how the tools fit together
 ---
 The toolchain covers the three recurring jobs of running your own software fleet:
 
-import { CardGrid, LinkCard, Steps } from '@astrojs/starlight/components';
+import { CardGrid, LinkCard } from '@astrojs/starlight/components';
 
-<Steps>
-
-1. **Keep secrets out of the repo** — [skret](/skret/overview/) wraps cloud secret managers (AWS SSM Parameter Store today) with a developer-first CLI.
-2. **Release safely** — [better-semantic-release](/bsr/overview/) (bsr) is a drop-in fork of python-semantic-release with built-in release-safety guards and a signed action-pin registry.
-3. **Back up and restore** — [better-drive](/bdrive/overview/) (archived 2026-09-13) was a cross-platform Google Drive sync and virtual-drive mount built on rclone; use rclone directly for new setups.
-
-</Steps>
+- **Keep secrets out of the repo** — [skret](/skret/overview/) wraps cloud secret managers (AWS SSM Parameter Store today) with a developer-first CLI.
+- **Release safely** — [better-semantic-release](/bsr/overview/) (bsr) is a drop-in fork of python-semantic-release with built-in release-safety guards and a signed action-pin registry.
+- **Back up and restore** — [better-drive](/bdrive/overview/) (archived 2026-09-13) was a cross-platform Google Drive sync and virtual-drive mount built on rclone; use rclone directly for new setups.
 
 ## The typical loop
 
