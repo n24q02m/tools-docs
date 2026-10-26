@@ -17,7 +17,7 @@ jobs:
           node-version: 24
       - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
         with:
-          version: 10
+          version: 12
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build
       - uses: cloudflare/wrangler-action@953926a2e2182532811c01a25e53647d93bf07c0 # v4.1.3
