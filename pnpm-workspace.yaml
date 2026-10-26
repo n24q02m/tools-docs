@@ -1,5 +1,6 @@
 allowBuilds:
   esbuild: true
+  workerd: true
 overrides:
   smol-toml: '>=1.9.0'
   source-map-js: '>=1.2.2'
