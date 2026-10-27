@@ -1,0 +1,3 @@
+## $(date +%Y-%m-%d) - Starlight Overview Pages UX
+**Learning:** Overview pages typically contain non-sequential list structures (like tools or features). `<Steps>` should strictly be used for sequential instructions. For navigational lists (like "Where to go next" or feature models), using Starlight's `<CardGrid>` and `<LinkCard>` provides a much better UX with larger hit areas, clear visual hierarchy, and better accessibility.
+**Action:** Always check `overview.md`/`overview.mdx` files for standard markdown lists used for primary navigation and upgrade them to `<CardGrid>` and `<LinkCard>` if they aren't sequential instructions. Ensure the file is named `.mdx` when using components.
