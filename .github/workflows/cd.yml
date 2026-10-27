@@ -60,5 +60,5 @@ jobs:
           gh api repos/n24q02m/claude-plugins/dispatches \
             -f event_type=tools-docs-sync \
             -f 'client_payload[source]=tools-docs' \
-            -f 'client_payload[sha]=${{ github.sha }}' \
+            -f "client_payload[sha]=$GITHUB_SHA" \
             -f "client_payload[run_url]=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
