@@ -6,15 +6,19 @@ The toolchain covers the three recurring jobs of running your own software fleet
 
 import { CardGrid, LinkCard } from '@astrojs/starlight/components';
 
-- **Keep secrets out of the repo** — [skret](/skret/overview/) wraps cloud secret managers (AWS SSM Parameter Store today) with a developer-first CLI.
-- **Release safely** — [better-semantic-release](/bsr/overview/) (bsr) is a drop-in fork of python-semantic-release with built-in release-safety guards and a signed action-pin registry.
-- **Back up and restore** — [better-drive](/bdrive/overview/) (archived 2026-09-13) was a cross-platform Google Drive sync and virtual-drive mount built on rclone; use rclone directly for new setups.
+<CardGrid>
+  <LinkCard title="Keep secrets out of the repo" href="/skret/overview/" description="skret wraps cloud secret managers (AWS SSM Parameter Store today) with a developer-first CLI." />
+  <LinkCard title="Release safely" href="/bsr/overview/" description="better-semantic-release (bsr) is a drop-in fork of python-semantic-release with built-in release-safety guards." />
+  <LinkCard title="Back up and restore (Archived)" href="/bdrive/overview/" description="better-drive was a cross-platform Google Drive sync and virtual-drive mount built on rclone." />
+</CardGrid>
 
 ## The typical loop
 
-- Developers read secrets with `skret get` / `skret env`; CI reads them via OIDC instead of long-lived keys.
-- Merges to `main` are released by the bsr GitHub Action: version bump, tag, changelog and release assets — beta first, stable when you say so.
-- Machines backed up through better-drive jobs with `.driveignore` filters; restores are pull-based from the same encrypted remotes. better-drive is archived — use rclone directly for new setups.
+<CardGrid>
+  <LinkCard title="Read secrets" href="/skret/overview/" description="Developers read secrets with skret get / skret env; CI reads them via OIDC instead of long-lived keys." />
+  <LinkCard title="Release safely" href="/bsr/overview/" description="Merges to main are released by the bsr GitHub Action: version bump, tag, changelog and release assets — beta first, stable when you say so." />
+  <LinkCard title="Back up and restore (Archived)" href="/bdrive/overview/" description="Machines backed up through better-drive jobs with .driveignore filters; restores are pull-based from the same encrypted remotes. better-drive is archived — use rclone directly for new setups." />
+</CardGrid>
 
 ## Where to go next
 
