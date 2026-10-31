@@ -29,6 +29,9 @@ importers:
         specifier: ^0.35.3
         version: 0.35.5(@types/node@24.13.3)
     devDependencies:
+      '@bruits/satteri-win32-x64-msvc':
+        specifier: ^0.11.6
+        version: 0.11.6
       http-cache-semantics:
         specifier: ^4.3.0
         version: 4.3.0
@@ -216,6 +219,11 @@ packages:
 
   '@bruits/satteri-win32-x64-msvc@0.10.5':
     resolution: {integrity: sha512-C3IfPvfvMXmlzBxaMPKFS1XiuV9pu2mC7YqkPk7PSvTgPZ8gbdASIpHpztDLvTTQjqZ0z1Ol8tK5X+V6XXC0wQ==}
+    cpu: [x64]
+    os: [win32]
+
+  '@bruits/satteri-win32-x64-msvc@0.11.6':
+    resolution: {integrity: sha512-fGs5d/7jBIPkYmXkhm9unoEfDuRZ5r66NLxbr+6c8bm0f7ywgPHgW3HJ9L7fKvyqhw49ePtbT4vkWREju8/U6w==}
     cpu: [x64]
     os: [win32]
 
@@ -1972,6 +1980,8 @@ snapshots:
 
   '@bruits/satteri-win32-x64-msvc@0.10.5':
     optional: true
+
+  '@bruits/satteri-win32-x64-msvc@0.11.6': {}
 
   '@capsizecss/unpack@4.0.1':
     dependencies:

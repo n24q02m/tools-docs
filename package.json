@@ -15,6 +15,7 @@
     "sharp": "^0.35.3"
   },
   "devDependencies": {
+    "@bruits/satteri-win32-x64-msvc": "^0.11.6",
     "http-cache-semantics": "^4.3.0"
   }
 }
