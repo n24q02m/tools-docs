@@ -66,7 +66,9 @@ Typical downstream use — notify or deploy on release:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - if: steps.bsr.outputs.released == 'true'
-        run: echo "released ${{ steps.bsr.outputs.link }}"
+        env:
+          RELEASE_LINK: ${{ steps.bsr.outputs.link }}
+        run: echo "released $RELEASE_LINK"
 ```
 
 ## Commit conventions
