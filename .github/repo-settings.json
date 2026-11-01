@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "tier": 1,
+  "description": "Documentation portal for the n24q02m open-source tools skret and better-semantic-release, built with Astro and deployed to Cloudflare Pages.",
+  "homepage": "https://tools.n24q02m.com",
+  "topics": [
+    "documentation",
+    "docs-site",
+    "astro",
+    "cloudflare-pages",
+    "skret",
+    "better-semantic-release"
+  ]
+}
