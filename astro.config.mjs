@@ -12,7 +12,19 @@ export default defineConfig({
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/n24q02m' }],
       sidebar: [
         { label: 'Get started', slug: 'get-started/overview' },
-        { label: 'skret', link: 'https://docs.n24q02m.com/skret/', attrs: { target: '_blank', rel: 'noopener noreferrer' } },
+        { label: 'skret', slug: 'skret/overview' },
+        { label: 'sillstone', slug: 'sillstone/overview' },
+        { label: 'fastretrieval', slug: 'fastretrieval/overview' },
+        { label: 'jules', slug: 'jules/overview' },
+        { label: 'MCP & CLI Tools', collapsed: false, items: [
+          { label: 'wet', slug: 'tools/wet' },
+          { label: 'mnemo', slug: 'tools/mnemo' },
+          { label: 'crg', slug: 'tools/crg' },
+          { label: 'telegram', slug: 'tools/telegram' },
+          { label: 'email', slug: 'tools/email' },
+          { label: 'notion', slug: 'tools/notion' },
+          { label: 'workspace', slug: 'tools/workspace' },
+        ]},
         { label: 'better-semantic-release', collapsed: false, items: [
           { label: 'Overview', slug: 'bsr/overview' },
           { label: 'Install & usage', slug: 'bsr/install' },
