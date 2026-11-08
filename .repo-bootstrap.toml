@@ -1,0 +1,10 @@
+# Scaffold files this repo keeps as its own (read by repo-bootstrap apply.py).
+
+[[exempt]]
+path = ".github/ISSUE_TEMPLATE/bug_report.md"
+reason = """
+A bug here is a wrong or broken page on the docs portal. The report asks for the page
+URL and the reader's environment as `- Browser:` (e.g. Firefox 140) and `- OS:`. The
+shared TypeScript template asks for a Node.js version, a package version and an
+npx/Docker/local-build install method, and has no Page URL section and no Browser line.
+"""
