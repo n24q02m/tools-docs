@@ -9,10 +9,11 @@
 /favicon.ico https://raw.githubusercontent.com/n24q02m/skret/main/docs/public/favicon.ico 302
 /apple-touch-icon.png https://raw.githubusercontent.com/n24q02m/skret/main/docs/public/apple-touch-icon.png 302
 /banner.png https://raw.githubusercontent.com/n24q02m/skret/main/docs/public/banner.png 302
-/install.sh https://github.com/n24q02m/skret/releases/latest/download/install.sh 301
-/install.sh.sha256 https://github.com/n24q02m/skret/releases/latest/download/install.sh.sha256 301
-/install.ps1 https://github.com/n24q02m/skret/releases/latest/download/install.ps1 301
-/install.ps1.sha256 https://github.com/n24q02m/skret/releases/latest/download/install.ps1.sha256 301
+# Interim: the release-asset copy first ships with the next stable (skret #973). Until then the
+# tracked branch file keeps `curl ... | sh` working; switch both lines to
+# https://github.com/n24q02m/skret/releases/latest/download/install.sh once a stable has the asset.
+/install.sh https://raw.githubusercontent.com/n24q02m/skret/main/install.sh 302
+/install.ps1 https://raw.githubusercontent.com/n24q02m/skret/main/install.ps1 302
 # skret docs are served from this site (src/content/docs/skret/**, ported from
 # the skret repo docs/ tree on 2026-11-10). Only the pre-consolidation short
 # slugs are redirected now; the /skret/* catch-all is gone so the ported pages

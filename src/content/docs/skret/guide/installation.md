@@ -12,14 +12,14 @@ The installers verify the exact checksum row and Sigstore bundle with `cosign`, 
 ```bash
 # macOS or Linux; cosign must already be on PATH
 curl -fsSL https://skret.n24q02m.com/install.sh | sh
-# same script, direct from the release:
+# from the next stable on, the same script is a release asset:
 # curl -fsSL https://github.com/n24q02m/skret/releases/latest/download/install.sh | sh
 ```
 
 ```powershell
 # Windows; cosign must already be on PATH
 iwr -useb https://skret.n24q02m.com/install.ps1 | iex
-# same script, direct from the release:
+# from the next stable on, the same script is a release asset:
 # iwr -useb https://github.com/n24q02m/skret/releases/latest/download/install.ps1 | iex
 ```
 
