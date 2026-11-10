@@ -15,8 +15,11 @@
   the redirect-only deployments of those two domains are what must be updated when this
   build is promoted.
 
-The deploy workflow installs pnpm 12 (Node 26) and runs `pnpm install --frozen-lockfile`,
-`pnpm run build`, then `wrangler pages deploy dist --project-name=tools-n24q02m`.
+The deploy workflow (`.github/workflows/cd.yml`) is manual: it runs on `workflow_dispatch`
+only, because the Pages project has no git source (Direct Upload) — a push to `main` runs
+CI but does not publish. It installs pnpm 12 (Node 26) and runs
+`pnpm install --frozen-lockfile`, `pnpm run build`, then
+`wrangler pages deploy dist --project-name=tools-n24q02m --branch=main`.
 The old Skret Astro deployment should be reduced to a redirect-only deployment after
 the aliases are live; see the R13 handoff evidence for the exact route map and
 post-deploy checks.

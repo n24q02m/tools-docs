@@ -34,25 +34,18 @@ and verifying it before extraction.
 
 ## Package managers
 
-<Tabs>
-  <TabItem label="Windows (Scoop)">
-    ```powershell
-    scoop bucket add n24q02m https://github.com/n24q02m/scoop-bucket
-    scoop install better-drive
-    ```
-  </TabItem>
-  <TabItem label="macOS / Linux (Homebrew)">
-    ```sh
-    brew install n24q02m/homebrew-tap/better-drive
-    ```
-  </TabItem>
-</Tabs>
+:::caution[No package-manager packages]
+The Homebrew cask and the Scoop manifest for `better-drive` were removed on
+2026-10-31, when the project was archived. Install from the one-shot installers or
+the release archives above instead, and install [rclone](https://rclone.org/install/)
+yourself — the package-manager packages used to pull it in as a dependency.
+:::
 
 ## First steps
 
 <Steps>
 
-1. Install [rclone](https://rclone.org/install/) (the Scoop/Homebrew packages pull it as a dependency).
+1. Install [rclone](https://rclone.org/install/).
 2. Connect an account with `better-drive setup` or an existing rclone remote.
 3. Pick a job model — one-way sync, enrolled bisync or mount.
 4. Author `.driveignore` before the first sync; excludes are your deletion guardrail.

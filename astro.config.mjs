@@ -12,6 +12,7 @@ export default defineConfig({
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/n24q02m' }],
       sidebar: [
         { label: 'Get started', slug: 'get-started/overview' },
+        { label: 'Homebrew & Scoop', slug: 'install/package-managers' },
         { label: 'skret', collapsed: false, items: [
           { label: 'Overview', slug: 'skret/overview' },
           { label: 'Guide', collapsed: true, items: [{ autogenerate: { directory: 'skret/guide' } }] },
