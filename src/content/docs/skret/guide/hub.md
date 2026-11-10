@@ -1,0 +1,167 @@
+---
+title: Hub
+description: "Publish a names-only secret inventory to the vault dashboard — values never leave your machine."
+---
+
+Publish a names-only secret inventory to the vault dashboard — values never leave your machine.
+
+```bash
+skret hub push
+```
+
+`skret hub push` sends a **manifest**: key names, a salted fingerprint per key, and a presence status per sync target. It never sends a secret value.
+
+## One-time setup: `skret hub init`
+
+`skret hub init` writes the `sync.hub` block into `.skret.yaml` so the other `hub` subcommands work with no flags:
+
+```bash
+skret hub init --url https://vault.example.com
+# or pin the manifest namespace explicitly (default: the resolved env path):
+skret hub init --url https://vault.example.com --namespace /myapp/prod
+```
+
+which produces:
+
+```yaml
+sync:
+  hub:
+    url: https://vault.example.com
+    namespace: /myapp/prod
+```
+
+- `namespace` is optional. When set, `skret hub push` publishes under that namespace instead of the resolved environment path.
+- The write is atomic with a `.skret.yaml.bak` backup (the `skret init` convention); re-running with identical values reports `unchanged` and leaves the file untouched.
+- `hub init` requires an existing `.skret.yaml` — run `skret init` first.
+
+## Checking the hub: `skret hub status`
+
+`skret hub status` asks the hub what it currently holds — per-namespace key counts and manifest freshness — and whether it is reachable at all:
+
+```bash
+$ skret hub status
+URL         https://vault.example.com
+STATUS      ok
+KEY COUNT   12
+
+NAMESPACE      ENV   KEYS  UPDATED
+/myapp/prod    prod  12    2026-09-19T10:00:00Z
+```
+
+`--format json` emits the same data as a machine-readable object (`ok`, `url`, `namespace_count`, `key_count`, `namespaces[]`). Exit codes follow the CLI convention: `4` (auth) when the hub answers `401` — set `SKRET_HUB_TOKEN` — and `7` (network) when the hub cannot be reached.
+
+Names-only applies here too: the status response carries counts and timestamps, never key names, fingerprints, or values.
+
+## Setting the hub URL
+
+```bash
+skret hub push --hub-url https://vault.example.com
+```
+
+Or declare it once in `.skret.yaml` so a bare `skret hub push` picks it up:
+
+```yaml
+sync:
+  hub:
+    url: https://vault.example.com
+```
+
+`--hub-url` overrides `sync.hub.url` when both are set. If neither is set, `skret hub push` fails fast with a config error instead of guessing an endpoint.
+
+## Authentication
+
+Set `SKRET_HUB_TOKEN` to have `skret hub push` send it as a bearer token:
+
+```bash
+export SKRET_HUB_TOKEN=hub_xxx
+skret hub push
+```
+
+Without `SKRET_HUB_TOKEN`, the request is sent with no `Authorization` header.
+
+## What's in the manifest
+
+For each secret in the resolved environment, the manifest carries:
+
+- **`name`** — the secret's key name (the final path segment, e.g. `DATABASE_URL` from SSM path `/myapp/prod/DATABASE_URL`).
+- **`fingerprint`** — an eight-character `sha256[:8]` of the value, salted with a 16-byte deployment salt kept at `~/.skret/hub-salt` (created on first use, `0600`, never transmitted). The salt keeps fingerprints opaque to cross-deployment rainbow tables while staying stable across pushes from the same machine.
+- **`updated_at`** — the value's last-modified timestamp from the provider.
+- **`targets`** — a map of `"<type>:<id>"` (e.g. `"github:myorg/myapp"`, `"cloudflare:worker/my-worker"`) to a presence status (`present`/`absent`/`unknown`), one per target declared in `sync.targets`.
+
+No secret value is ever included, at any point in the request.
+
+## Presence status per target
+
+`skret hub push` looks up presence **live**, by calling each declared `sync.targets` entry's own "list existing secret names" API once per push — the same mechanism `skret sync --no-overwrite` uses. It does not read the local sync-state cache (`~/.skret/sync-state/`) at all, so the manifest reflects what is actually at the target right now, not what the last successful `skret sync` on this machine happened to write.
+
+Each key gets one status per declared target:
+
+| Status    | Meaning                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `present` | The target was asked "what secret names do you have?" and this key's name was in the answer.                                                                                                                                                                                                                                                                                                                                                                                               |
+| `absent`  | The target answered, and this key's name was **not** in the answer.                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `unknown` | Presence could not be determined for this target: either its type cannot enumerate existing names at all (a `dotenv` target -- silently), or the lookup call itself failed (network/API error, a required credential like `GITHUB_TOKEN` not set, or a Cloudflare **Pages** target, which cannot enumerate and reports it as a failed lookup). A failed lookup never fails the whole push -- it prints a `warning:` line to stderr and marks every key `unknown` for that one target only. |
+
+A `github` target and a Cloudflare **Worker** target (`sync.targets: - type: cloudflare, worker: ...`) can both enumerate, so they get real `present`/`absent` status. A `dotenv` target always shows `unknown`, silently -- there is no file-independent API to ask. A Cloudflare **Pages** target also always shows `unknown`, and additionally prints the `warning:` line on every push: it cannot enumerate its env vars either, but `hub push` learns that from a failed lookup rather than from the target type, so it reports it like one.
+
+### Credentials for a live presence check
+
+Because presence is looked up live, `skret hub push` needs the **same credentials `skret sync` needs** for every target it should check: `GITHUB_TOKEN` for a `github` target, or `CLOUDFLARE_API_TOKEN` plus an account ID for a `cloudflare` target.
+
+The hosted sync planner is deliberately config-free and credential-free. It accepts only bounded planning inputs and never receives provider tokens or secret values. Provider and target calls for a hosted operation belong to the separate security-executor boundary; do not add provider credentials to the planner container to make a live presence lookup work.
+
+Running `skret hub push` by hand (a laptop, CI, or another trusted operator environment) requires you to export the target credentials locally, exactly as for `skret sync`:
+
+```bash
+export GITHUB_TOKEN=ghp_xxx
+export CLOUDFLARE_API_TOKEN=xxx
+skret hub push
+```
+
+Without the required credential, that target shows `unknown` for every key. The push still succeeds, but cannot report a stronger presence result for that target.
+
+## Options
+
+### `--hub-url`
+
+Hub base URL, overriding `sync.hub.url` from `.skret.yaml`.
+
+```bash
+skret hub push --hub-url https://vault.example.com
+```
+
+## Security
+
+- Secret **values never leave your machine** — the manifest carries only names, salted fingerprints, and presence status.
+- `SKRET_HUB_TOKEN` is read from the environment and sent as `Authorization: Bearer <token>`; it is never written to `.skret.yaml` or logged.
+- The deployment salt at `~/.skret/hub-salt` is generated once per machine and stored at `0600`. Two machines pushing the same secret produce different fingerprints unless they share a salt.
+
+## Deploying the hub worker (owner action)
+
+The Worker is fully implemented and CI-verified, but a **live Cloudflare deploy is an owner-gated action** — the repository ships placeholders only and holds no Cloudflare credentials. To stand one up:
+
+```bash
+cd hub
+bun install && bun run test && bun run typecheck   # source checks
+bun run dryrun                                     # wrangler deploy --dry-run (bundle check)
+
+wrangler login
+wrangler kv namespace create VAULT_KV         # put the returned id into hub/wrangler.jsonc
+wrangler deploy --config wrangler.jsonc
+wrangler secret put SKRET_HUB_TOKEN           # high-entropy token; `skret hub push` sends it as a bearer
+wrangler secret put RELAY_PASSWORD            # dashboard login password
+```
+
+Then point the CLI at it once:
+
+```bash
+skret hub init --url https://<your-worker>.workers.dev
+export SKRET_HUB_TOKEN=hub_xxx
+skret hub push && skret hub status
+```
+
+Notes:
+
+- `wrangler.jsonc`'s `VAULT_KV` id and the container `image` reference are placeholders you must fill; everything else (rate-limit bindings, Durable Object migrations) is pre-configured.
+- The container image (`skret-sync`) is only needed for the optional hosted sync planner; the dashboard, `api/manifest`, and `api/status` run without it.
+- Prefer a custom domain + WAF rate-limiting rule on `POST /login` for production (see `hub/README.md` for the hardening rationale).

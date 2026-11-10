@@ -1,0 +1,134 @@
+---
+title: FAQ
+description: "AWS SSM Parameter Store Standard tier:"
+---
+
+## Why skret instead of Doppler or Infisical?
+
+**Cost.** Doppler's free tier covers 5 projects. Infisical requires self-hosting for unlimited use, adding operational complexity. If you already use a cloud provider with a native secret manager (AWS SSM, GCP Secret Manager), you are paying for it anyway.
+
+**Simplicity.** skret is a single binary with no server component, no database, no web UI to maintain. Your cloud provider handles encryption, access control, and audit logging.
+
+**Lock-in.** Doppler and Infisical are proprietary platforms. skret wraps standard cloud APIs behind a uniform CLI, so switching from AWS to GCP means changing one line in `.skret.yaml`.
+
+## What about SOPS?
+
+Different category. [SOPS](https://github.com/getsops/sops) encrypts files in place (YAML/JSON/ENV/INI) — it is an editor for encrypted config, not a `run -- cmd` injector. skret has no file-encryption mode; it stores secrets in your cloud provider's secret manager and injects them into a process at runtime. Use SOPS if you want encrypted files committed to git; use skret if you want secrets to never touch disk in plaintext.
+
+## What does it cost?
+
+AWS SSM Parameter Store Standard tier:
+
+| Resource        | Free Tier                      | Typical Usage (20 repos) |
+| --------------- | ------------------------------ | ------------------------ |
+| Parameters      | 10,000 per region              | ~200-500                 |
+| API operations  | Unlimited                      | ~1,000/day               |
+| KMS decryptions | 20,000/month (AWS-managed key) | ~5,000/month             |
+| Storage         | Included                       | Included                 |
+
+**Total: $0/month** for most individual developers and small teams.
+
+Compare:
+
+- Doppler: Free for 3 users, then $8/user/month (source: <https://www.doppler.com/pricing>, as of 2026-07)
+- Infisical: Free (self-hosted), but requires a server (~$10-30/month compute)
+- HashiCorp Vault: Free (self-hosted), significant ops overhead
+
+## Does skret work on Windows?
+
+Yes. skret builds for `windows/amd64` and `windows/arm64`. Install via Scoop:
+
+```powershell
+scoop bucket add n24q02m https://github.com/n24q02m/scoop-bucket
+scoop install skret
+```
+
+Platform differences:
+
+- `skret run --` uses a child process (not `syscall.Exec`) on Windows, forwarding the exit code
+- File permissions use best-effort ACLs instead of Unix `chmod`
+- Shell completions support PowerShell in addition to bash/zsh/fish
+
+## Can I use skret offline?
+
+With the `local` provider, yes. Local secrets are stored in a YAML file on disk:
+
+```yaml
+# .skret.yaml
+version: "1"
+environments:
+  dev:
+    provider: local
+    file: ./.secrets.dev.yaml
+```
+
+The `aws` provider requires network access to AWS SSM.
+
+## How do I migrate from Doppler?
+
+```bash
+# 1. Initialize skret in your project
+skret init --provider=aws --path=/myapp/prod --region=us-east-1
+
+# 2. Import secrets from Doppler
+DOPPLER_TOKEN=dp.st.xxx skret import \
+  --from=doppler \
+  --doppler-project=myapp \
+  --doppler-config=prd
+
+# 3. Verify
+skret list
+
+# 4. Replace doppler run with skret run in Makefile/CI
+# Before: doppler run -- make up-app
+# After:  skret run -- make up-app
+```
+
+See [Migration from Doppler](/skret/migration/from-doppler) for the full guide.
+
+## How do I migrate from Infisical?
+
+```bash
+INFISICAL_TOKEN=st.xxx skret import \
+  --from=infisical \
+  --infisical-project-id=YOUR_PROJECT_ID \
+  --infisical-env=prod
+
+skret list
+```
+
+See [Migration from Infisical](/skret/migration/from-infisical) for the full guide.
+
+## Are secrets encrypted?
+
+With the `aws` provider, all secrets are stored as `SecureString` parameters encrypted with KMS. Decryption happens at read time via the AWS SDK. skret never caches decrypted values to disk.
+
+The `local` provider stores secrets in plaintext YAML. It is for development only.
+
+## Does Skret store any credentials?
+
+It can. `skret auth login aws` stores the selected Skret-managed AWS credential in `~/.skret/credentials.yaml`; otherwise the local CLI uses the AWS SDK credential chain. Import and manual sync tokens such as `DOPPLER_TOKEN`, `GITHUB_TOKEN`, and `CLOUDFLARE_API_TOKEN` are read from the operator environment and are not written to `.skret.yaml`.
+
+The hosted planner is a different boundary: it receives no provider credential or secret value. Hosted provider/KMS calls belong only to the separate security executor after signed operation verification.
+
+## Can multiple team members share secrets?
+
+Yes, through your cloud provider's IAM. All team members with the appropriate IAM permissions can read/write secrets at the same SSM path. Access control is managed entirely through IAM policies, not skret.
+
+## What happens if AWS SSM is down?
+
+`skret run --` will fail with exit code 3 (provider error). You can fall back to the local provider for development, but the local provider needs a `secrets:`-wrapped YAML file (see [Can I use skret offline?](#can-i-use-skret-offline) above) -- a raw `skret env` dump does not match that shape:
+
+```bash
+# One-time: wrap the prod environment's secrets in the schema the local
+# provider expects (a top-level `secrets:` key), then switch to it.
+{ echo 'secrets:'; skret env --format=yaml -e prod | sed 's/^/  /'; } > .secrets.dev.yaml
+
+# Switch to local provider (requires a `dev` environment already declared in
+# .skret.yaml with provider: local, file: ./.secrets.dev.yaml)
+skret --env=dev run -- make start
+```
+
+## How do I add a new cloud provider?
+
+See [Adding a Provider](/skret/contributing/adding-provider). Implement the `SecretProvider` interface, register it in the provider registry, add tests (>=95% coverage), and document it.
