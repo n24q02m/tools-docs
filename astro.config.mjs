@@ -15,7 +15,6 @@ export default defineConfig({
         { label: 'skret', slug: 'skret/overview' },
         { label: 'sillstone', slug: 'sillstone/overview' },
         { label: 'fastretrieval', slug: 'fastretrieval/overview' },
-        { label: 'jules', slug: 'jules/overview' },
         { label: 'MCP & CLI Tools', collapsed: false, items: [
           { label: 'wet', slug: 'tools/wet' },
           { label: 'mnemo', slug: 'tools/mnemo' },
