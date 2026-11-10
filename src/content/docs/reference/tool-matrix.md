@@ -7,7 +7,7 @@ description: The tools at a glance
 | Job | secrets management | release automation | Drive backup/sync |
 | Shape | single static CLI | Python package + GitHub Actions (main action + OCI publish-action) | Go binary wrapping rclone |
 | Trust anchor | least-privilege bootstrap keys, OIDC in CI | signed action-pin registry generations + digest-pinned publisher image | release checksums + reversible quarantine |
-| Install | [portal installer](/skret/guide/installation/) / Scoop / release archives | [PyPI package](/bsr/overview/) + pinned action | [release installer](/bdrive/install/) / Scoop / Homebrew |
+| Install | [portal installer](/skret/guide/installation/) / [Homebrew + Scoop](/install/package-managers/) / release archives | [PyPI package](/bsr/overview/) + pinned action | [release installer](/bdrive/install/) / release archives |
 | Docs | [Skret](/skret/overview/) | [BSR](/bsr/overview/) | [Better Drive](/bdrive/overview/) |
 | Repo | [n24q02m/skret](https://github.com/n24q02m/skret) | [n24q02m/better-semantic-release](https://github.com/n24q02m/better-semantic-release) | [n24q02m/better-drive](https://github.com/n24q02m/better-drive) |
 
