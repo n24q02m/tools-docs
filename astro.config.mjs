@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   prefetch: { prefetchAll: true, defaultStrategy: 'viewport' }, // Pre-load linked pages in the background
-  site: 'https://tools.n24q02m.com',
+  site: 'https://docs.n24q02m.com',
   integrations: [
     starlight({
       title: 'n24q02m tools',

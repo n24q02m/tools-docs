@@ -1,6 +1,6 @@
 {
   "generatedBy": "tools-docs doc consolidation (P6.3)",
-  "newSite": "https://tools.n24q02m.com",
+  "newSite": "https://docs.n24q02m.com",
   "sources": [
     {
       "repo": "n24q02m/skret",
@@ -19,378 +19,378 @@
   "redirects": [
     {
       "from": "https://skret.n24q02m.com/contributing/adding-provider/",
-      "to": "https://tools.n24q02m.com/skret/contributing/adding-provider/",
+      "to": "https://docs.n24q02m.com/skret/contributing/adding-provider/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "contributing/adding-provider.md"
     },
     {
       "from": "https://skret.n24q02m.com/contributing/nix-and-aqua/",
-      "to": "https://tools.n24q02m.com/skret/contributing/nix-and-aqua/",
+      "to": "https://docs.n24q02m.com/skret/contributing/nix-and-aqua/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "contributing/nix-and-aqua.md"
     },
     {
       "from": "https://skret.n24q02m.com/contributing/release-process/",
-      "to": "https://tools.n24q02m.com/skret/contributing/release-process/",
+      "to": "https://docs.n24q02m.com/skret/contributing/release-process/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "contributing/release-process.md"
     },
     {
       "from": "https://skret.n24q02m.com/contributing/setup/",
-      "to": "https://tools.n24q02m.com/skret/contributing/setup/",
+      "to": "https://docs.n24q02m.com/skret/contributing/setup/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "contributing/setup.md"
     },
     {
       "from": "https://skret.n24q02m.com/faq/",
-      "to": "https://tools.n24q02m.com/skret/faq/",
+      "to": "https://docs.n24q02m.com/skret/faq/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "faq.md"
     },
     {
       "from": "https://skret.n24q02m.com/guide/agents/",
-      "to": "https://tools.n24q02m.com/skret/guide/agents/",
+      "to": "https://docs.n24q02m.com/skret/guide/agents/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "guide/agents.md"
     },
     {
       "from": "https://skret.n24q02m.com/guide/authentication/",
-      "to": "https://tools.n24q02m.com/skret/guide/authentication/",
+      "to": "https://docs.n24q02m.com/skret/guide/authentication/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "guide/authentication.md"
     },
     {
       "from": "https://skret.n24q02m.com/guide/bootstrap/",
-      "to": "https://tools.n24q02m.com/skret/guide/bootstrap/",
+      "to": "https://docs.n24q02m.com/skret/guide/bootstrap/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "guide/bootstrap.md"
     },
     {
       "from": "https://skret.n24q02m.com/guide/browse/",
-      "to": "https://tools.n24q02m.com/skret/guide/browse/",
+      "to": "https://docs.n24q02m.com/skret/guide/browse/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "guide/browse.md"
     },
     {
       "from": "https://skret.n24q02m.com/guide/completion/",
-      "to": "https://tools.n24q02m.com/skret/guide/completion/",
+      "to": "https://docs.n24q02m.com/skret/guide/completion/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "guide/completion.md"
     },
     {
       "from": "https://skret.n24q02m.com/guide/configuration/",
-      "to": "https://tools.n24q02m.com/skret/guide/configuration/",
+      "to": "https://docs.n24q02m.com/skret/guide/configuration/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "guide/configuration.md"
     },
     {
       "from": "https://skret.n24q02m.com/guide/diff/",
-      "to": "https://tools.n24q02m.com/skret/guide/diff/",
+      "to": "https://docs.n24q02m.com/skret/guide/diff/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "guide/diff.md"
     },
     {
       "from": "https://skret.n24q02m.com/guide/doctor/",
-      "to": "https://tools.n24q02m.com/skret/guide/doctor/",
+      "to": "https://docs.n24q02m.com/skret/guide/doctor/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "guide/doctor.md"
     },
     {
       "from": "https://skret.n24q02m.com/guide/getting-started/",
-      "to": "https://tools.n24q02m.com/skret/guide/getting-started/",
+      "to": "https://docs.n24q02m.com/skret/guide/getting-started/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "guide/getting-started.md"
     },
     {
       "from": "https://skret.n24q02m.com/guide/hub/",
-      "to": "https://tools.n24q02m.com/skret/guide/hub/",
+      "to": "https://docs.n24q02m.com/skret/guide/hub/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "guide/hub.md"
     },
     {
       "from": "https://skret.n24q02m.com/guide/installation/",
-      "to": "https://tools.n24q02m.com/skret/guide/installation/",
+      "to": "https://docs.n24q02m.com/skret/guide/installation/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "guide/installation.md"
     },
     {
       "from": "https://skret.n24q02m.com/guide/mcp/",
-      "to": "https://tools.n24q02m.com/skret/guide/mcp/",
+      "to": "https://docs.n24q02m.com/skret/guide/mcp/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "guide/mcp.md"
     },
     {
       "from": "https://skret.n24q02m.com/guide/scan/",
-      "to": "https://tools.n24q02m.com/skret/guide/scan/",
+      "to": "https://docs.n24q02m.com/skret/guide/scan/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "guide/scan.md"
     },
     {
       "from": "https://skret.n24q02m.com/guide/sync/",
-      "to": "https://tools.n24q02m.com/skret/guide/sync/",
+      "to": "https://docs.n24q02m.com/skret/guide/sync/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "guide/sync.md"
     },
     {
       "from": "https://skret.n24q02m.com/guide/template/",
-      "to": "https://tools.n24q02m.com/skret/guide/template/",
+      "to": "https://docs.n24q02m.com/skret/guide/template/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "guide/template.md"
     },
     {
       "from": "https://skret.n24q02m.com/guide/troubleshooting/",
-      "to": "https://tools.n24q02m.com/skret/guide/troubleshooting/",
+      "to": "https://docs.n24q02m.com/skret/guide/troubleshooting/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "guide/troubleshooting.md"
     },
     {
       "from": "https://skret.n24q02m.com/guide/value-fidelity/",
-      "to": "https://tools.n24q02m.com/skret/guide/value-fidelity/",
+      "to": "https://docs.n24q02m.com/skret/guide/value-fidelity/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "guide/value-fidelity.md"
     },
     {
       "from": "https://skret.n24q02m.com/guide/watch/",
-      "to": "https://tools.n24q02m.com/skret/guide/watch/",
+      "to": "https://docs.n24q02m.com/skret/guide/watch/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "guide/watch.md"
     },
     {
       "from": "https://skret.n24q02m.com/",
-      "to": "https://tools.n24q02m.com/skret/",
+      "to": "https://docs.n24q02m.com/skret/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "index.mdx"
     },
     {
       "from": "https://skret.n24q02m.com/integrations/docker-compose/",
-      "to": "https://tools.n24q02m.com/skret/integrations/docker-compose/",
+      "to": "https://docs.n24q02m.com/skret/integrations/docker-compose/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "integrations/docker-compose.md"
     },
     {
       "from": "https://skret.n24q02m.com/integrations/github-actions/",
-      "to": "https://tools.n24q02m.com/skret/integrations/github-actions/",
+      "to": "https://docs.n24q02m.com/skret/integrations/github-actions/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "integrations/github-actions.md"
     },
     {
       "from": "https://skret.n24q02m.com/integrations/makefile-patterns/",
-      "to": "https://tools.n24q02m.com/skret/integrations/makefile-patterns/",
+      "to": "https://docs.n24q02m.com/skret/integrations/makefile-patterns/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "integrations/makefile-patterns.md"
     },
     {
       "from": "https://skret.n24q02m.com/migration/from-doppler/",
-      "to": "https://tools.n24q02m.com/skret/migration/from-doppler/",
+      "to": "https://docs.n24q02m.com/skret/migration/from-doppler/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "migration/from-doppler.md"
     },
     {
       "from": "https://skret.n24q02m.com/migration/from-dotenv/",
-      "to": "https://tools.n24q02m.com/skret/migration/from-dotenv/",
+      "to": "https://docs.n24q02m.com/skret/migration/from-dotenv/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "migration/from-dotenv.md"
     },
     {
       "from": "https://skret.n24q02m.com/migration/from-infisical/",
-      "to": "https://tools.n24q02m.com/skret/migration/from-infisical/",
+      "to": "https://docs.n24q02m.com/skret/migration/from-infisical/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "migration/from-infisical.md"
     },
     {
       "from": "https://skret.n24q02m.com/providers/aws/",
-      "to": "https://tools.n24q02m.com/skret/providers/aws/",
+      "to": "https://docs.n24q02m.com/skret/providers/aws/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "providers/aws.md"
     },
     {
       "from": "https://skret.n24q02m.com/providers/azure/",
-      "to": "https://tools.n24q02m.com/skret/providers/azure/",
+      "to": "https://docs.n24q02m.com/skret/providers/azure/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "providers/azure.md"
     },
     {
       "from": "https://skret.n24q02m.com/providers/comparison/",
-      "to": "https://tools.n24q02m.com/skret/providers/comparison/",
+      "to": "https://docs.n24q02m.com/skret/providers/comparison/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "providers/comparison.md"
     },
     {
       "from": "https://skret.n24q02m.com/providers/gcp/",
-      "to": "https://tools.n24q02m.com/skret/providers/gcp/",
+      "to": "https://docs.n24q02m.com/skret/providers/gcp/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "providers/gcp.md"
     },
     {
       "from": "https://skret.n24q02m.com/providers/local/",
-      "to": "https://tools.n24q02m.com/skret/providers/local/",
+      "to": "https://docs.n24q02m.com/skret/providers/local/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "providers/local.md"
     },
     {
       "from": "https://skret.n24q02m.com/providers/oci/",
-      "to": "https://tools.n24q02m.com/skret/providers/oci/",
+      "to": "https://docs.n24q02m.com/skret/providers/oci/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "providers/oci.md"
     },
     {
       "from": "https://skret.n24q02m.com/reference/commands/",
-      "to": "https://tools.n24q02m.com/skret/reference/commands/",
+      "to": "https://docs.n24q02m.com/skret/reference/commands/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "reference/commands.md"
     },
     {
       "from": "https://skret.n24q02m.com/reference/config-schema/",
-      "to": "https://tools.n24q02m.com/skret/reference/config-schema/",
+      "to": "https://docs.n24q02m.com/skret/reference/config-schema/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "reference/config-schema.md"
     },
     {
       "from": "https://skret.n24q02m.com/reference/error-codes/",
-      "to": "https://tools.n24q02m.com/skret/reference/error-codes/",
+      "to": "https://docs.n24q02m.com/skret/reference/error-codes/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "reference/error-codes.md"
     },
     {
       "from": "https://skret.n24q02m.com/reference/library-api/",
-      "to": "https://tools.n24q02m.com/skret/reference/library-api/",
+      "to": "https://docs.n24q02m.com/skret/reference/library-api/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "reference/library-api.md"
     },
     {
       "from": "https://skret.n24q02m.com/reference/provider-comparison/",
-      "to": "https://tools.n24q02m.com/skret/reference/provider-comparison/",
+      "to": "https://docs.n24q02m.com/skret/reference/provider-comparison/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "reference/provider-comparison.md"
     },
     {
       "from": "https://skret.n24q02m.com/reference/spec/",
-      "to": "https://tools.n24q02m.com/skret/reference/spec/",
+      "to": "https://docs.n24q02m.com/skret/reference/spec/",
       "status": 301,
       "sourceRepo": "n24q02m/skret",
       "sourcePath": "reference/spec.md"
     },
     {
       "from": "https://docs.n24q02m.com/get-started/install-claude-code/",
-      "to": "https://tools.n24q02m.com/plugins/get-started/install-claude-code/",
+      "to": "https://docs.n24q02m.com/plugins/get-started/install-claude-code/",
       "status": 301,
       "sourceRepo": "n24q02m/claude-plugins",
       "sourcePath": "get-started/install-claude-code.md"
     },
     {
       "from": "https://docs.n24q02m.com/get-started/modes-overview/",
-      "to": "https://tools.n24q02m.com/plugins/get-started/modes-overview/",
+      "to": "https://docs.n24q02m.com/plugins/get-started/modes-overview/",
       "status": 301,
       "sourceRepo": "n24q02m/claude-plugins",
       "sourcePath": "get-started/modes-overview.md"
     },
     {
       "from": "https://docs.n24q02m.com/get-started/multi-user/",
-      "to": "https://tools.n24q02m.com/plugins/get-started/multi-user/",
+      "to": "https://docs.n24q02m.com/plugins/get-started/multi-user/",
       "status": 301,
       "sourceRepo": "n24q02m/claude-plugins",
       "sourcePath": "get-started/multi-user.md"
     },
     {
       "from": "https://docs.n24q02m.com/get-started/plugin-marketplace/",
-      "to": "https://tools.n24q02m.com/plugins/get-started/plugin-marketplace/",
+      "to": "https://docs.n24q02m.com/plugins/get-started/plugin-marketplace/",
       "status": 301,
       "sourceRepo": "n24q02m/claude-plugins",
       "sourcePath": "get-started/plugin-marketplace.md"
     },
     {
       "from": "https://docs.n24q02m.com/get-started/troubleshooting/",
-      "to": "https://tools.n24q02m.com/plugins/get-started/troubleshooting/",
+      "to": "https://docs.n24q02m.com/plugins/get-started/troubleshooting/",
       "status": 301,
       "sourceRepo": "n24q02m/claude-plugins",
       "sourcePath": "get-started/troubleshooting.md"
     },
     {
       "from": "https://docs.n24q02m.com/",
-      "to": "https://tools.n24q02m.com/plugins/",
+      "to": "https://docs.n24q02m.com/plugins/",
       "status": 301,
       "sourceRepo": "n24q02m/claude-plugins",
       "sourcePath": "index.mdx"
     },
     {
       "from": "https://docs.n24q02m.com/reference/credential-setup/",
-      "to": "https://tools.n24q02m.com/plugins/reference/credential-setup/",
+      "to": "https://docs.n24q02m.com/plugins/reference/credential-setup/",
       "status": 301,
       "sourceRepo": "n24q02m/claude-plugins",
       "sourcePath": "reference/credential-setup.md"
     },
     {
       "from": "https://docs.n24q02m.com/reference/fastretrieval/",
-      "to": "https://tools.n24q02m.com/plugins/reference/fastretrieval/",
+      "to": "https://docs.n24q02m.com/plugins/reference/fastretrieval/",
       "status": 301,
       "sourceRepo": "n24q02m/claude-plugins",
       "sourcePath": "reference/fastretrieval.md"
     },
     {
       "from": "https://docs.n24q02m.com/reference/mode-matrix/",
-      "to": "https://tools.n24q02m.com/plugins/reference/mode-matrix/",
+      "to": "https://docs.n24q02m.com/plugins/reference/mode-matrix/",
       "status": 301,
       "sourceRepo": "n24q02m/claude-plugins",
       "sourcePath": "reference/mode-matrix.md"
     },
     {
       "from": "https://docs.n24q02m.com/reference/multi-user-pattern/",
-      "to": "https://tools.n24q02m.com/plugins/reference/multi-user-pattern/",
+      "to": "https://docs.n24q02m.com/plugins/reference/multi-user-pattern/",
       "status": 301,
       "sourceRepo": "n24q02m/claude-plugins",
       "sourcePath": "reference/multi-user-pattern.md"
     },
     {
       "from": "https://docs.n24q02m.com/reference/server-comparison/",
-      "to": "https://tools.n24q02m.com/plugins/reference/server-comparison/",
+      "to": "https://docs.n24q02m.com/plugins/reference/server-comparison/",
       "status": 301,
       "sourceRepo": "n24q02m/claude-plugins",
       "sourcePath": "reference/server-comparison.md"
     },
     {
       "from": "https://docs.n24q02m.com/reference/tool-layout-standard/",
-      "to": "https://tools.n24q02m.com/plugins/reference/tool-layout-standard/",
+      "to": "https://docs.n24q02m.com/plugins/reference/tool-layout-standard/",
       "status": 301,
       "sourceRepo": "n24q02m/claude-plugins",
       "sourcePath": "reference/tool-layout-standard.md"
