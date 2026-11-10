@@ -8,13 +8,27 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'n24q02m tools',
-      description: 'Docs for skret and better-semantic-release (better-drive archived)',
+      description: 'Docs for skret, the MCP plugin stack, hull, and better-semantic-release (better-drive archived)',
       social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/n24q02m' }],
       sidebar: [
         { label: 'Get started', slug: 'get-started/overview' },
-        { label: 'skret', slug: 'skret/overview' },
+        { label: 'skret', collapsed: false, items: [
+          { label: 'Overview', slug: 'skret/overview' },
+          { label: 'Guide', collapsed: true, items: [{ autogenerate: { directory: 'skret/guide' } }] },
+          { label: 'Providers', collapsed: true, items: [{ autogenerate: { directory: 'skret/providers' } }] },
+          { label: 'Integrations', collapsed: true, items: [{ autogenerate: { directory: 'skret/integrations' } }] },
+          { label: 'Migration', collapsed: true, items: [{ autogenerate: { directory: 'skret/migration' } }] },
+          { label: 'Reference', collapsed: true, items: [{ autogenerate: { directory: 'skret/reference' } }] },
+          { label: 'Contributing', collapsed: true, items: [{ autogenerate: { directory: 'skret/contributing' } }] },
+          { label: 'FAQ', slug: 'skret/faq' },
+        ]},
+        { label: 'Plugins & MCP hub', collapsed: true, items: [
+          { label: 'Get started', collapsed: true, items: [{ autogenerate: { directory: 'plugins/get-started' } }] },
+          { label: 'Reference', collapsed: true, items: [{ autogenerate: { directory: 'plugins/reference' } }] },
+        ]},
         { label: 'sillstone', slug: 'sillstone/overview' },
         { label: 'fastretrieval', slug: 'fastretrieval/overview' },
+        { label: 'hull', slug: 'hull/overview' },
         { label: 'MCP & CLI Tools', collapsed: false, items: [
           { label: 'wet', slug: 'tools/wet' },
           { label: 'mnemo', slug: 'tools/mnemo' },

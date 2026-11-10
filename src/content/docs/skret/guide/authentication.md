@@ -1,0 +1,317 @@
+---
+title: Authentication
+description: "skret authenticates from its own credential store when you log in with it, and otherwise delegates to the provider SDK's default chain."
+---
+
+To create a fresh scoped identity automatically — a dedicated IAM user and
+access key provisioned from an admin credential — see [Bootstrap](/skret/guide/bootstrap/).
+
+skret resolves AWS credentials in two layers:
+
+1. **skret-managed credential** -- if you ran `skret auth login aws`, skret uses
+   the credential it stored (`~/.skret/credentials.yaml`). This is what lets
+   skret authenticate on its own, with no `aws` CLI and no daily re-login.
+2. **AWS SDK default chain** -- if no skret credential is stored, skret falls
+   back to the standard chain below, so existing `aws login`, environment
+   variable, shared-profile, and CI OIDC setups keep working unchanged.
+
+## skret-Managed Credentials
+
+Authenticate once and let skret hold the credential:
+
+```bash
+skret auth login aws --method access-key
+# paste Access Key ID + Secret Access Key (session token optional)
+
+skret auth status   # aws  valid (method: access-key)  -- real STS probe
+skret list -e prod  # no aws login, no ~/.aws needed
+```
+
+The credential is stored locally and never printed in logs, errors, or
+`auth status` output. A stored credential takes precedence over the default
+chain; `skret auth logout aws` reverts to the default chain.
+
+### IAM Identity Center SSO (90-day silent refresh, no static key)
+
+If your org uses IAM Identity Center, log in once via the browser device
+flow and skret keeps the session alive silently — refreshing the access
+token from the OIDC refresh token (no browser) for the whole SSO session
+(admin-configurable up to 90 days), then minting short-lived role
+credentials per call. No static key to rotate, no `aws` CLI.
+
+```bash
+skret auth login aws --method sso \
+  --opt start_url=https://<your-sso>.awsapps.com/start \
+  --opt region=<region> \
+  --opt account_id=<account-id> \
+  --opt role_name=<permission-set-role>
+
+skret auth status   # aws  valid (method: sso)
+skret list -e prod  # silent refresh; re-login only when the SSO session ends
+```
+
+`skret auth login aws` with no `--method` defaults to this SSO flow.
+Set the SSO session duration in the IAM Identity Center console
+(Settings → Authentication) up to 90 days. The refresh token and client
+registration are stored locally and never logged.
+
+### Least-Privilege IAM User (recommended)
+
+Create a dedicated IAM user for the access-key method, scoped to only the
+paths skret manages. Replace `<account-id>` and `<region>` / `<namespace>`:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "SkretManagedPaths",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetParameter",
+        "ssm:GetParameters",
+        "ssm:GetParametersByPath",
+        "ssm:PutParameter",
+        "ssm:DeleteParameter",
+        "ssm:GetParameterHistory"
+      ],
+      "Resource": "arn:aws:ssm:<region>:<account-id>:parameter/<namespace>/*"
+    },
+    {
+      "Sid": "SkretKMS",
+      "Effect": "Allow",
+      "Action": ["kms:Decrypt", "kms:Encrypt", "kms:GenerateDataKey"],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": { "kms:ViaService": "ssm.<region>.amazonaws.com" }
+      }
+    }
+  ]
+}
+```
+
+Rotate the access key on a regular schedule (e.g. every 90 days):
+`skret auth login aws --method access-key` again with the new key overwrites
+the stored credential. Static keys rely on local disk security — prefer a
+machine with full-disk encryption. (A 90-day auto-refreshing IAM Identity
+Center SSO method is planned so even this rotation becomes unnecessary.)
+
+## AWS Credential Chain (fallback)
+
+The AWS provider uses the [AWS SDK v2 default credential chain](https://docs.aws.amazon.com/sdk-for-go/v2/developer-guide/configure-sdk.html), resolved in this order:
+
+1. **Environment variables** -- `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `AWS_SESSION_TOKEN`
+2. **Shared credentials file** -- `~/.aws/credentials` with named profiles
+3. **Shared config file** -- `~/.aws/config` (SSO profiles, process credentials)
+4. **ECS container credentials** -- `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI`
+5. **EC2 IMDS** -- Instance Metadata Service (when running on EC2/ECS)
+6. **IAM Roles Anywhere** -- X.509 certificate-based auth
+
+### Environment Variables
+
+Simplest method. Set directly or inject via CI:
+
+```bash
+export AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE
+export AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+export AWS_REGION=us-east-1
+
+skret list
+```
+
+### Named Profiles
+
+Configure profiles in `~/.aws/credentials`:
+
+```ini
+[production]
+aws_access_key_id = AKIAIOSFODNN7EXAMPLE
+aws_secret_access_key = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+```
+
+Reference in `.skret.yaml`:
+
+```yaml
+environments:
+  prod:
+    provider: aws
+    path: /myapp/prod
+    region: us-east-1
+    profile: production
+```
+
+Or override via CLI/env var:
+
+```bash
+skret --profile=production list
+AWS_PROFILE=production skret list
+```
+
+### AWS SSO
+
+Configure SSO in `~/.aws/config`:
+
+```ini
+[profile my-sso]
+sso_start_url = https://my-org.awsapps.com/start
+sso_region = us-east-1
+sso_account_id = 123456789012
+sso_role_name = ReadOnlyAccess
+region = us-east-1
+```
+
+Login first, then use skret:
+
+```bash
+aws sso login --profile my-sso
+skret --profile=my-sso list
+```
+
+### EC2/ECS Instance Roles
+
+No configuration needed. The SDK automatically uses IMDS credentials when running on AWS infrastructure:
+
+```yaml
+# .skret.yaml on an EC2 instance
+environments:
+  prod:
+    provider: aws
+    path: /myapp/prod
+    region: us-east-1
+    # No profile needed -- uses instance role
+```
+
+### OIDC for GitHub Actions
+
+Use GitHub's OIDC provider to assume an IAM role without long-lived credentials. See the [GitHub Actions integration](/skret/integrations/github-actions) for the full setup.
+
+## IAM Policy Examples
+
+### Read-only (CI/CD, deployments)
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["ssm:GetParameter", "ssm:GetParameters", "ssm:GetParametersByPath"],
+      "Resource": "arn:aws:ssm:us-east-1:123456789012:parameter/myapp/prod/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["kms:Decrypt"],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "kms:ViaService": "ssm.us-east-1.amazonaws.com"
+        }
+      }
+    }
+  ]
+}
+```
+
+### Read-write (secret management)
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetParameter",
+        "ssm:GetParametersByPath",
+        "ssm:PutParameter",
+        "ssm:DeleteParameter",
+        "ssm:AddTagsToResource",
+        "ssm:ListTagsForResource"
+      ],
+      "Resource": "arn:aws:ssm:us-east-1:123456789012:parameter/myapp/*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": ["kms:Decrypt", "kms:Encrypt", "kms:GenerateDataKey"],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "kms:ViaService": "ssm.us-east-1.amazonaws.com"
+        }
+      }
+    }
+  ]
+}
+```
+
+### Scoped per environment
+
+Restrict IAM users/roles to specific environments:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ProdReadOnly",
+      "Effect": "Allow",
+      "Action": ["ssm:GetParameter", "ssm:GetParametersByPath"],
+      "Resource": "arn:aws:ssm:*:*:parameter/myapp/prod/*"
+    },
+    {
+      "Sid": "DevFullAccess",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetParameter",
+        "ssm:GetParametersByPath",
+        "ssm:PutParameter",
+        "ssm:DeleteParameter"
+      ],
+      "Resource": "arn:aws:ssm:*:*:parameter/myapp/dev/*"
+    }
+  ]
+}
+```
+
+## OCI Authentication
+
+The `oci` provider resolves credentials in the OCI CLI's precedence
+(details in the [OCI Vault provider guide](/skret/providers/oci/)):
+
+1. `OCI_CLI_AUTH=instance_principal` — compute instance identity
+2. `OCI_CLI_USER` / `OCI_CLI_TENANCY` / `OCI_CLI_FINGERPRINT` /
+   `OCI_CLI_KEY_FILE` (+ `OCI_CLI_PASS_PHRASE`) — API key from the
+   environment, composed over the config file
+3. `~/.oci/config` (or `OCI_CLI_CONFIG_FILE`) with profile
+   `OCI_CLI_PROFILE` > the environment's `profile` > `DEFAULT`
+
+A `region` set on the environment overrides the region of any auth source.
+
+```yaml
+environments:
+  prod:
+    provider: oci
+    path: /myapp/prod
+    compartment_id: ocid1.compartment.oc1..xxx
+    vault_id: ocid1.vault.oc1..yyy
+    key_id: ocid1.key.oc1..zzz
+```
+
+## Precedence
+
+Authentication-related settings follow the same precedence as all config:
+
+1. CLI flags (`--profile`, `--region`)
+2. Environment variables (`SKRET_PROFILE`, `SKRET_REGION`, `AWS_PROFILE`, `AWS_REGION`)
+3. `.skret.yaml` environment config
+4. AWS SDK defaults
+
+## Import/Sync Authentication
+
+Importers and syncers use their own credentials:
+
+| Source/Target  | Credential                       | Environment Variable                                                   |
+| -------------- | -------------------------------- | ---------------------------------------------------------------------- |
+| Doppler        | Service token                    | `DOPPLER_TOKEN`                                                        |
+| Infisical      | Machine identity or bearer token | `INFISICAL_CLIENT_ID` + `INFISICAL_CLIENT_SECRET` or `INFISICAL_TOKEN` |
+| GitHub Actions | PAT with `repo` scope            | `GITHUB_TOKEN`                                                         |

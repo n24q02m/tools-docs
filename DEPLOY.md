@@ -6,7 +6,13 @@
   tracked installer source. Keep these paths stable; users may pipe either response to
   their shell or PowerShell.
 - Repo secrets: `CLOUDFLARE_API_TOKEN` (Pages:Edit + Zone:Read only on n24q02m.com — DNS edit claim removed 2026-09-17, verified false via dns_records 10000 on run 35173109936), `CLOUDFLARE_ACCOUNT_ID`
-- skret docs section removed 2026-09-17: canonical source is the skret repo's own `docs/` synced into the unified hub at `docs.n24q02m.com/skret/`; `/skret/*` paths 301 via `public/_redirects`.
+- Docs consolidation 2026-11-10: `src/content/docs/skret/**` (ported from `n24q02m/skret`
+  `docs/`) and `src/content/docs/plugins/**` (ported from `n24q02m/claude-plugins` `docs/`)
+  are served from this site, so the former `/skret/*` catch-all in `public/_redirects` is
+  gone and only the pre-consolidation short slugs redirect. Old page URLs on
+  `skret.n24q02m.com` and `docs.n24q02m.com` map through the root `docs-redirects.json`;
+  the redirect-only deployments of those two domains are what must be updated when this
+  build is promoted.
 
 The deploy workflow installs pnpm 12 (Node 26) and runs `pnpm install --frozen-lockfile`,
 `pnpm run build`, then `wrangler pages deploy dist --project-name=tools-n24q02m`.
