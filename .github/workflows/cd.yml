@@ -29,39 +29,9 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist --project-name=tools-n24q02m --branch=main
 
-  # mcp.n24q02m.com (the unified docs hub) is built and deployed by
-  # n24q02m/claude-plugins, which inlines tools-docs content at build time.
-  # A tools-docs push alone never redeploys it, so the hub served stale docs
-  # until something else pushed to claude-plugins. Fire the hub's
-  # tools-docs-sync repository_dispatch after a successful deploy here.
-  # Token: n24q02m-ci GitHub App (account-wide install), same mechanism the
-  # MCP repos use to dispatch plugin-sync.
-  notify-docs-hub:
-    name: Notify docs hub
-    needs: deploy
-    permissions:
-      contents: read
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Generate GitHub App Token
-        id: app-token
-        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
-        with:
-          app-id: ${{ vars.CI_APP_ID }}
-          private-key: ${{ secrets.CI_APP_KEY }}
-          # Without owner/repositories the token is scoped to THIS repo only
-          # and the dispatch 403s ("Resource not accessible by integration").
-          # Scope to the target repo, nothing more.
-          owner: n24q02m
-          repositories: claude-plugins
-
-      - name: Dispatch hub redeploy
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-        run: |
-          gh api repos/n24q02m/claude-plugins/dispatches \
-            -f event_type=tools-docs-sync \
-            -f 'client_payload[source]=tools-docs' \
-            -f "client_payload[sha]=$GITHUB_SHA" \
-            -f "client_payload[run_url]=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+  # Retired: this CD used to fire a `tools-docs-sync` repository_dispatch at
+  # n24q02m/claude-plugins so that repo would rebuild and redeploy the
+  # `mcp-n24q02m` Pages hub with inlined tools-docs content. That hub and its
+  # deploy job are gone -- docs.n24q02m.com is served straight from this
+  # repo's own deploy above (Pages project tools-n24q02m), so a tools-docs
+  # publish needs no downstream notification. Do not re-add the dispatch.
