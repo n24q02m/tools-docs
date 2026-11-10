@@ -1,7 +1,8 @@
 # Cloudflare Pages wiring
 
 - Pages project: `tools-n24q02m` (production branch `main`)
-- Custom domain: `tools.n24q02m.com` (CNAME -> `tools-n24q02m.pages.dev`)
+- Custom domains: `docs.n24q02m.com` (canonical, CNAME -> `tools-n24q02m.pages.dev`) and `tools.n24q02m.com`
+  (301 -> `docs.n24q02m.com` via the zone's dynamic-redirect rule)
 - Installer aliases: `/install.sh` and `/install.ps1` redirect to the Skret repository's
   tracked installer source. Keep these paths stable; users may pipe either response to
   their shell or PowerShell.
