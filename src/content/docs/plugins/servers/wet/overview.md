@@ -1,0 +1,53 @@
+---
+title: Overview
+editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/wet-mcp/overview.md
+---
+
+# WET (Web Extended Toolkit) -- Overview
+
+Web search, content extraction, media discovery, and version-aware library-docs indexing -- packaged as one MCP server so an AI agent can research the open web, read pages and local files, and pull framework documentation without leaving the conversation.
+
+## What it does
+
+- **Search** the web through an ordered backend chain, academic sources, and auto-indexed library documentation with project-scoped version locking.
+- **Extract** clean content from URLs and local files (PDF/DOCX/PPTX/XLSX to Markdown), with batch, crawl, site-map, structured-extraction, page-interaction, and multi-step research-agent modes.
+- **Media**: discover and download images, video, and audio from a page.
+- Everything fetched from the open web is wrapped in an XPIA safety marker so the model treats the content as data, not instructions.
+
+## Tools
+
+Three multiplexed capability tools -- `search`, `extract`, and `media`, each driven by an `action` parameter -- plus the two universal tools every server in this stack ships: `config` (status, runtime settings, credential setup) and `help` (full per-tool docs). In HTTP self-host mode, `config__open_relay` reopens the browser credential form. Every action and parameter is listed in the [tools reference](/plugins/servers/wet/tools/).
+
+## Clients
+
+Runs over stdio with any MCP client -- Claude Code, Codex, Gemini CLI, Cursor, and Windsurf. Self-host the HTTP build for claude.ai web compatibility and multi-user, per-user credential isolation. See the [modes overview](/plugins/get-started/modes-overview/).
+
+## Configuration
+
+Local retrieval needs no provider credentials. For web search, configure `SEARCH_BACKENDS`: credential-free `duckduckgo` / `startpage`, keyed `tavily` / `brave` / `exa` / `kagi`, optional-key `firecrawl`, or `searxng` with a runnable local installation or an external `SEARXNG_URL`. Upstream challenges or empty results advance to the next backend, not to an invented successful result.
+`uvx` stdio web search needs a cloud/external search backend or Docker because
+local SearXNG cannot auto-start in the uvx tool environment. Content
+extraction and other non-SearXNG paths can run without search credentials.
+Optional capabilities are unlocked with your own keys and model chains:
+
+- `SEARCH_BACKENDS` / `SEARCH_BACKEND` -- ordered search providers:
+  `searxng`, `tavily`, `brave`, or `exa`.
+- `EMBEDDING_MODELS`, `RERANK_MODELS`, `LLM_MODELS` -- optional CSV model
+  chains for embedding, reranking, and LLM features; empty uses local defaults
+  where the selected runtime supports them.
+- Provider API keys (`JINA_AI_API_KEY`, `GEMINI_API_KEY`, `OPENAI_API_KEY`,
+  `COHERE_API_KEY`) and `GITHUB_TOKEN` for a higher docs-discovery rate limit.
+
+Use placeholders in shared config and never commit real keys. Full walkthrough in [setup](/plugins/servers/wet/setup/).
+
+For the managed Cloudflare route, use per-subject Minimax-free completion and
+paid Cohere retrieval through Cloudflare AI Gateway; see the
+[provider configuration reference](/plugins/reference/credential-setup/).
+`DOCS_DB_BACKEND=cf-d1` disables redundant Google Drive sync and its OAuth setup
+flows. This does not remove public local stdio or SearXNG support.
+
+## Next steps
+
+- [Setup](/plugins/servers/wet/setup/) -- install and configure
+- [Tools reference](/plugins/servers/wet/tools/) -- every action and parameter
+- [Troubleshooting](/plugins/servers/wet/troubleshooting/)

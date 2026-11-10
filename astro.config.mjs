@@ -26,6 +26,7 @@ export default defineConfig({
           { label: 'Get started', collapsed: true, items: [{ autogenerate: { directory: 'plugins/get-started' } }] },
           { label: 'Reference', collapsed: true, items: [{ autogenerate: { directory: 'plugins/reference' } }] },
         ]},
+        { label: 'MCP servers', collapsed: true, items: [{ autogenerate: { directory: 'plugins/servers' } }] },
         { label: 'sillstone', slug: 'sillstone/overview' },
         { label: 'fastretrieval', slug: 'fastretrieval/overview' },
         { label: 'hull', slug: 'hull/overview' },

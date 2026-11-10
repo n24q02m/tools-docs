@@ -1,0 +1,145 @@
+---
+title: Setup with agent
+editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/better-code-review-graph/setup-with-agent.md
+---
+
+# Better Code Review Graph -- Agent Setup Guide
+
+> Give this file to your AI agent to automatically set up better-code-review-graph.
+
+> **2026-05-02 Update**: Plugin install (Option 1) now uses pure stdio mode. API keys are optional env vars.
+> The previous "Zero-Config Relay" auto-spawn pattern has been removed.
+> If you relied on the relay form to enter API keys, please:
+> 1. Set the env var directly in plugin config (Option 1), OR
+> 2. Use HTTP self-host mode (advanced; out of scope of this guide).
+
+## Method overview
+
+This plugin **defaults to stdio via plugin install** (`uvx`). Its source tree
+also provides `stdio` and `http` Docker build targets, and HTTP transport is
+available for advanced self-hosting. It does not provide an owner-hosted
+remote-relay/OAuth endpoint: HTTP is operator-hosted and must retain access to
+the repository being indexed.
+
+For comparison, the other 7 plugins in this stack (`better-notion-mcp`,
+`better-email-mcp`, `better-telegram-mcp`, `wet-mcp`, `mnemo-mcp`,
+`imagine-mcp`, `better-workspace-mcp`) document the same local install,
+Docker-stdio, and self-hosted HTTP choices in more detail.
+
+> **Mutually exclusive — pick one endpoint**: Do not stack `/plugin install`
+> with a user `mcpServers` override for a source-built Docker stdio or HTTP
+> endpoint. Both would load simultaneously, and the override would not include
+> this plugin's skills, hooks, or commands. Use the default plugin install for
+> the complete local-first experience.
+
+## Option 1: Claude Code Plugin (Recommended)
+
+Plugin marketplace install runs the server in **pure stdio mode** with optional API key env vars. No daemon-bridge, no auto-spawn, no relay form. Graph storage is local SQLite, and local embeddings are resolved through Fastretrieval's ONNX model registry -- no external graph database required.
+
+### Credential prompts at install
+
+When you run `/plugin install`, Claude Code prompts you for the following credentials (declared in `userConfig` per CC docs). Sensitive values are stored in your system keychain and persist across `/plugin update`:
+
+| Field | Required | Where to obtain |
+|---|---|---|
+| `JINA_AI_API_KEY` | Optional | https://jina.ai/api-key |
+| `GEMINI_API_KEY` | Optional | https://aistudio.google.com/apikey |
+| `OPENAI_API_KEY` | Optional | https://platform.openai.com/api-keys |
+| `COHERE_API_KEY` | Optional | https://dashboard.cohere.com/api-keys |
+| `EMBEDDING_MODELS` / `SUMMARY_MODELS` | Optional | Explicit cloud model selection; empty leaves local embeddings / disabled summaries |
+| `LOCAL_EMBEDDING_MODEL` and its metadata fields | Optional | Built-in Fastretrieval ID, manifest-backed artifact directory, or external model with explicit dimensions |
+| `LOCAL_RERANK_MODEL` | Optional | Fastretrieval `TextCrossEncoder` model ID; empty disables query reranking |
+
+### Steps
+
+```bash
+# Install from marketplace (includes skills: /refactor-check, /review-delta, /review-pr + hooks)
+/plugin marketplace add n24q02m/claude-plugins
+/plugin install better-code-review-graph@n24q02m-plugins
+```
+
+The plugin includes SessionStart and PostToolUse hooks that auto-build and auto-update the code graph.
+
+> The manifest prompts for model selection, local-model metadata, and the listed provider keys. API-base settings for managed HTTP are configured per subject in the relay; see the [managed provider policy](/plugins/reference/credential-setup/) before any paid calls.
+
+## Environment Variables
+
+All environment variables are **optional**. The server works with Fastretrieval's local ONNX embedding registry with zero configuration.
+
+### API Keys (Cloud Embedding Providers)
+
+| Variable | Required | Default | Description |
+|:---------|:---------|:--------|:------------|
+| `JINA_AI_API_KEY` | No | -- | Key for explicitly selected `jina_ai/` embedding models; not used by the managed Cloudflare route |
+| `GEMINI_API_KEY` | No | -- | Google Gemini key: embedding (free tier available). Also accepts `GOOGLE_API_KEY` |
+| `GOOGLE_VERTEX_EXPRESS_API_KEY` | No | -- | Vertex AI Express: Gemini via API key, no Service Account. Get it at https://cloud.google.com/vertex-ai/generative-ai/docs/start/express-mode/overview |
+| `OPENAI_API_KEY` | No | -- | OpenAI key: embedding |
+| `COHERE_API_KEY` | No | -- | Key for explicitly selected `cohere/` embeddings; Cohere calls are paid |
+
+### Embedding Configuration
+
+| Variable | Required | Default | Description |
+|:---------|:---------|:--------|:------------|
+| `EMBEDDING_MODELS` | No | empty | CSV embedding model selection (`provider/model,...`); the current runtime selects the first entry, not a fallback chain |
+| `LOCAL_EMBEDDING_MODEL` | No | -- | Optional BYO local embedding model ID; empty uses Fastretrieval's bundled model manifest |
+| `LOCAL_RERANK_MODEL` | No | -- | Fastretrieval TextCrossEncoder model ID; empty = reranking disabled. |
+| `LOCAL_EMBEDDING_MODEL_FILE` | No | `onnx/model.onnx` | ONNX file path for a BYO local embedding |
+| `LOCAL_EMBEDDING_DIM` | No | `0` | Required for a BYO local embedding when its model manifest does not provide dimensions |
+| `LOCAL_EMBEDDING_POOLING` | No | `MEAN` | Pooling for a BYO local embedding (`MEAN`, `CLS`, `LAST_TOKEN`, or `DISABLED`) |
+| `LOCAL_EMBEDDING_NORMALIZE` | No | `true` | Normalize BYO local embedding outputs |
+| `LOCAL_RERANK_MODEL` | No | empty | Fastretrieval `TextCrossEncoder` model ID for query reranking; empty disables reranking |
+| `SUMMARY_MODELS` | No | empty | Ordered CSV summary model chain (`provider/model,...`); empty leaves summaries disabled |
+
+Legacy aliases: `EMBEDDING_BACKEND`, `EMBEDDING_MODEL`, and `SUMMARY_MODEL` are deprecated and honored for one release. Use `EMBEDDING_MODELS` and `SUMMARY_MODELS` instead.
+
+CRG has no cloud rerank consumer: do not configure `RERANK_MODELS`,
+`RERANK_API_BASE`, or `LOCAL_RERANK_MODEL_FILE` for this server. A Cohere
+embedding selection does not enable Cohere reranking.
+
+Cohere `embed-v4.0` uses exactly 1024-dimensional stored vectors; other
+backends retain 768. Do not compensate for a mismatch by slicing or padding.
+Run `graph(action="embed")` to replace stale vectors after a model change.
+
+After upgrading to the package-owned `.better-code-review-graph/` state
+directory, first run `graph(action="build", full_rebuild=true)`, then embed
+if semantic search is needed. Leave `.code-review-graph/`,
+`.code-review-graph.db`, and their SQLite sidecars untouched; inspect and
+reapply desired suppression rules explicitly. See the
+[migration reference](/plugins/servers/crg/setup/#graph-state-migration).
+
+### HTTP Mode (Self-Host)
+
+| Variable | Required | Default | Description |
+|:---------|:---------|:--------|:------------|
+| `TRANSPORT_MODE` | No | `stdio` | Set to `http` to enable HTTP transport (multi-user). |
+| `PUBLIC_URL` | Yes (http) | -- | Server's public URL for relay form. |
+| `MCP_DCR_SERVER_SECRET` | Yes (http) | -- | HMAC secret for stateless Dynamic Client Registration. |
+| `MCP_PORT` | No | `8080` | Server port (http mode only). |
+
+### General
+
+| Variable | Required | Default | Description |
+|:---------|:---------|:--------|:------------|
+| `LOG_LEVEL` | No | `INFO` | Logging level |
+
+## Authentication
+
+### Stdio Mode (Env Vars)
+
+Set API keys directly via env vars (or leave unset for Fastretrieval's local ONNX registry). No relay form, no browser flow.
+
+## Verification
+
+After setup, verify the server is working by building the graph:
+
+```
+graph(action="build", repo_path="/path/to/your/repo")
+```
+
+Expected: returns a JSON summary with node counts, edge counts, and supported languages found.
+
+Then try a search:
+
+```
+query(action="search", query="main function", repo_path="/path/to/your/repo")
+```
