@@ -1,4 +1,0 @@
-## 2025-03-09 - Command Injection pattern in GitHub Actions context
-**Vulnerability:** A shell script run block in `.github/workflows/cd.yml` directly interpolates a GitHub Actions context variable or relies on environment variables in a way that might be risky if they contain arbitrary shell code, but since it's using `$GITHUB_SHA` rather than `${{ github.sha }}`, it's actually relatively safe unless used in single quotes or eval, but double quoting is safe. However, there's another pattern worth checking: The `GH_SHA` env variable injection pattern.
-**Learning:** In GitHub Actions run blocks, using default workflow environment variables (e.g., `$GITHUB_SHA`) inside double quotes is safe from command injection. Direct interpolation of GitHub Actions context expressions (e.g., `${{ github.sha }}`) into shell scripts causes vulnerabilities.
-**Prevention:** Always pass context to shell scripts via environment variables rather than direct interpolation.
