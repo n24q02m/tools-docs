@@ -24,3 +24,9 @@
 /skret/providers/ /skret/providers/comparison/ 301
 /skret/reference/ /skret/reference/commands/ 301
 /skret/secrets/ /skret/guide/configuration/ 301
+# Library roots have no index page (only overview.md), so the bare trailing-slash
+# URLs redirect to their overview page instead of returning 404.
+/bsr/ /bsr/overview/ 301
+/sillstone/ /sillstone/overview/ 301
+/fastretrieval/ /fastretrieval/overview/ 301
+/hull/ /hull/overview/ 301
