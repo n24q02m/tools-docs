@@ -7,9 +7,9 @@ editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/mnemo-mcp/s
 
 mnemo is a self-hosted memory server. It speaks **Streamable HTTP only** on a single `/mcp` endpoint -- there is no stdio transport and no hosted public instance. You run one instance (locally or on a host you control) and point MCP clients at it.
 
-The repo is `n24q02m/mnemo`; the PyPI package is `mnemo-mcp` and ships two commands:
+The repo is `n24q02m/mnemo`; the PyPI package is `n24q02m-mnemo` and ships two commands:
 
-- `mnemo-mcp` -- a bare invocation starts the HTTP server; the subcommands `config-init`, `warmup`, `token-hash`, and `token-verify` run one operator action and exit.
+- `n24q02m-mnemo` (alias `mnemo-mcp`, the frozen pre-rename stub) -- a bare invocation starts the HTTP server; `token-hash`, `token-verify`, `warmup`, `config-init` and `config` run one operator action and exit. `config` covers `init`, `path`, `show`, `get <key>` and `set <key> <value>` on `~/.mnemo/config.toml`.
 - `mnemo` -- a CLI over the memory database (`capture`, `recall`, `reflect`, `fetch`, `standing-*`, each taking `--db <path>`). It never starts a server.
 
 ## Method overview
@@ -17,7 +17,7 @@ The repo is `n24q02m/mnemo`; the PyPI package is `mnemo-mcp` and ships two comma
 | Method | What runs where | Best for |
 |---|---|---|
 | **1. Plugin + running instance** | Claude Code plugin (skills + hooks) connects to your instance via `MNEMO_URL` | Claude Code users who want the skills and hooks |
-| **2. Local server + `claude mcp add`** | `uvx --from mnemo-mcp mnemo-mcp` on your machine | Any MCP client, no plugin |
+| **2. Local server + `claude mcp add`** | `uvx --from n24q02m-mnemo n24q02m-mnemo` on your machine | Any MCP client, no plugin |
 | **3. docker compose (token auth)** | Always-on container, published on loopback | One instance shared across sessions and clients |
 | **4. Remote host** | Your instance behind a TLS proxy at `https://<your-host>/mcp` | Multi-device, claude.ai web, team use |
 
@@ -35,7 +35,7 @@ Every method needs a running instance -- Method 1 only changes how Claude Code c
 ### Dev: `uvx` (no-auth, loopback only)
 
 ```bash
-uvx --from mnemo-mcp mnemo-mcp
+uvx --from n24q02m-mnemo n24q02m-mnemo
 # MCP endpoint: http://127.0.0.1:8000/mcp
 ```
 
@@ -44,7 +44,7 @@ With no config file the server binds `127.0.0.1:8000` with `auth = "no-auth"`. `
 To write a real config to edit:
 
 ```bash
-uvx --from mnemo-mcp mnemo-mcp config-init   # writes ~/.mnemo/config.toml; --force overwrites
+uvx --from n24q02m-mnemo n24q02m-mnemo config-init   # writes ~/.mnemo/config.toml; --force overwrites
 ```
 
 ### Always-on: docker compose
@@ -84,7 +84,7 @@ All auth and provider settings live in this host-owned file. MCP clients never s
 
 ```bash
 python -c "import secrets; print(secrets.token_urlsafe(32))"   # 1. mint a token
-MNEMO_AUTH_TOKEN=<token> uvx --from mnemo-mcp mnemo-mcp token-hash   # 2. print the scrypt$ hash
+MNEMO_AUTH_TOKEN=<token> uvx --from n24q02m-mnemo n24q02m-mnemo token-hash   # 2. print the scrypt$ hash
 ```
 
 3. Paste the printed `scrypt$...` value into `token_hash` and restart the server.
@@ -137,7 +137,7 @@ Hooks: a SessionStart hook nudges `recall-context` on every session. The PostToo
 ## Method 2: local server + `claude mcp add`
 
 ```bash
-uvx --from mnemo-mcp mnemo-mcp
+uvx --from n24q02m-mnemo n24q02m-mnemo
 claude mcp add --transport http mnemo http://127.0.0.1:8000/mcp
 ```
 

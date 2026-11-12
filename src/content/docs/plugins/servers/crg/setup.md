@@ -7,7 +7,7 @@ editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/better-code
 
 ## CLI-first (2026-09-13)
 
-Repo is now `n24q02m/crg`. CLI-first: `crg --help` (config, doctor, graph, query, relay, review, security). PyPI package stays `better-code-review-graph`; both `crg` and legacy command work. MCP server is a secondary surface.
+Repo is `n24q02m/crg`. CLI-first: `crg --help` (config, db, graph, query, review, security, server, token). `crg config` covers `init|path|show|get <key>|set <key> <value>`. PyPI package is `n24q02m-crg` (installs `crg`); `better-code-review-graph` is the frozen pre-rename stub. The MCP server is a secondary surface over the same graph code.
 
 
 > **2026-05-02 Update**: Plugin install (Method 1) now uses pure stdio mode. API keys are optional env vars.

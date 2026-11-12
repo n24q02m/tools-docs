@@ -5,9 +5,23 @@ editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/wet-mcp/set
 
 # WET (Web Extended Toolkit) -- Manual Setup Guide
 
-## CLI-first (2026-09-13)
+## How wet runs (3.21.0)
 
-Repo is now `n24q02m/wet`. The CLI is the primary surface: `uvx wet --help` (subcommands: auth, config, docs, doctor, logout, relay, warmup). PyPI package stays `wet-mcp` — both `uvx wet` and legacy `uvx wet-mcp` commands work. MCP server = run `wet` with no subcommand (stdio passthrough).
+`n24q02m-wet` is HTTP-only: one process serves a single Streamable HTTP endpoint at `/mcp`, and every client connects to a running instance. There is no stdio transport, so the plugin does not launch a server for you -- it connects to one you start.
+
+The control plane is `wet` (`uvx wet --help`), with these subcommands:
+
+| Subcommand | What it does |
+|---|---|
+| `wet server start\|stop\|status` | run the HTTP server (detached; `--foreground` to block) |
+| `wet config init\|path\|show\|get\|set` | manage `~/.wet/config.toml` |
+| `wet token hash <token>` | print the `scrypt$...` hash for `auth = "token"` |
+| `wet users path` | locate the user store used by `auth = "multi"` |
+| `wet docs <action>` | host-side docs-store maintenance (no server needed) |
+| `wet search <query>` | search through the RUNNING server |
+| `wet warmup` | probe the configured search/extraction providers |
+
+The PyPI package is `n24q02m-wet` (installs the `wet` command); `wet-mcp` is the frozen pre-rename stub and still installs the same command for old configs. Python is pinned to 3.13.
 
 
 > Plugin install uses stdio mode with local Fastretrieval retrieval. For web search, select credential-free `duckduckgo,startpage`, a keyed provider, optional-key Firecrawl, or a runnable local/external SearXNG backend through `SEARCH_BACKENDS`.
@@ -197,7 +211,7 @@ Share this password out-of-band (Signal/email/SMS) with anyone you invite to use
 wet-mcp requires Python 3.13 due to SearXNG incompatibility. Always use `--python 3.13` with uvx:
 
 ```bash
-uvx --python 3.13 wet-mcp
+uvx --python 3.13 n24q02m-wet
 ```
 
 ### First run takes a long time

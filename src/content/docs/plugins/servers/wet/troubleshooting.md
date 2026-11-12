@@ -12,7 +12,7 @@ Common issues specific to wet-mcp. For daemon, lock-file, and general relay prob
 New features often ship as a beta before the stable release. `uvx`/`pip` will not pick a prerelease unless you pin the exact version:
 
 ```sh
-uvx --python 3.13 wet-mcp@<X.Y.0bN>
+uvx --python 3.13 n24q02m-wet@<X.Y.0bN>
 ```
 
 Replace `<X.Y.0bN>` with the exact beta version (for example, the value shown on the package's release history). Drop back to `wet-mcp` with no version to return to the latest stable.
@@ -22,7 +22,7 @@ Replace `<X.Y.0bN>` with the exact beta version (for example, the value shown on
 wet-mcp requires **Python 3.13**. The `uvx` plugin path also cannot auto-start local SearXNG; configure a cloud/external search backend or use the Docker method for bundled SearXNG. Always pin the interpreter:
 
 ```sh
-uvx --python 3.13 wet-mcp
+uvx --python 3.13 n24q02m-wet
 ```
 
 ## First run is slow / downloads a lot
