@@ -9,4 +9,4 @@ overrides:
   astro>zod: '>=4.6.6'
   '@astrojs/sitemap>zod': '>=4.6.6'
   satteri: 0.11.7
-  '@bruits/satteri-win32-x64-msvc': 0.10.5
+  '@bruits/satteri-win32-x64-msvc': 0.11.6
