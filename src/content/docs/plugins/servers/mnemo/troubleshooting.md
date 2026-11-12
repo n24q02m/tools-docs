@@ -12,7 +12,7 @@ Common issues specific to mnemo-mcp. For problems shared across the stack, see t
 New features often ship as a beta before the stable release. `uvx`/`pip` will not pick a prerelease unless you pin the exact version:
 
 ```sh
-uvx --from mnemo-mcp@<X.Y.0bN> mnemo-mcp
+uvx --from n24q02m-mnemo@<X.Y.0bN> mnemo-mcp
 ```
 
 Replace `<X.Y.0bN>` with the exact beta version. Drop the `@<version>` suffix to return to the latest stable.
@@ -21,7 +21,7 @@ Replace `<X.Y.0bN>` with the exact beta version. Drop the `@<version>` suffix to
 
 mnemo has no stdio transport: a client can only reach a running instance.
 
-- Check the instance is up: a `uvx --from mnemo-mcp mnemo-mcp` process (default `http://127.0.0.1:8000/mcp`) or the compose stack (default `http://127.0.0.1:8771/mcp`).
+- Check the instance is up: a `uvx --from n24q02m-mnemo n24q02m-mnemo` process (default `http://127.0.0.1:8000/mcp`) or the compose stack (default `http://127.0.0.1:8771/mcp`).
 - With the plugin, `MNEMO_URL` must be set to that endpoint, including the `/mcp` path. Without it the skills and hooks install, but the MCP entry has no endpoint. Re-run `/plugin install` or update the plugin's options to set it.
 - A remote instance must be reachable over TLS at `https://<your-host>/mcp`.
 
