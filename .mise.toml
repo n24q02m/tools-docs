@@ -1,0 +1,26 @@
+# Mise configuration for tools-docs
+# https://mise.jdx.dev/
+#
+# Setup: mise run setup
+
+[tools]
+node = "26"
+pnpm = "12"
+pre-commit = "latest"
+
+[tasks.setup]
+description = "Setup development environment"
+run = [
+  "mise install",
+  "pnpm install --frozen-lockfile",
+  "pre-commit install",
+  "echo 'Setup complete!'"
+]
+
+[tasks.dev]
+description = "Run the docs site locally"
+run = "pnpm run dev"
+
+[tasks.build]
+description = "Build the site into dist/ (the check CI runs)"
+run = "pnpm run build"
