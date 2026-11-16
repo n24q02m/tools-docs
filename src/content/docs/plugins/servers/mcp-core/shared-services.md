@@ -77,4 +77,3 @@ docker compose down -v
 - `mcp-core/packages/embedding-daemon/` — source for the daemon itself.
 - Migration doc: `~/projects/mcp-core/docs/migration-2026-04-30.md` —
   context for the multi-mode architecture this slot-fits into.
-
