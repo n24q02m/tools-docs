@@ -32,6 +32,7 @@ then selects and verifies a versioned release.
 
 - [Install and run locally](#install-and-run-locally)
 - [Deploy](#deploy)
+- [License](#license)
 
 ## Install and run locally
 
@@ -77,3 +78,7 @@ Requires repo secrets `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`. See `DEP
 
 </details>
 <!-- END: AUTO-GENERATED-CROSS-PROMO -->
+
+## License
+
+[Apache-2.0](LICENSE) © n24q02m
