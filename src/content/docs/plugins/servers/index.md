@@ -1,9 +1,9 @@
 ---
 title: Servers and coordination
-description: MCP servers, portable coordination plugins, and the mcp-core foundation library.
+description: MCP servers, portable coordination plugins, and the archived mcp-core foundation library.
 ---
 
-The stack shares one foundation library (`mcp-core`) and one plugin marketplace. Runnable MCP servers and portable coordination plugins remain distinct capabilities.
+The stack shares one foundation library ([`hull`](https://github.com/n24q02m/hull); the earlier `mcp-core` is archived) and one plugin marketplace. Runnable MCP servers and portable coordination plugins remain distinct capabilities.
 
 ## Servers
 
@@ -17,7 +17,7 @@ The stack shares one foundation library (`mcp-core`) and one plugin marketplace.
 
 ## Foundation
 
-- [mcp-core](/plugins/servers/mcp-core/) -- Foundation library for the n24q02m MCP stack — shared Streamable HTTP transport, OAuth 2.1 Authorization Server, lifecycle management, and credential-relay primitives consumed by every server. Not a runnable MCP server.
+- [mcp-core](/plugins/servers/mcp-core/) -- Archived foundation library (2026-10-24), superseded by hull (PyPI n24q02m-hull, npm @n24q02m/hull). Not a runnable MCP server.
 
 ## See also
 

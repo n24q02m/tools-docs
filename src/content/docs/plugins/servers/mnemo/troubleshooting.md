@@ -1,6 +1,6 @@
 ---
 title: Troubleshooting
-editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/mnemo-mcp/troubleshooting.md
+editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/mnemo/troubleshooting.md
 ---
 
 # Mnemo MCP -- Troubleshooting

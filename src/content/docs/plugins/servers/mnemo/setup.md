@@ -1,6 +1,6 @@
 ---
 title: Setup
-editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/mnemo-mcp/setup.md
+editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/mnemo/setup.md
 ---
 
 # Mnemo MCP -- Manual Setup Guide
@@ -168,8 +168,6 @@ Run the instance on a reachable host with `auth = "token"` or `"multi"`, and fro
 ```bash
 claude mcp add --transport http mnemo https://<your-host>/mcp --header "Authorization: Bearer <token>"
 ```
-
-claude.ai web and other remote clients connect the same way.
 
 ## Backup and migration
 

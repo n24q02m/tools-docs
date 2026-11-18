@@ -1,6 +1,6 @@
 ---
 title: Overview
-editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/mnemo-mcp/overview.md
+editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/mnemo/overview.md
 ---
 
 # Mnemo MCP -- Overview

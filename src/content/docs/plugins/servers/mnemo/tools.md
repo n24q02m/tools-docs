@@ -1,6 +1,6 @@
 ---
 title: Tools
-editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/mnemo-mcp/tools.md
+editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/mnemo/tools.md
 ---
 
 # Mnemo MCP -- Tools Reference

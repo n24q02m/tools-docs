@@ -5,11 +5,17 @@ editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/workspace/t
 
 # Workspace MCP -- Tools Reference
 
-better-workspace-mcp exposes Google Workspace through 11 composite tools driven by an `action` parameter, plus `config` (credential and account management) and `help`. That is the N+2 layout every server in this stack follows: one tool per domain, never one tool per API call.
+workspace exposes Google Workspace through 11 composite tools driven by an `action` parameter, plus `config` (credential and account management) and `help`. That is the N+2 layout every server in this stack follows: one tool per domain, never one tool per API call.
 
 Every domain tool also accepts `account` -- the email address of the Google account the call should act as. Omit it and the call runs against the primary account. Naming an account that is not configured is an error that says so; the call is never quietly rerouted to the primary, because a silent fallback would act on the wrong mailbox or drive.
 
-`time`, `config`, and `help` need no Google account and answer before any consent has happened. `time` is the quickest check that the server is wired up at all.
+`time`, `config`, and `help` need no Google account. Over HTTP they answer before a user has consented; in stdio the server serves MCP only after the first consent completes. `time` is the quickest check that the server is wired up at all.
+
+The parameter names below are the ones the action handlers read. Where the advertised input schema lists a different name (for example `destinationFolderId`, `spaceId`, or `resourceName`), the handler ignores it.
+
+Reads whose payload can grow are bounded to 20,000 characters by default. Raise the cap with `max_chars` (1 to 100,000) or pass `full: true` for the complete payload; truncation is always marked in the result, and pagination cursors are never cut.
+
+Every tool is also a shell subcommand: `workspace <tool> <action> [--param <value>]... [--json]`. The MCP `config` tool is `workspace config-tool` on the command line, because `workspace config` is the operator command that reads the credential store.
 
 ## docs
 
@@ -17,7 +23,7 @@ Google Docs.
 
 | Action | Purpose | Key parameters |
 |---|---|---|
-| `getText` | Read document text | `documentId` (required), `tabId` |
+| `getText` | Read document text | `documentId` (required); `tabId`, `limit`, `preview` |
 | `create` | Create a document | `title` (required), `content` |
 | `writeText` | Insert text | `documentId`, `text` (required); `position`, `tabId` |
 | `getSuggestions` | List pending suggestions | `documentId` (required) |
@@ -32,14 +38,14 @@ Files and folders.
 
 | Action | Purpose | Key parameters |
 |---|---|---|
-| `search` | Search files | `query` |
+| `search` | Search files | `query`; `pageSize`, `pageToken`, `corpus`, `unreadOnly` |
 | `findFolder` | Locate a folder by name | `folderName` |
 | `createFolder` | Create a folder | `name`; `parentId` |
-| `moveFile` | Move a file | `fileId`, `destinationFolderId` |
+| `moveFile` | Move a file | `fileId`; `folderId` or `folderName` |
 | `renameFile` | Rename a file | `fileId`, `newName` |
 | `trashFile` | Send a file to trash | `fileId` |
-| `downloadFile` | Download file content | `fileId` |
-| `getComments` | Read file comments | `fileId` |
+| `downloadFile` | Download a file into the server's package directory (stdio only); a path outside it is rejected | `fileId`, `localPath` |
+| `getComments` | Read file comments | `fileId`; `pageSize`, `pageToken` |
 
 ## calendar
 
@@ -48,13 +54,15 @@ Events across calendars.
 | Action | Purpose | Key parameters |
 |---|---|---|
 | `listCalendars` | List available calendars | -- |
-| `listEvents` | List events | `calendarId`, `start`, `end` |
-| `getEvent` | Read one event | `calendarId`, `eventId` |
-| `createEvent` | Create an event | `summary`, `start`, `end`; `description`, `attendees` |
-| `updateEvent` | Modify an event | `calendarId`, `eventId` + fields to change |
-| `deleteEvent` | Delete an event | `calendarId`, `eventId` |
-| `respondToEvent` | Accept / decline an invite | `calendarId`, `eventId` |
-| `findFreeTime` | Find open slots | `start`, `end` |
+| `listEvents` | List events | `calendarId`, `timeMin`, `timeMax`, `maxResults`, `pageToken` (all optional) |
+| `getEvent` | Read one event | `eventId`; `calendarId` |
+| `createEvent` | Create an event | `start`, `end`; `calendarId`, `summary`, `description`, `attendees` |
+| `updateEvent` | Modify an event | `eventId` + fields to change; `calendarId` |
+| `deleteEvent` | Delete an event | `eventId`; `calendarId` |
+| `respondToEvent` | Accept / decline an invite | `eventId`, `responseStatus`; `calendarId`, `responseMessage`, `sendNotification` |
+| `findFreeTime` | Find open slots | `attendees`, `timeMin`, `timeMax`, `duration` |
+
+`calendarId` defaults to the primary calendar. `listEvents` defaults to the window from now to 30 days out. `createEvent` and `updateEvent` take `start` and `end` as objects, `{"dateTime": "..."}` or `{"date": "..."}`. `responseStatus` is `accepted`, `declined`, or `tentative`.
 
 ## gmail
 
@@ -62,17 +70,17 @@ Mail.
 
 | Action | Purpose | Key parameters |
 |---|---|---|
-| `search` | Search messages | `query` |
-| `get` | Read one message | `messageId` |
-| `send` | Send a message | `to`, `subject`, `body` |
-| `createDraft` | Save a draft | `to`, `subject`, `body` |
+| `search` | Search messages | `query`; `maxResults`, `pageToken`, `labelIds`, `includeSpamTrash` |
+| `get` | Read one message | `messageId`; `format` |
+| `send` | Send a message | `to`, `subject`, `body`; `cc`, `bcc`, `replyTo`, `isHtml` |
+| `createDraft` | Save a draft | `to`, `subject`, `body`; `cc`, `bcc`, `replyTo`, `isHtml`, `threadId`, `attachments` |
 | `sendDraft` | Send an existing draft | `draftId` |
-| `modify` | Change labels on a message | `messageId`, `labelIds` |
-| `batchModify` | Change labels on many messages | `labelIds` |
-| `modifyThread` | Change labels on a thread | `threadId`, `labelIds` |
-| `downloadAttachment` | Download an attachment | `messageId` |
+| `modify` | Change labels on a message | `messageId`; `addLabelIds`, `removeLabelIds` |
+| `batchModify` | Change labels on many messages | `messageIds`; `addLabelIds`, `removeLabelIds` |
+| `modifyThread` | Change labels on a thread | `threadId`; `addLabelIds`, `removeLabelIds` |
+| `downloadAttachment` | Save an attachment to a local path | `messageId`, `attachmentId`, `localPath` |
 | `listLabels` | List labels | -- |
-| `createLabel` | Create a label | `name` |
+| `createLabel` | Create a label | `name`; `labelListVisibility`, `messageListVisibility` |
 
 ## sheets
 
@@ -97,7 +105,7 @@ Presentations -- 19 actions covering slides, text, shapes, images, tables, and s
 | Text | `insertText`, `deleteText`, `replaceAllText`, `updateSpeakerNotes`, `updateTextStyle` |
 | Objects | `addShape`, `addImage`, `addTable`, `updateShapeProperties` |
 
-Common parameters: `presentationId`, `slideId`, `title`, `text`.
+Common parameters: `presentationId` (every action except `create`, which takes `title`), `slideObjectId` for slide-level actions, and `objectId` for text and shape edits. `getImages` also takes `localPath`, an absolute directory to save the images in, and `getSlideThumbnail` takes `localPath`, an absolute file path for the thumbnail.
 
 ## tasks
 
@@ -105,8 +113,8 @@ Task lists and tasks.
 
 | Action | Purpose | Key parameters |
 |---|---|---|
-| `listTaskLists` | List task lists | -- |
-| `listTasks` | List tasks in a list | `taskListId` |
+| `listTaskLists` | List task lists | `maxResults`, `pageToken` (optional) |
+| `listTasks` | List tasks in a list | `taskListId`; `maxResults`, `pageToken` |
 | `createTask` | Create a task | `taskListId`, `title`; `notes`, `due` |
 | `updateTask` | Modify a task | `taskListId`, `taskId` + fields to change |
 | `completeTask` | Mark a task done | `taskListId`, `taskId` |
@@ -118,13 +126,13 @@ Google Chat.
 
 | Action | Purpose | Key parameters |
 |---|---|---|
-| `listSpaces` | List spaces | -- |
+| `listSpaces` | List spaces | `pageSize`, `pageToken` (optional) |
 | `findSpaceByName` | Locate a space by display name | `displayName` |
-| `setUpSpace` | Create or find a space | `displayName` |
-| `getMessages` | Read messages in a space | `spaceId` |
-| `listThreads` | List threads in a space | `spaceId` |
-| `sendMessage` | Post to a space | `spaceId`, `text`; `threadId` |
-| `sendDm` | Direct-message a person | `email`, `text` |
+| `setUpSpace` | Create a space with members | `displayName`, `userNames` |
+| `getMessages` | Read messages in a space | `spaceName`; `threadName`, `unreadOnly`, `orderBy`, `pageSize`, `pageToken` |
+| `listThreads` | List threads in a space | `spaceName`; `pageSize`, `pageToken` |
+| `sendMessage` | Post to a space | `spaceName`, `message`; `threadName` |
+| `sendDm` | Direct-message a person | `email`, `message`; `threadName` |
 | `findDmByEmail` | Locate an existing DM | `email` |
 
 ## people
@@ -134,8 +142,8 @@ Profile lookups.
 | Action | Purpose | Key parameters |
 |---|---|---|
 | `getMe` | The authenticated user's profile | -- |
-| `getUserProfile` | Another person's profile | `resourceName` |
-| `getUserRelations` | Relations on a profile | `resourceName` |
+| `getUserProfile` | Another person's profile | one of `userId`, `email`, `name` |
+| `getUserRelations` | Relations on a profile | `userId` (default `people/me`); `relationType` |
 
 ## forms
 
@@ -151,7 +159,7 @@ Forms.
 
 Three things about Forms that are easy to get wrong:
 
-- Questions are added with `batchUpdate`, not at `create`. A `create` call takes only the title.
+- Questions are added with `batchUpdate`, not at `create`. A `create` call takes only `title` and an optional `documentTitle`.
 - Responses are read-only. The Forms API cannot write one, so there is no `createResponse`.
 - Listing or deleting forms goes through `drive`, not here.
 
@@ -173,25 +181,25 @@ Credential state and account management.
 
 | Action | Purpose | Key parameters |
 |---|---|---|
-| `status` | Credential state and the account being acted as | -- |
-| `setup_start` | Return the setup URL | `force` (restart setup) |
-| `setup_reset` | Wipe saved credentials | -- |
+| `status` | Credential state, the configured accounts, and which one is primary | -- |
+| `setup_start` | Return setup instructions: run `workspace auth` on the host to start the Google consent flow, then retry the tool (stdio servers start this flow automatically on first run) | -- |
+| `setup_reset` | Wipe the calling user's saved credentials (every account in that store) | -- |
 | `setup_complete` | Re-check state after consent | -- |
-| `account_add` | Return a URL that adds one more account once consent completes | -- |
+| `account_add` | Stdio: return a loopback URL that adds one more account once consent completes. HTTP: return the `workspace auth --user <namespace>` command to run on the host | `value` (`"primary"` makes the new account primary; stdio only) |
 | `account_list` | Configured accounts and which is primary | -- |
 | `account_remove` | Forget one account | `account` (required) |
 | `account_set_default` | Make one account primary | `account` (required) |
-| `set` | Set a runtime setting | `key`, `value` |
-| `cache_clear` | Clear cached client state | -- |
+| `set` | No-op -- there are no mutable runtime settings | `key`, `value` |
+| `cache_clear` | No-op (nothing to clear) | -- |
 
-The first account authorized becomes the primary. Removing the primary promotes one of the remaining accounts; removing the last one puts the server back to `awaiting_setup`. Adding an account never changes which one is primary -- use `account_set_default` for that.
+The first account authorized becomes the primary. Removing the primary promotes one of the remaining accounts; removing the last one puts the server back to `awaiting_setup`. Adding an account leaves the primary unchanged unless `account_add` is called with `value="primary"` in stdio; otherwise use `account_set_default`.
 
-In HTTP mode, `account_add` completes through the server's `/accounts/callback`, so the OAuth client has to be a Web application type with that redirect URI registered. See [setup](/plugins/servers/workspace/setup/).
+`account_add` picks its flow by transport. In stdio it starts a temporary loopback consent server and returns the URL to open (the flow expires after 10 minutes). In HTTP mode consent is not served over the endpoint; it returns the `workspace auth --user <namespace>` command to run on the server host, and the OAuth client has to be a Web application type. See [setup](/plugins/servers/workspace/setup/).
 
 ## help
 
-Full documentation for one tool.
+Full documentation for one topic.
 
 | Parameter | Values |
 |---|---|
-| `tool_name` | `docs` \| `drive` \| `calendar` \| `gmail` \| `sheets` \| `slides` \| `tasks` \| `chat` \| `people` \| `forms` \| `time` \| `config` \| `help` |
+| `topic` | `docs` \| `drive` \| `calendar` \| `gmail` \| `sheets` \| `slides` \| `tasks` \| `chat` \| `people` \| `forms` \| `time` \| `config` \| `overview` |

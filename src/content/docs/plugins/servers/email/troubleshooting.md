@@ -5,21 +5,21 @@ editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/email/troub
 
 # Email MCP -- Troubleshooting
 
-Common issues specific to better-email-mcp. For daemon, lock-file, and general relay problems shared across the stack, see the [general troubleshooting guide](/plugins/get-started/troubleshooting/).
+Common issues specific to email. For problems shared across the stack, see the [general troubleshooting guide](/plugins/get-started/troubleshooting/).
 
 ## Installing a prerelease (beta) build
 
 New features often ship as a beta before the stable release. `npm`/`npx` will not pick a prerelease unless you pin the exact version:
 
 ```sh
-npx better-email-mcp@<X.Y.Z-beta.N>
+npx @n24q02m/email@<X.Y.Z-beta.N>
 ```
 
 Replace `<X.Y.Z-beta.N>` with the exact beta version. Drop the `@<version>` suffix to return to the latest stable.
 
 ## Login / connection refused
 
-Most providers reject your normal account password for IMAP/SMTP. Use an **app-specific password** or OAuth token in `EMAIL_CREDENTIALS`. Double-check the IMAP and SMTP host and port for each account -- a wrong port is the most common cause of a connection timeout.
+Most providers reject your normal account password for IMAP/SMTP. Use an **app-specific password** in `EMAIL_CREDENTIALS`, or sign Outlook accounts in with `email auth outlook <address>`. Double-check the IMAP and SMTP host and port for each account -- a wrong port is the most common cause of a connection timeout.
 
 ## Folder not found on `move` / `archive`
 
@@ -35,8 +35,22 @@ The `messages` actions `new`, `reply`, and `forward` accept at most 10 attachmen
 
 ## Credentials or settings not saving
 
-- In the default remote-relay/HTTP mode, submit credentials through the relay form and verify with `config(action="status")`; reset with `config(action="setup_reset")` if it seems stuck. `cache_clear` also drops the cached OAuth token.
-- Under stdio there is no browser relay form -- `config__open_relay` returns `stdio_unsupported`. Provide `EMAIL_CREDENTIALS` as an environment variable or `userConfig` field.
+There is no browser setup form and no runtime credential editor: credentials are read from the accounts file, the server environment, or saved Outlook tokens when the server starts.
+
+- Check the state with `config(action="status")`. `awaiting_setup` means no credentials were found; `config(action="setup_start")` returns the exact steps.
+- Set `EMAIL_CREDENTIALS` (or `EMAIL_USER` + `EMAIL_APP_PASSWORD`) in the plugin's `userConfig` or the client's `env` block, or write an accounts file, then restart the server; `config(action="setup_complete")` re-checks the state afterwards. A mailbox added to `EMAIL_CREDENTIALS` after startup needs a restart, while tokens saved by `email auth` are re-read per call.
+- `config(action="setup_reset")` deletes saved config and returns to `awaiting_setup`; `cache_clear` also drops the cached OAuth token.
+- `config(action="set")` always returns `ok: false` -- email has no runtime settings to change.
+
+## Outlook sign-in
+
+Run `email auth outlook <address>` (for example `npx @n24q02m/email auth outlook <address>`), open the Microsoft URL it prints, and enter the code. Tokens are saved to `~/.email/tokens.json` (a token file from an earlier release under `~/.better-email-mcp/` is copied forward on the next start); `email logout [<address>]` removes them. A work or school (Microsoft 365) mailbox also needs `OUTLOOK_TENANT` and `OUTLOOK_EXTRA_DOMAINS`, see [setup](/plugins/servers/email/setup/).
+
+## HTTP server refuses to start or returns 401
+
+- Bound to a non-loopback host (the default `HOST` is `0.0.0.0`, and every container binds it), the server needs `MCP_AUTH_TOKEN_HASH` (older name `EMAIL_MCP_TOKEN_HASH`) or `MCP_AUTH_MODE=multi` with a users file, and exits without one. Mint a hash with `printf '%s' "$TOKEN" | email token hash`.
+- In `multi` mode a disabled user gets `403` and a user over its rate limit gets `429`. A caller told "No email accounts are configured for user namespace" has no `users/<namespace>/accounts.toml` and no saved Outlook grant; provision it host-side, since the server-wide accounts are never a fallback.
+- A 401 means the client's `Authorization: Bearer <token>` does not match the stored hash. The client sends the raw token; only the hash is stored on the server.
 
 ## Transport mismatch / duplicate entries in `/mcp`
 

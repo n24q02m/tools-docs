@@ -1,18 +1,17 @@
 ---
 title: "mcp-core"
-description: "Foundation library for the n24q02m MCP stack — shared Streamable HTTP transport, OAuth 2.1 Authorization Server, lifecycle management, and credential-relay primitives consumed by every server. Not a runnable MCP server."
-editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/mcp-core/.claude-plugin/plugin.json
+description: "Archived foundation library (2026-10-24), superseded by hull (PyPI n24q02m-hull, npm @n24q02m/hull). Not a runnable MCP server."
 ---
 
-Foundation library for the n24q02m MCP stack — shared Streamable HTTP transport, OAuth 2.1 Authorization Server, lifecycle management, and credential-relay primitives consumed by every server. Not a runnable MCP server.
+:::caution[Archived (2026-10-24)]
+`mcp-core` is superseded by [hull](/hull/overview/) (PyPI `n24q02m-hull`, npm `@n24q02m/hull`). Every server in this stack now pins hull, so new work and questions belong there.
+:::
 
-## In this section
+`mcp-core` was the foundation library the servers in this stack shared before hull. It is not a server and there is nothing to install. Its source and release history stay in the archived repository [n24q02m/mcp-core](https://github.com/n24q02m/mcp-core).
 
-- [Architecture](./architecture/)
-- [Trust model](./trust-model/)
-- [Migration](./migration/)
-- [Shared services](./shared-services/)
+The architecture, trust model, migration and shared services pages in this section described `mcp-core`, which no current server uses. They keep their URLs so existing links resolve, but now hold only this notice. For how a server takes credentials, which transport it runs, and how HTTP clients authenticate, see that server's setup page under [MCP servers](/plugins/servers/).
 
 ## Source
 
-- [GitHub: n24q02m/mcp-core](https://github.com/n24q02m/mcp-core)
+- [GitHub: n24q02m/hull](https://github.com/n24q02m/hull)
+- [GitHub: n24q02m/mcp-core](https://github.com/n24q02m/mcp-core) (archived)

@@ -1,7 +1,7 @@
 ---
 title: "wet"
 description: "Open-source MCP server for AI agents: web search, content extraction, and library docs."
-editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/wet-mcp/.claude-plugin/plugin.json
+editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/wet/.claude-plugin/plugin.json
 ---
 
 Open-source MCP server for AI agents: web search, content extraction, and library docs.
