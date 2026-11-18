@@ -1,6 +1,6 @@
 ---
 title: Setup with agent
-editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/mnemo-mcp/setup-with-agent.md
+editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/mnemo/setup-with-agent.md
 ---
 
 # Mnemo MCP -- Agent Setup Guide

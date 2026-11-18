@@ -1,10 +1,10 @@
 ---
 title: Architecture
-description: Archived page of the mcp-core library, superseded by hull.
+description: Archived mcp-core page, superseded by hull.
 ---
 
-:::caution[Archived]
-`mcp-core` is archived and no longer maintained; its GitHub repository is read-only. Every server in this stack now builds on [hull](/hull/overview/) (PyPI `n24q02m-hull`, npm `@n24q02m/hull`).
+:::caution[Archived (2026-10-24)]
+`mcp-core` is superseded by [hull](/hull/overview/) (PyPI `n24q02m-hull`, npm `@n24q02m/hull`). Every server in this stack now pins hull, so new work and questions belong there.
 :::
 
-None of the old mcp-core content applies to a current server, so it has been removed; this URL stays so existing links keep working. For how a server takes credentials, which transport it runs, and how HTTP clients authenticate, see that server's setup page under [MCP servers](/plugins/servers/). The shared library behind current servers is described in the [hull overview](/hull/overview/).
+This page described `mcp-core`, which no current server uses. Its content has been removed; the URL stays so existing links resolve. See the [mcp-core notice](/plugins/servers/mcp-core/). The shared library behind current servers is described in the [hull overview](/hull/overview/).

@@ -1,6 +1,6 @@
 ---
 title: Setup
-editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/mnemo-mcp/setup.md
+editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/mnemo/setup.md
 ---
 
 # Mnemo MCP -- Manual Setup Guide
