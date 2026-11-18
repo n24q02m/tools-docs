@@ -169,8 +169,6 @@ Run the instance on a reachable host with `auth = "token"` or `"multi"`, and fro
 claude mcp add --transport http mnemo https://<your-host>/mcp --header "Authorization: Bearer <token>"
 ```
 
-claude.ai web and other remote clients connect the same way.
-
 ## Backup and migration
 
 All state is one SQLite (WAL) database plus `config.toml` under `~/.mnemo/` (under `/data/.mnemo/` in the container). The server has no embedded sync; back up or move the directory with `rclone` or any file tool while the server is stopped, or use `export_memories` / `import_memories`.

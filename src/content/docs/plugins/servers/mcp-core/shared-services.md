@@ -1,79 +1,10 @@
 ---
 title: Shared services
-description: Common services exposed by mcp-core to consumer servers.
-editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/mcp-core/shared-services.md
+description: Archived page of the mcp-core library, superseded by hull.
 ---
 
-## README
+:::caution[Archived]
+`mcp-core` is archived and no longer maintained; its GitHub repository is read-only. Every server in this stack now builds on [hull](/hull/overview/) (PyPI `n24q02m-hull`, npm `@n24q02m/hull`).
+:::
 
-# Shared Embedding Daemon (opt-in)
-
-`docker-compose.yml` in this directory runs the shared
-`mcp-embedding-daemon` as a long-lived local container. It is **opt-in**
-— each plugin works standalone without it (each loads its own embedding
-model in-process). The shared daemon exists for power users running
-multiple plugins that benefit from a single model load + warm cache.
-
-
-## When to use
-
-Enable the shared daemon if **any** of these apply:
-
-- You run wet + mnemo + crg concurrently and want lower RAM usage.
-- Your machine has < 16 GB RAM and you want headroom for IDE / browser.
-- You want the embedding model warm across plugin restarts (faster cold
-  start when Claude Code re-spawns a plugin).
-
-Skip the shared daemon if:
-
-- You only run one of the three plugins.
-- You have plenty of RAM (≥ 32 GB) and prefer fewer moving parts.
-- You cannot run Docker on your machine.
-
-
-## Operations
-
-### Stop the daemon
-
-```bash
-cd ~/projects/mcp-core/docs/shared-services
-docker compose down
-```
-
-Plugins fall back to in-process embedding on the next request.
-
-### Update the daemon
-
-```bash
-cd ~/projects/mcp-core/docs/shared-services
-docker compose pull
-docker compose up -d
-```
-
-### View logs
-
-```bash
-docker compose logs -f embedding-daemon
-```
-
-### Cache location
-
-The embedding model + warm cache live in the named volume
-`embedding-cache`. Inspect it:
-
-```bash
-docker volume inspect shared-services_embedding-cache
-```
-
-To wipe it (forces re-download on next start):
-
-```bash
-docker compose down -v
-```
-
-
-## References
-
-- `mcp-core/packages/embedding-daemon/` — source for the daemon itself.
-- Migration doc: `~/projects/mcp-core/docs/migration-2026-04-30.md` —
-  context for the multi-mode architecture this slot-fits into.
+None of the old mcp-core content applies to a current server, so it has been removed; this URL stays so existing links keep working. For how a server takes credentials, which transport it runs, and how HTTP clients authenticate, see that server's setup page under [MCP servers](/plugins/servers/). The shared embedding and reranking HTTP service is now `fastretrieval-server` from `fastretrieval[server]`; see the [Fastretrieval library](/plugins/reference/fastretrieval/).

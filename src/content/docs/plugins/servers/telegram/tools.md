@@ -5,7 +5,9 @@ editUrl: https://github.com/n24q02m/claude-plugins/edit/main/plugins/telegram/to
 
 # Telegram MCP -- Tools Reference
 
-better-telegram-mcp exposes Telegram (dual-mode: Bot API + MTProto) through 4 composite tools driven by an `action` parameter, plus `config` (credential setup), `help`, and `config__open_relay`.
+telegram exposes Telegram (dual-mode: Bot API + MTProto) through 4 composite tools driven by an `action` parameter, plus `config` (status and runtime settings) and `help`.
+
+Every tool is also a one-shot CLI command, `telegram <tool> <action> [flags]`, that calls the same handler (`--json` prints the result as JSON). The `config` tool is `telegram settings` on the CLI, because `config` is the operator command for the saved credentials.
 
 ## message
 
@@ -47,7 +49,7 @@ Send photos, files, voice, and video; download media from messages.
 | `send_photo` / `send_file` / `send_voice` / `send_video` | Send a media file to a chat | `chat_id`, `file_path_or_url` (required); `caption` |
 | `download` | Download media from a message | `chat_id`, `message_id` (required); `output_dir`, `file_id` |
 
-Note: `file_id` is required in bot mode -- the Bot API cannot look up a message's media by `(chat_id, message_id)`, so get `file_id` from a message the bot already received (`message` tool results include it) and pass it to `download`. In user mode `file_id` is optional (MTProto resolves media directly from `chat_id`/`message_id`).
+Note: `file_id` is required in bot mode -- the Bot API cannot look up a message's media by `(chat_id, message_id)`, so get `file_id` from a message the bot already received (`message` tool results include it) and pass it to `download`. In user mode `file_id` is ignored: MTProto always resolves the media from `chat_id`/`message_id`.
 
 ## contact
 
@@ -62,16 +64,12 @@ Manage contacts -- list, search, add, and block/unblock users (user mode only).
 
 ## config
 
-Server configuration and runtime settings.
+Server status and runtime settings. Credentials are never set through a tool: they come from environment variables or the local `telegram auth` command (see [setup](/plugins/servers/telegram/setup/)).
 
 | Action | Purpose | Key parameters |
 |---|---|---|
-| `setup_status` | Show credential state | -- |
-| `setup_start` | Start credential relay setup | `key` (`force` bypasses an already-configured guard) |
-| `setup_reset` | Clear credential state | -- |
-| `setup_complete` | Re-resolve credential state | -- |
-| `status` | Show current config | -- |
-| `set` | Update a runtime setting (`message_limit`, `timeout`) | `key`, `value` (integer, >= 1) |
+| `status` | Show mode, `connected`, `authorized`, `pending_auth`, and the current config | -- |
+| `set` | Update a runtime setting (`message_limit`, `timeout`) | `message_limit` or `timeout` (integer), or generic `key` + `value` |
 | `cache_clear` | Clear cached state | -- |
 
 ## help
@@ -81,7 +79,3 @@ Get full documentation for a topic.
 | Parameter | Values |
 |---|---|
 | `topic` | `telegram` \| `messages` \| `chats` \| `media` \| `contacts` \| `all` (default) |
-
-## config__open_relay
-
-Opens the relay configuration form in the user's browser. No parameters.
