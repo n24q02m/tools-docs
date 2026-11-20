@@ -1,30 +1,34 @@
 ---
 title: mnemo
-description: Episodic and semantic memory MCP server and CLI
+description: "Persistent AI memory with hybrid search. Open, free, unlimited."
 ---
 
-`mnemo` provides persistent episodic memory, recall, vector indexing, and relationship graphs for AI assistants.
+`mnemo` is a self-hosted MCP server that gives AI agents persistent, searchable long-term memory with hybrid search. All state is one SQLite database under `~/.mnemo/`.
 
-## Surfaces
+Full documentation: [overview](/plugins/servers/mnemo/overview/), [setup](/plugins/servers/mnemo/setup/), [tools reference](/plugins/servers/mnemo/tools/), and [troubleshooting](/plugins/servers/mnemo/troubleshooting/).
 
-- **CLI**: `mnemo remember "fact"`, `mnemo recall "query"`
-- **MCP Server**: Stdio and Streamable HTTP endpoints
-- **Plugin**: Packaged in `claude-plugins/plugins/mnemo-mcp`
-- **Skill & Hook**: Automated memory retrieval hooks
+## At a glance
 
-## Authentication & Storage
-
-Local-first or Cloudflare D1/Vectorize storage using locally configured tokens (`CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`). Never passes data through external third-party relays.
+| | |
+|---|---|
+| Package | PyPI `n24q02m-mnemo` (Python 3.13) |
+| Commands | `n24q02m-mnemo` (the server and its operator subcommands; also installed as `mnemo-mcp`) and `mnemo` (a CLI over the memory database; also installed as `mnemo-pilot`) |
+| MCP transport | Streamable HTTP only, on `/mcp`; there is no stdio transport |
+| Claude Code plugin | `mnemo@n24q02m-plugins`, from `plugins/mnemo` in [n24q02m/claude-plugins](https://github.com/n24q02m/claude-plugins) |
+| Source | [n24q02m/mnemo](https://github.com/n24q02m/mnemo) |
 
 ## Installation
 
 ```sh
-# Scoop (Windows)
-scoop install mnemo
-
 # Homebrew (macOS / Linux)
 brew install n24q02m/tap/mnemo
 
-# PyPI
+# Scoop (Windows)
+scoop bucket add n24q02m https://github.com/n24q02m/scoop-bucket
+scoop install mnemo
+
+# PyPI (Python 3.13)
 pip install n24q02m-mnemo
 ```
+
+[Homebrew and Scoop](/install/package-managers/) explains how the tap and the bucket pin each release.

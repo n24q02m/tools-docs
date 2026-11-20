@@ -23,7 +23,7 @@ See the [registry verifier source](https://github.com/n24q02m/better-semantic-re
 ## Freshness
 
 Records carry a finite expiry window. A record for unchanged source can be
-re-published at any time (`registry-g1` workflow); a **new generation** is issued
+re-published at any time (the `registry-g1` operation of the `cd.yml` workflow); a **new generation** is issued
 only when bsr source changes — publisher image build first, then registry
 publication, then consumer re-pin. Treat the [live release assets](https://github.com/n24q02m/better-semantic-release/releases)
 as authoritative rather than copying an old record.

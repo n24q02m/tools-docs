@@ -17,7 +17,7 @@ It is a library, not a server you install on its own: each product depends on it
 
 ## Installation
 
-`hull` ships as one PyPI dist, **`n24q02m-hull`**. The wheel carries all three import packages; the heavy stacks are opt-in extras:
+`hull` ships as one PyPI dist, **`n24q02m-hull`**. The wheel carries both Python import packages; the heavy stacks are opt-in extras:
 
 ```bash
 pip install n24q02m-hull               # hull_core only (crg, mnemo)
@@ -27,7 +27,7 @@ pip install "n24q02m-hull[mteb]"       # + pyarrow for model_selection MTEB fetc
 
 `import hull_web` without the `[web]` extra raises `ImportError` naming the missing modules and the install command.
 
-The local embedding/rerank HTTP daemon moved to [`fastretrieval`](/fastretrieval/overview/#http-server) on 2026-11-10: the runtime that loads ONNX/GGUF models now serves `/embed` and `/rerank` itself, and `n24q02m-hull[embedding]` no longer exists.
+hull does not run models. The shared embed/rerank HTTP service is `pip install "fastretrieval[server]"` ([`fastretrieval-server`](/fastretrieval/overview/#http-server), serving `/embed` + `/rerank`); hull callers reach it over HTTP.
 
 The TypeScript core ships to npm as **`@n24q02m/hull`**, at the same version as the PyPI dist:
 
@@ -37,7 +37,7 @@ npm install @n24q02m/hull
 
 ## Runtime model
 
-- Python 3.13. Dev with `uv`, always-on with docker.
+- Python 3.11 to 3.15 (CI tests each). Dev with `uv`, always-on with docker.
 - `hull server start` is the only way to run a server; MCP is an HTTP endpoint at `http://host:port/mcp` — never a spawned subprocess.
 - The CLI is the control plane + consumer. With the server down the CLI tells you to start it first; there is no hidden local-core mode.
 - Provider calls are plain OpenAI-spec HTTP (`httpx`). OpenRouter is the pre-wired default. Each task (`embed`, `rerank`, `chat`, `jev_score`) has its own `base_url + api_key + model` cell — change provider by editing config, never code.
@@ -58,9 +58,11 @@ Token hashes are scrypt (`hull token hash`). Wrong token → `401`; disabled use
 ```bash
 uv sync
 uv run hull config init          # write ~/.hull/config.toml (OpenRouter defaults)
-uv run hull token hash mysecret  # mint a token_hash for users.toml / config
+printf '%s' "$TOKEN" | uv run hull token hash  # mint a token_hash for users.toml / config
 uv run hull server start         # serves http://127.0.0.1:8000/mcp
 ```
+
+`hull token hash` reads the token from piped stdin or a hidden prompt; a token on the command line is refused, because it would land in shell history.
 
 ## Development
 

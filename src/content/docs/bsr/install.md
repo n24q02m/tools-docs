@@ -25,13 +25,13 @@ jobs:
       - uses: actions/checkout@v5
         with:
           fetch-depth: 0
-      - uses: n24q02m/better-semantic-release@<full-commit-sha> # v1.6.2
+      - uses: n24q02m/better-semantic-release@<full-commit-sha> # vX.Y.Z
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 Pin the action to a full commit SHA (see [Action pinning](/bsr/pinning/) and the
-[action-pin registry](/bsr/registry/)); the `# v1.6.2` comment is the recorded
+[action-pin registry](/bsr/registry/)); the `# vX.Y.Z` comment is the recorded
 version.
 
 ## Key inputs
@@ -62,7 +62,7 @@ Typical downstream use — notify or deploy on release:
 
 ```yaml
       - id: bsr
-        uses: n24q02m/better-semantic-release@<full-commit-sha> # v1.6.2
+        uses: n24q02m/better-semantic-release@<full-commit-sha> # vX.Y.Z
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
       - if: steps.bsr.outputs.released == 'true'
@@ -75,5 +75,5 @@ Typical downstream use — notify or deploy on release:
 
 Versions come from conventional commits: `fix:` → patch, `feat:` → minor,
 `feat!:`/`BREAKING CHANGE:` → major. Consumer repos in this stack enforce
-`fix|feat`-only PR titles (see the release-ladder rule), so the PR title is the
+`fix|feat`-only PR titles, so the PR title is the
 commit message after squash and drives the bump directly.

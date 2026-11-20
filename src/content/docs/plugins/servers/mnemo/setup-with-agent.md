@@ -49,7 +49,7 @@ Choose **one** of the following per client; Claude Code matches servers by URL, 
 
 ```bash
 /plugin marketplace add n24q02m/claude-plugins
-/plugin install mnemo-mcp@n24q02m-plugins
+/plugin install mnemo@n24q02m-plugins
 ```
 
 The install prompts ask for:

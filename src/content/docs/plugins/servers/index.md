@@ -17,7 +17,7 @@ The stack shares one foundation library ([`hull`](https://github.com/n24q02m/hul
 
 ## Foundation
 
-- [mcp-core](/plugins/servers/mcp-core/) -- Archived foundation library (2026-10-24), superseded by hull (PyPI n24q02m-hull, npm @n24q02m/hull). Not a runnable MCP server.
+- [mcp-core](/plugins/servers/mcp-core/) -- Archived foundation library (2026-10-31), superseded by hull (PyPI n24q02m-hull, npm @n24q02m/hull). Not a runnable MCP server.
 
 ## See also
 
