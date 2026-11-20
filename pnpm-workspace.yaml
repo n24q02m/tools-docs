@@ -10,3 +10,7 @@ overrides:
   '@astrojs/sitemap>zod': '>=4.6.6'
   satteri: 0.11.7
   '@bruits/satteri-win32-x64-msvc': 0.11.7
+# Hold new releases for 7 days (in minutes), the hold renovate.json puts on every
+# update, so the `pnpm install` that Renovate's artifact step runs locks the versions
+# Renovate proposes instead of releases younger than the hold.
+minimumReleaseAge: 10080
