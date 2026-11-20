@@ -3,6 +3,10 @@ title: sillstone Overview
 description: Pure-Rust zero-dependency multimedia, hashing, and array computing suite
 ---
 
+:::caution[Archived]
+This project is archived and no longer maintained. Published packages stay available on their registries but receive no further fixes, including security fixes. The documentation below is kept for reference.
+:::
+
 `sillstone` is a multi-language performance toolkit built on a pure-Rust workspace of 24 crates with zero C-runtime dependencies. It provides consistent, cross-platform multimedia codecs, cryptographic digests, array operations, and archive processing across 5 programming languages:
 
 1. **Rust**: 24 modular crates on [crates.io](https://crates.io/crates/sillstone-digest).

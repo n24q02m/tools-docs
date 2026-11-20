@@ -28,7 +28,6 @@ export default defineConfig({
           { label: 'Reference', collapsed: true, items: [{ autogenerate: { directory: 'plugins/reference' } }] },
         ]},
         { label: 'MCP servers', collapsed: true, items: [{ autogenerate: { directory: 'plugins/servers' } }] },
-        { label: 'sillstone', slug: 'sillstone/overview' },
         { label: 'fastretrieval', slug: 'fastretrieval/overview' },
         { label: 'hull', slug: 'hull/overview' },
         { label: 'MCP & CLI Tools', collapsed: false, items: [
@@ -53,6 +52,7 @@ export default defineConfig({
             { label: 'Install', slug: 'bdrive/install' },
             { label: 'Sync & restore', slug: 'bdrive/sync-restore' },
           ]},
+          { label: 'sillstone', badge: { text: 'Archived', variant: 'danger' }, slug: 'sillstone/overview' },
         ]},
         { label: 'Tool matrix', slug: 'reference/tool-matrix' },
       ],
