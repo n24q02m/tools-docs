@@ -1,32 +1,34 @@
 ---
 title: email
-description: Unified IMAP and SMTP email MCP server and CLI
+description: "IMAP/SMTP email for AI agents -- read, send, organize, and manage attachments across accounts."
 ---
 
-`email` connects directly to standard IMAP/SMTP mailboxes (Gmail, Outlook, Yahoo Mail, iCloud, self-hosted) for searching, reading, moving, drafting, and sending email.
+`email` is an MCP server and CLI that gives AI agents IMAP/SMTP email: read, send, organize, and manage attachments across accounts.
 
-## Features
+Full documentation: [overview](/plugins/servers/email/overview/), [setup](/plugins/servers/email/setup/), [tools reference](/plugins/servers/email/tools/), and [troubleshooting](/plugins/servers/email/troubleshooting/).
 
-- **Adaptive Geometric Windowing**: Fast IMAP search fallback for mailboxes without ESEARCH capability (eliminates sequential request timeouts).
-- **MIME & Attachment Support**: Raw message extraction, sanitized HTML/plain text conversion, and secure attachment handling.
-- **Zero-Relay**: Direct TLS connections between the local agent process and the mail provider's IMAP/SMTP servers.
+## At a glance
 
-## Surfaces
-
-- **CLI**: `email messages search "query"`, `email messages send`
-- **MCP Server**: Stdio and Streamable HTTP endpoints
-- **Plugin**: Packaged in `claude-plugins/plugins/email`
-- **Skill & Hook**: Inbox triage and outbound notifications
+| | |
+|---|---|
+| Package | npm `@n24q02m/email` |
+| Commands | `email`, also installed under its legacy name `better-email-mcp` |
+| MCP transport | stdio by default; Streamable HTTP with `--http` or `MCP_TRANSPORT=http` |
+| Claude Code plugin | `email@n24q02m-plugins`, from `plugins/email` in [n24q02m/claude-plugins](https://github.com/n24q02m/claude-plugins) |
+| Source | [n24q02m/email](https://github.com/n24q02m/email) |
 
 ## Installation
 
 ```sh
-# Scoop (Windows)
-scoop install email
-
 # Homebrew (macOS / Linux)
 brew install n24q02m/tap/email
+
+# Scoop (Windows)
+scoop bucket add n24q02m https://github.com/n24q02m/scoop-bucket
+scoop install email
 
 # npm
 npm install -g @n24q02m/email
 ```
+
+[Homebrew and Scoop](/install/package-managers/) explains how the tap and the bucket pin each release.

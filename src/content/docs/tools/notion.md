@@ -1,30 +1,34 @@
 ---
 title: notion
-description: Notion workspace and document MCP server and CLI
+description: "Markdown-first Notion for AI agents -- pages, databases, blocks, and comments in one call."
 ---
 
-`notion` integrates directly with the Notion API to query databases, read pages, update properties, and append rich-text content blocks.
+`notion` is an MCP server and CLI that gives AI agents Markdown-first access to Notion pages, databases, blocks, and comments.
 
-## Surfaces
+Full documentation: [overview](/plugins/servers/notion/overview/), [setup](/plugins/servers/notion/setup/), [tools reference](/plugins/servers/notion/tools/), and [troubleshooting](/plugins/servers/notion/troubleshooting/).
 
-- **CLI**: `notion search "query"`, `notion pages get <page-id>`
-- **MCP Server**: Stdio and Streamable HTTP endpoints
-- **Plugin**: Packaged in `claude-plugins/plugins/notion`
-- **Skill & Hook**: Document management and knowledge ingestion
+## At a glance
 
-## Authentication
-
-Uses `NOTION_API_KEY` (internal integration token) configured in the local environment or configuration store.
+| | |
+|---|---|
+| Package | npm `@n24q02m/notion` |
+| Commands | `notion`, also installed as `better-notion-mcp` |
+| MCP transport | stdio by default (token from `NOTION_TOKEN` or `notion auth`); Streamable HTTP with `--http` or `MCP_TRANSPORT=http` |
+| Claude Code plugin | `notion@n24q02m-plugins`, from `plugins/notion` in [n24q02m/claude-plugins](https://github.com/n24q02m/claude-plugins) |
+| Source | [n24q02m/notion](https://github.com/n24q02m/notion) |
 
 ## Installation
 
 ```sh
-# Scoop (Windows)
-scoop install notion
-
 # Homebrew (macOS / Linux)
 brew install n24q02m/tap/notion
+
+# Scoop (Windows)
+scoop bucket add n24q02m https://github.com/n24q02m/scoop-bucket
+scoop install notion
 
 # npm
 npm install -g @n24q02m/notion
 ```
+
+[Homebrew and Scoop](/install/package-managers/) explains how the tap and the bucket pin each release.
