@@ -19,9 +19,11 @@ Docs portal at **https://docs.n24q02m.com** covering the n24q02m tool stack:
 - [homebrew-tap](https://github.com/n24q02m/homebrew-tap) and [scoop-bucket](https://github.com/n24q02m/scoop-bucket) — package-manager install channels for skret and the MCP CLIs: [/install/package-managers/](https://docs.n24q02m.com/install/package-managers/).
 - [better-drive](https://github.com/n24q02m/better-drive) (archived 2026-09-13) — cross-platform Google Drive sync & virtual-drive mount (rclone engine). Docs: [/bdrive/overview/](https://docs.n24q02m.com/bdrive/overview/).
 
-The `skret/**` and `plugins/**` sections were ported from the skret and
-claude-plugins Astro sites on 2026-11-10; `docs-redirects.json` maps every old
-page URL on those two domains to its path here.
+The `skret/**` section is compiled at build time from the
+[skret](https://github.com/n24q02m/skret) repository, so its pages are edited there.
+The `plugins/**` section was ported from the claude-plugins Astro site on 2026-11-10.
+`docs-redirects.json` maps every old page URL on those two former doc domains to its
+path here.
 
 The portal is the canonical documentation surface. The Skret shell and PowerShell
 installer entry points are kept at `/install.sh` and `/install.ps1`; each endpoint
@@ -38,11 +40,18 @@ then selects and verifies a versioned release.
 
 ```
 git clone https://github.com/n24q02m/tools-docs.git
+git clone https://github.com/n24q02m/skret.git
 cd tools-docs
 pnpm install
 pnpm run dev     # local preview
 pnpm run build   # outputs dist/
+pnpm test        # tests of the docs compile script (95% coverage gate)
 ```
+
+`pnpm run dev` and `pnpm run build` first run `scripts/sync-sources.mjs`, which compiles
+`src/content/docs/skret/` from the sibling `../skret` checkout (set `SKRET_DIR` to use a
+checkout elsewhere). The build fails if that checkout is missing. The compiled directory
+is not committed.
 
 With [mise](https://mise.jdx.dev/), `mise run setup` installs Node 26, pnpm 12, the
 dependencies and the git hooks, and `mise run dev` / `mise run build` run the same scripts.
@@ -51,6 +60,7 @@ dependencies and the git hooks, and `mise run dev` / `mise run build` run the sa
 
 Deploy is manual: run the **Deploy** workflow (`workflow_dispatch`) -> `wrangler pages deploy dist --project-name=tools-n24q02m --branch=main`.
 The Pages project is a Direct Upload project with no git source, so a push to `main` runs CI (build check) but does not publish.
+The deploy compiles the skret pages from the `main` branch of skret, so a docs change merged there is published by the next deploy.
 Requires repo secrets `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`. See `DEPLOY.md`.
 
 <!-- BEGIN: AUTO-GENERATED-CROSS-PROMO -->

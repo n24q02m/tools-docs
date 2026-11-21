@@ -13,7 +13,9 @@ npx/Docker/local-build install method, and has no Page URL section and no Browse
 path = "CONTRIBUTING.md"
 reason = """
 The shared template tells contributors to run `mise run lint` and `mise run test` and
-requires tests with >=95% coverage. This repo is an Astro docs site with no test suite
-and no lint task: CI checks that `pnpm run build` succeeds and runs CodeQL. The steps
-here name the `mise run build` and `mise run dev` tasks that exist in `.mise.toml`.
+requires tests with >=95% coverage. This repo is an Astro docs site with no lint task.
+Its only tests cover `scripts/sync-sources.mjs`, the script that compiles the skret
+docs, and `pnpm test` fails below 95% line, branch or function coverage of it. CI runs
+those tests, checks that `pnpm run build` succeeds and runs CodeQL. The steps here name
+the `mise run test`, `mise run build` and `mise run dev` tasks that exist in `.mise.toml`.
 """

@@ -7,8 +7,8 @@
   tracked installer source. Keep these paths stable; users may pipe either response to
   their shell or PowerShell.
 - Repo secrets: `CLOUDFLARE_API_TOKEN` (Pages:Edit + Zone:Read only on n24q02m.com — DNS edit claim removed 2026-09-17, verified false via dns_records 10000 on run 35173109936), `CLOUDFLARE_ACCOUNT_ID`
-- Docs consolidation 2026-11-10: `src/content/docs/skret/**` (ported from `n24q02m/skret`
-  `docs/`) and `src/content/docs/plugins/**` (ported from `n24q02m/claude-plugins` `docs/`)
+- Docs consolidation 2026-11-10: `src/content/docs/skret/**` (compiled at build time from
+  `n24q02m/skret` `docs/`) and `src/content/docs/plugins/**` (ported from `n24q02m/claude-plugins` `docs/`)
   are served from this site, so the former `/skret/*` catch-all in `public/_redirects` is
   gone and only the pre-consolidation short slugs redirect. Old page URLs on
   `skret.n24q02m.com` and `docs.n24q02m.com` map through the root `docs-redirects.json`;
@@ -17,9 +17,11 @@
 
 The deploy workflow (`.github/workflows/cd.yml`) is manual: it runs on `workflow_dispatch`
 only, because the Pages project has no git source (Direct Upload) — a push to `main` runs
-CI but does not publish. It installs pnpm 12 (Node 26) and runs
-`pnpm install --frozen-lockfile`, `pnpm run build`, then
+CI but does not publish. It checks out `n24q02m/skret` at `main` under `sources/skret`,
+installs pnpm 12 (Node 26) and runs `pnpm install --frozen-lockfile`, `pnpm run build`
+(which compiles the `skret/` section from that checkout), then
 `wrangler pages deploy dist --project-name=tools-n24q02m --branch=main`.
+A docs change merged in skret is published by the next run.
 The old Skret Astro deployment should be reduced to a redirect-only deployment after
 the aliases are live; see the R13 handoff evidence for the exact route map and
 post-deploy checks.
