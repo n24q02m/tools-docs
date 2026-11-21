@@ -11,8 +11,8 @@
 /banner.png https://raw.githubusercontent.com/n24q02m/skret/main/docs/public/banner.png 302
 /install.sh https://github.com/n24q02m/skret/releases/latest/download/install.sh 302
 /install.ps1 https://github.com/n24q02m/skret/releases/latest/download/install.ps1 302
-# skret docs are served from this site (src/content/docs/skret/**, ported from
-# the skret repo docs/ tree on 2026-11-10). Only the pre-consolidation short
+# skret docs are served from this site (src/content/docs/skret/**, compiled from
+# the skret repo docs/ tree at build time). Only the pre-consolidation short
 # slugs are redirected now; the /skret/* catch-all is gone so the ported pages
 # are reachable. Old skret.n24q02m.com URLs are mapped in docs-redirects.json.
 /skret/install/ /skret/guide/installation/ 301

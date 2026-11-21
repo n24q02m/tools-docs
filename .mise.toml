@@ -24,3 +24,7 @@ run = "pnpm run dev"
 [tasks.build]
 description = "Build the site into dist/ (the check CI runs)"
 run = "pnpm run build"
+
+[tasks.test]
+description = "Test the script that compiles the skret docs (95% coverage gate)"
+run = "pnpm test"

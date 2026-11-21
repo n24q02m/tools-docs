@@ -4,9 +4,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview"
+    "dev": "node scripts/sync-sources.mjs && astro dev",
+    "build": "node scripts/sync-sources.mjs && astro build",
+    "preview": "astro preview",
+    "test": "node --test --experimental-test-coverage --test-coverage-include=scripts/sync-sources.mjs --test-coverage-lines=95 --test-coverage-branches=95 --test-coverage-functions=95 scripts/sync-sources.test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
