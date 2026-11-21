@@ -1,23 +1,22 @@
 ---
-title: sillstone Overview
-description: Pure-Rust zero-dependency multimedia, hashing, and array computing suite
+title: sillstone
+description: "Archived (2026-11-20), no longer maintained. The last release is 0.4.1."
 ---
 
-:::caution[Archived]
-This project is archived and no longer maintained. Published packages stay available on their registries but receive no further fixes, including security fixes. The documentation below is kept for reference.
+:::caution[Archived (2026-11-20)]
+`sillstone` is archived and no longer maintained. It receives no further releases or fixes, including security fixes.
 :::
 
-`sillstone` is a multi-language performance toolkit built on a pure-Rust workspace of 24 crates with zero C-runtime dependencies. It provides consistent, cross-platform multimedia codecs, cryptographic digests, array operations, and archive processing across 5 programming languages:
+`sillstone` was a pure-Rust multimedia, hashing, and array suite with bindings for Python, Node.js, Java, and Go. The last release is `0.4.1`. Its packages stay on their registries, but nothing new will be published:
 
-1. **Rust**: 24 modular crates on [crates.io](https://crates.io/crates/sillstone-digest).
-2. **Python**: Native C-extension wheel on [PyPI](https://pypi.org/project/sillstone/).
-3. **Node.js**: N-API native prebuilds package on [npm](https://www.npmjs.com/package/sillstone).
-4. **Java**: High-performance JNI bindings published under `io.github.n24q02m:sillstone`.
-5. **Go**: CGo bindings available via Go module `github.com/n24q02m/sillstone/sdk/go`.
+- crates.io: the `sillstone-*` crates
+- PyPI: `sillstone`
+- npm: `sillstone`
+- Maven Central: `io.github.n24q02m:sillstone`
+- Go: `github.com/n24q02m/sillstone/sdk/go`
 
-## Codec & Digest Suite
+This page keeps its URL so existing links resolve, but now holds only this notice.
 
-- **Digests**: SHA-2, SHA-3, BLAKE3, HighwayHash, Murmur3, xxHash, CRC32.
-- **Audio & Video Codecs**: FLAC, MP3, MP4 demuxing, H.264 NAL parsing.
-- **Image Codecs**: PNG, JPEG, QOI, WebP inspection.
-- **Archive & Container Formats**: ZIP, TAR (PAX compliant), PDF parsing, CDC (Content-Defined Chunking).
+## Source
+
+- [GitHub: n24q02m/sillstone](https://github.com/n24q02m/sillstone) (archived)
