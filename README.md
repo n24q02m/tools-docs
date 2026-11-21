@@ -19,10 +19,10 @@ Docs portal at **https://docs.n24q02m.com** covering the n24q02m tool stack:
 - [homebrew-tap](https://github.com/n24q02m/homebrew-tap) and [scoop-bucket](https://github.com/n24q02m/scoop-bucket) — package-manager install channels for skret and the MCP CLIs: [/install/package-managers/](https://docs.n24q02m.com/install/package-managers/).
 - [better-drive](https://github.com/n24q02m/better-drive) (archived 2026-09-13) — cross-platform Google Drive sync & virtual-drive mount (rclone engine). Docs: [/bdrive/overview/](https://docs.n24q02m.com/bdrive/overview/).
 
-The `skret/**` section is compiled at build time from the
-[skret](https://github.com/n24q02m/skret) repository, so its pages are edited there.
-The `plugins/**` section was ported from the claude-plugins Astro site on 2026-11-10.
-`docs-redirects.json` maps every old page URL on those two former doc domains to its
+The `skret/**` and `plugins/**` sections are compiled at build time from the
+[skret](https://github.com/n24q02m/skret) and
+[claude-plugins](https://github.com/n24q02m/claude-plugins) repositories, so their
+pages are edited there. `docs-redirects.json` maps every old page URL on those two former doc domains to its
 path here.
 
 The portal is the canonical documentation surface. The Skret shell and PowerShell
@@ -41,6 +41,7 @@ then selects and verifies a versioned release.
 ```
 git clone https://github.com/n24q02m/tools-docs.git
 git clone https://github.com/n24q02m/skret.git
+git clone https://github.com/n24q02m/claude-plugins.git
 cd tools-docs
 pnpm install
 pnpm run dev     # local preview
@@ -49,9 +50,12 @@ pnpm test        # tests of the docs compile script (95% coverage gate)
 ```
 
 `pnpm run dev` and `pnpm run build` first run `scripts/sync-sources.mjs`, which compiles
-`src/content/docs/skret/` from the sibling `../skret` checkout (set `SKRET_DIR` to use a
-checkout elsewhere). The build fails if that checkout is missing. The compiled directory
-is not committed.
+`src/content/docs/skret/` from the sibling `../skret` checkout and
+`src/content/docs/plugins/` from the sibling `../claude-plugins` checkout (set
+`SKRET_DIR` or `CLAUDE_PLUGINS_DIR` to use a checkout elsewhere). For claude-plugins it
+first runs that repository's `docs/scripts/sync-plugin-docs.mjs`, which renders the
+server pages from `plugins/<name>/*.md`. The build fails if either checkout is missing.
+The compiled directories are not committed.
 
 With [mise](https://mise.jdx.dev/), `mise run setup` installs Node 26, pnpm 12, the
 dependencies and the git hooks, and `mise run dev` / `mise run build` run the same scripts.
@@ -60,7 +64,7 @@ dependencies and the git hooks, and `mise run dev` / `mise run build` run the sa
 
 Deploy is manual: run the **Deploy** workflow (`workflow_dispatch`) -> `wrangler pages deploy dist --project-name=tools-n24q02m --branch=main`.
 The Pages project is a Direct Upload project with no git source, so a push to `main` runs CI (build check) but does not publish.
-The deploy compiles the skret pages from the `main` branch of skret, so a docs change merged there is published by the next deploy.
+The deploy compiles the skret and claude-plugins pages from the `main` branches of those repositories, so a docs change merged there is published by the next deploy.
 Requires repo secrets `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID`. See `DEPLOY.md`.
 
 <!-- BEGIN: AUTO-GENERATED-CROSS-PROMO -->

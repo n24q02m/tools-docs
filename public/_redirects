@@ -21,6 +21,12 @@
 /skret/providers/ /skret/providers/comparison/ 301
 /skret/reference/ /skret/reference/commands/ 301
 /skret/secrets/ /skret/guide/configuration/ 301
+# The archived mcp-core section kept four pages the claude-plugins source no longer
+# has; they are compiled from there now, so the old URLs land on the section root.
+/plugins/servers/mcp-core/architecture/ /plugins/servers/mcp-core/ 301
+/plugins/servers/mcp-core/migration/ /plugins/servers/mcp-core/ 301
+/plugins/servers/mcp-core/shared-services/ /plugins/servers/mcp-core/ 301
+/plugins/servers/mcp-core/trust-model/ /plugins/servers/mcp-core/ 301
 # Library roots have no index page (only overview.md), so the bare trailing-slash
 # URLs redirect to their overview page instead of returning 404.
 /bsr/ /bsr/overview/ 301

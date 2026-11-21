@@ -1,21 +1,28 @@
 #!/usr/bin/env node
 /**
- * Compile the skret documentation into this site.
+ * Compile the skret and claude-plugins documentation into this site.
  *
- * src/content/docs/skret/ is not tracked in this repository: every build
- * regenerates it from the skret repository, so the portal cannot drift from it.
+ * src/content/docs/skret/ and src/content/docs/plugins/ are not tracked in this
+ * repository: every build regenerates them from their source repositories, so the
+ * portal cannot drift from them.
  *
- *   <SKRET_DIR>/docs/src/content/docs/**  -> skret/**
- *   src/portal-pages/**                   -> same path (portal pages with no
- *     source page; one may not shadow a source page)
+ *   <SKRET_DIR>/docs/src/content/docs/**           -> skret/**
+ *   <CLAUDE_PLUGINS_DIR>/docs/src/content/docs/**  -> plugins/**
+ *   src/portal-pages/**                            -> same path (portal pages with
+ *     no source page; one may not shadow a source page)
  *
- * SKRET_DIR defaults to the sibling checkout ../skret. A missing source is an
- * error: the build never publishes a stub.
+ * The claude-plugins server pages (servers/<name>/) are rendered from
+ * plugins/<name>/*.md by that repository's own generator,
+ * docs/scripts/sync-plugin-docs.mjs, which runs first.
+ *
+ * SKRET_DIR and CLAUDE_PLUGINS_DIR default to the sibling checkouts ../skret and
+ * ../claude-plugins. A missing source is an error: the build never publishes a stub.
  *
  * Each source page is adapted to its mount point:
  *   - a root-relative link into the source site gets the mount prefix
  *     (/guide/x/ -> /skret/guide/x/);
- *   - editUrl points at the source file, unless the page sets its own;
+ *   - editUrl points at the source file, unless the page sets its own (the
+ *     generated server pages keep the generator's, if any);
  *   - the splash hero image is dropped: its asset path only resolves in the source site.
  *
  * Output is deterministic: sorted traversal, LF line endings.
@@ -23,20 +30,30 @@
  * Usage: node scripts/sync-sources.mjs (run by the build and dev scripts)
  */
 
+import { execFileSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const CONTENT = join('docs', 'src', 'content', 'docs');
+const GENERATOR = join('docs', 'scripts', 'sync-plugin-docs.mjs');
 const SKRET_EDIT = 'https://github.com/n24q02m/skret/edit/main/docs/src/content/docs';
-const MOUNTS = ['skret'];
+const PLUGINS_EDIT = 'https://github.com/n24q02m/claude-plugins/edit/main/docs/src/content/docs';
+// Older claude-plugins checkouts hold copies of this portal's sections there,
+// written by its former reverse syncs; never feed them back in.
+const PLUGINS_SKIP = new Set(['tools', 'skret']);
+// Written by the generator, which sets editUrl itself; there is no file to edit there.
+const PLUGINS_GENERATED = new Set(['servers']);
+const MOUNTS = ['skret', 'plugins'];
 
-// Sorted POSIX paths of every file under root. Default sort order is by UTF-16
-// code unit, so it does not depend on the locale.
-function walk(root) {
+// Sorted POSIX paths of every file under root, skipping the named top-level
+// entries. Default sort order is by UTF-16 code unit, so it does not depend on
+// the locale.
+function walk(root, skip = new Set()) {
   const files = [];
   const visit = (dir, prefix) => {
     for (const name of readdirSync(dir).sort()) {
+      if (!prefix && skip.has(name)) continue;
       const rel = prefix ? `${prefix}/${name}` : name;
       if (statSync(join(dir, name)).isDirectory()) visit(join(dir, name), rel);
       else files.push(rel);
@@ -81,27 +98,45 @@ function requirePath(path, what, env, repo) {
 }
 
 // Read one source site into [portal path, content] pairs.
-function compileSite(contentDir, { mount, editBase }) {
-  const files = walk(contentDir);
+function compileSite(contentDir, { mount, editBase, skip, generated = new Set() }) {
+  const files = walk(contentDir, skip);
   const names = sections(files);
   return files.map((rel) => {
     const raw = readFileSync(join(contentDir, rel));
     if (!isPage(rel)) return [`${mount}/${rel}`, raw];
     const text = prefixLinks(dropHeroImage(toLf(raw.toString('utf8'))), names, mount);
+    if (generated.has(rel.split('/')[0])) return [`${mount}/${rel}`, text];
     return [`${mount}/${rel}`, withEditUrl(text, `${editBase}/${rel}`)];
   });
 }
 
 /**
- * Regenerate <docsDir>/skret from the skret checkout plus the overlay. Every input
- * is checked before anything under docsDir changes.
+ * Regenerate <docsDir>/skret and <docsDir>/plugins from the two source checkouts
+ * plus the overlay. Every input is checked before anything under docsDir changes.
  */
-export function syncSources({ skretDir, docsDir, overlayDir }) {
+export function syncSources({ skretDir, pluginsDir, docsDir, overlayDir }) {
   const skretContent = join(skretDir, CONTENT);
+  const pluginsContent = join(pluginsDir, CONTENT);
+  const generator = join(pluginsDir, GENERATOR);
   requirePath(skretContent, 'skret docs', 'SKRET_DIR', 'n24q02m/skret');
+  requirePath(pluginsContent, 'claude-plugins docs', 'CLAUDE_PLUGINS_DIR', 'n24q02m/claude-plugins');
+  requirePath(generator, 'claude-plugins server-page generator', 'CLAUDE_PLUGINS_DIR', 'n24q02m/claude-plugins');
 
-  const pages = new Map(compileSite(skretContent, { mount: 'skret', editBase: SKRET_EDIT }));
-  const counts = { skret: pages.size, overlay: 0 };
+  try {
+    execFileSync(process.execPath, [generator], { cwd: join(pluginsDir, 'docs'), stdio: ['ignore', 'ignore', 'inherit'] });
+  } catch (err) {
+    throw new Error(`claude-plugins server-page generator failed: ${err.message}`);
+  }
+
+  const skret = compileSite(skretContent, { mount: 'skret', editBase: SKRET_EDIT });
+  const plugins = compileSite(pluginsContent, {
+    mount: 'plugins',
+    editBase: PLUGINS_EDIT,
+    skip: PLUGINS_SKIP,
+    generated: PLUGINS_GENERATED,
+  });
+  const pages = new Map([...skret, ...plugins]);
+  const counts = { skret: skret.length, plugins: plugins.length, overlay: 0 };
 
   for (const rel of existsSync(overlayDir) ? walk(overlayDir) : []) {
     if (!MOUNTS.includes(rel.split('/')[0])) {
@@ -124,14 +159,20 @@ export function syncSources({ skretDir, docsDir, overlayDir }) {
   return counts;
 }
 
-/** Compile into the site at root, reading skret from SKRET_DIR or the sibling ../skret. */
+/**
+ * Compile into the site at root, reading skret from SKRET_DIR or the sibling
+ * ../skret, and claude-plugins from CLAUDE_PLUGINS_DIR or the sibling ../claude-plugins.
+ */
 export function main(root, env) {
   const counts = syncSources({
     skretDir: resolve(env.SKRET_DIR || join(root, '..', 'skret')),
+    pluginsDir: resolve(env.CLAUDE_PLUGINS_DIR || join(root, '..', 'claude-plugins')),
     docsDir: join(root, 'src', 'content', 'docs'),
     overlayDir: join(root, 'src', 'portal-pages'),
   });
-  console.log(`sync-sources: ${counts.skret} skret and ${counts.overlay} portal-only file(s)`);
+  console.log(
+    `sync-sources: ${counts.skret} skret, ${counts.plugins} claude-plugins and ${counts.overlay} portal-only file(s)`,
+  );
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

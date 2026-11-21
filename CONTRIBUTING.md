@@ -3,12 +3,14 @@
 ## Development Setup
 
 1. Install [mise](https://mise.jdx.dev/)
-2. Clone [skret](https://github.com/n24q02m/skret) next to this repository, or set
-   `SKRET_DIR` to a checkout elsewhere
+2. Clone [skret](https://github.com/n24q02m/skret) and
+   [claude-plugins](https://github.com/n24q02m/claude-plugins) next to this repository,
+   or set `SKRET_DIR` and `CLAUDE_PLUGINS_DIR` to checkouts elsewhere
 3. Run `mise run setup`
-4. Make your changes. Pages live under `src/content/docs/`, except the `skret/` section:
-   the build compiles it from skret, so change those pages there. Portal pages under
-   `skret/` that have no source page live in `src/portal-pages/skret/`.
+4. Make your changes. Pages live under `src/content/docs/`, except the `skret/` and
+   `plugins/` sections: the build compiles them from skret and claude-plugins, so change
+   those pages there. Portal pages under `skret/` or `plugins/` that have no source page
+   live in `src/portal-pages/`.
 5. Run `mise run test` and `mise run build`, and check the pages with `mise run dev`
 6. Commit with `feat:` or `fix:` prefix
 

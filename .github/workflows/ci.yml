@@ -18,21 +18,32 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      # The skret/ section is compiled from this repository.
+      # The skret/ and plugins/ sections are compiled from these repositories.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: n24q02m/skret
           ref: main
           path: sources/skret
           persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: n24q02m/claude-plugins
+          ref: main
+          path: sources/claude-plugins
+          persist-credentials: false
       - name: Compiled sections are not committed
         run: |
-          tracked="$(git ls-files src/content/docs/skret)"
-          if [ -n "$tracked" ]; then
-            echo "::error::src/content/docs/skret/ is compiled from the skret repository at build time. Edit the page there, and remove these files from git:"
-            echo "$tracked"
-            exit 1
-          fi
+          status=0
+          for section in skret:skret plugins:claude-plugins; do
+            dir="src/content/docs/${section%%:*}"
+            tracked="$(git ls-files "$dir")"
+            if [ -n "$tracked" ]; then
+              echo "::error::$dir/ is compiled from the ${section#*:} repository at build time. Edit the page there, and remove these files from git:"
+              echo "$tracked"
+              status=1
+            fi
+          done
+          exit "$status"
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
           node-version: 26
@@ -44,6 +55,7 @@ jobs:
       - run: pnpm run build
         env:
           SKRET_DIR: ${{ github.workspace }}/sources/skret
+          CLAUDE_PLUGINS_DIR: ${{ github.workspace }}/sources/claude-plugins
 
   analyze:
     name: Analyze (CodeQL)
