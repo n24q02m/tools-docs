@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import test from 'node:test';
@@ -20,9 +20,10 @@ function write(root, rel, content) {
 function tree(root) {
   const files = {};
   const walk = (dir) => {
-    for (const name of readdirSync(dir).sort()) {
-      const path = join(dir, name);
-      if (statSync(path).isDirectory()) walk(path);
+    const entries = readdirSync(dir, { withFileTypes: true }).sort((a, b) => (a.name < b.name ? -1 : 1));
+    for (const entry of entries) {
+      const path = join(dir, entry.name);
+      if (entry.isDirectory()) walk(path);
       else files[path.slice(root.length + 1).replace(/\\/g, '/')] = readFileSync(path, 'utf8');
     }
   };
