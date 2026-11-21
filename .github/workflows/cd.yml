@@ -15,12 +15,18 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      # The skret/ section is compiled from this repository.
+      # The skret/ and plugins/ sections are compiled from these repositories.
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: n24q02m/skret
           ref: main
           path: sources/skret
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: n24q02m/claude-plugins
+          ref: main
+          path: sources/claude-plugins
           persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
@@ -32,6 +38,7 @@ jobs:
       - run: pnpm run build
         env:
           SKRET_DIR: ${{ github.workspace }}/sources/skret
+          CLAUDE_PLUGINS_DIR: ${{ github.workspace }}/sources/claude-plugins
       - uses: cloudflare/wrangler-action@953926a2e2182532811c01a25e53647d93bf07c0 # v4.1.3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}

@@ -1,7 +1,8 @@
 node_modules/
 dist/
 .astro/
-# Compiled from the skret repository by scripts/sync-sources.mjs.
+# Compiled from the skret and claude-plugins repositories by scripts/sync-sources.mjs.
 src/content/docs/skret/
+src/content/docs/plugins/
 # Source checkouts the CI and deploy workflows clone for that compile.
 sources/
