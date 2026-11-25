@@ -39,15 +39,20 @@ The one-shot form works too, without adding the tap first:
 | `email` | formula | yes | IMAP and SMTP email MCP server/CLI — [docs](/tools/email/) |
 | `notion` | formula | yes | Notion workspace and document MCP server/CLI — [docs](/tools/notion/) |
 | `workspace` | formula | yes | Google Workspace MCP server/CLI — [docs](/tools/workspace/) |
+| `bsr` | formula | yes | better-semantic-release command line (`bsr`, `better-semantic-release`) — [docs](/bsr/install/) |
+| `fastretrieval` | formula | yes | Multi-model retrieval runtime for ONNX and GGUF embeddings and reranking — [docs](/fastretrieval/overview/) |
+
+Ten packages in total: one cask, nine formulae, and a matching Scoop manifest for each.
 
 `skret` is a cask because the tap distributes its prebuilt Go release archives: one
 checksummed archive per target (macOS and Linux, arm64 and amd64). The cask installs
 the binary and generates bash, zsh and fish completions from `skret completion`.
 
-The seven formulae install the release the package registry serves, with every
-dependency pinned by hash. `crg`, `mnemo`, `telegram` and `wet` install the PyPI wheel
-into a uv virtualenv on `python@3.13` from a hashed lock of the release's
-dependencies; on macOS they need Apple silicon. `email`, `notion` and `workspace`
+The nine formulae install the release the package registry serves, with every
+dependency pinned by hash. `bsr`, `crg`, `fastretrieval`, `mnemo`, `telegram` and `wet`
+install the PyPI wheel into a uv virtualenv on `python@3.13` from a hashed lock of the
+release's dependencies; `crg`, `fastretrieval`, `mnemo`, `telegram` and `wet` need Apple
+silicon on macOS. `email`, `notion` and `workspace`
 install the npm tarball with `npm ci --omit=dev --ignore-scripts` against a pinned
 lock file and depend on `node`. Each formula's `brew test` runs the installed binary
 with `--version`.
@@ -61,9 +66,11 @@ install the npm tarball with `npm ci` and depend on `nodejs`.
 
 Both repositories are updated by workflows, not by hand:
 
-- skret's own `CD` workflow, run with `release_type=update-taps`, rewrites the cask
-  (`Casks/skret.rb`) and its Scoop manifest (`bucket/skret.json`) from the
-  `checksums.txt` of a published stable release. Prereleases are refused.
+- skret's own `CD` workflow rewrites the cask (`Casks/skret.rb`) and its Scoop
+  manifest (`bucket/skret.json`) from the `checksums.txt` of a published stable
+  release. A stable dispatch does this automatically after publishing and also syncs
+  the `skret` plugin into `claude-plugins`; `release_type=update-taps` remains
+  available to repair a tap by hand. Prereleases are refused.
 - For every other package, the `CD` workflow of the tap and of the bucket
   (`workflow_dispatch`) runs `scripts/bump.py` against the registry release,
   regenerates the lock files, then opens a pull request and merges it once its

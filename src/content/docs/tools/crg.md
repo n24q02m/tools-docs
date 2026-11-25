@@ -11,10 +11,11 @@ Full documentation: [overview](/plugins/servers/crg/overview/), [setup](/plugins
 
 | | |
 |---|---|
-| Package | PyPI `n24q02m-crg` (Python 3.13) |
+| Package | PyPI `n24q02m-crg` (Python 3.11–3.14; 3.15 exempt pending `onnxruntime` wheel) |
 | Commands | `crg`, also installed as `n24q02m-crg` and as the legacy alias `better-code-review-graph` |
 | CLI subcommands | `config`, `db`, `graph`, `query`, `review`, `security`, `server`, `token` |
 | MCP transport | stdio by default; Streamable HTTP with `crg server start` |
+| State directory | `<repo>/.crg/` (graph store) and `~/.n24q02m/crg/` (config, profiles, multi-user namespaces) |
 | Claude Code plugin | `crg@n24q02m-plugins`, from `plugins/crg` in [n24q02m/claude-plugins](https://github.com/n24q02m/claude-plugins) |
 | Source | [n24q02m/crg](https://github.com/n24q02m/crg) |
 
@@ -28,7 +29,7 @@ brew install n24q02m/tap/crg
 scoop bucket add n24q02m https://github.com/n24q02m/scoop-bucket
 scoop install crg
 
-# PyPI (Python 3.13)
+# PyPI (Python 3.11-3.14)
 pip install n24q02m-crg
 ```
 

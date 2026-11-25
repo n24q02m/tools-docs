@@ -11,7 +11,7 @@ description: Cloud-provider secret manager CLI with Doppler/Infisical-grade DX
 - **CLI**: `skret get <KEY>`, `skret set <KEY> [VALUE]`, `skret list`, `skret env`, `skret run -- <command>`. See the [command reference](/skret/reference/commands/).
 - **Sync**: `skret sync --to=github` pushes secrets to GitHub Actions repository secrets. See [sync](/skret/guide/sync/) for the other targets.
 - **Leak guard and audit**: `skret scan` exits `10` when a managed secret value appears in tracked files; `skret audit` shows who changed or read which secret, from the local provider's log or an AWS CloudTrail export. See [scan](/skret/guide/scan/).
-- **MCP server**: `skret-mcp`, read-only by default. See [MCP](/skret/guide/mcp/).
+- **MCP server & plugin**: `skret mcp` (single `skret` binary subcommand, read-only by default) and Claude Code plugin `skret@n24q02m-plugins`. See [MCP](/skret/guide/mcp/).
 
 ## Installation
 

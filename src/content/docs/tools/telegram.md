@@ -3,7 +3,7 @@ title: telegram
 description: "Telegram for AI agents: messages, chats, media, and contacts in bot and user-account modes."
 ---
 
-`telegram` is an MCP server and CLI that gives AI agents Telegram messages, chats, media, and contacts, in bot mode or user-account mode.
+`telegram` is an MCP server and CLI that gives AI agents Telegram messages, chats, media, and contacts across bot and user accounts (with named multi-account support).
 
 Full documentation: [overview](/plugins/servers/telegram/overview/), [setup](/plugins/servers/telegram/setup/), [tools reference](/plugins/servers/telegram/tools/), and [troubleshooting](/plugins/servers/telegram/troubleshooting/).
 
@@ -11,9 +11,10 @@ Full documentation: [overview](/plugins/servers/telegram/overview/), [setup](/pl
 
 | | |
 |---|---|
-| Package | PyPI `n24q02m-telegram` (Python 3.13) |
+| Package | PyPI `n24q02m-telegram` (Python 3.11–3.15) |
 | Commands | `telegram`, also installed as `n24q02m-telegram` and as the legacy alias `better-telegram-mcp` |
 | MCP transport | stdio by default; Streamable HTTP with `--http` or `MCP_TRANSPORT=http` |
+| Accounts & state | Named multi-account support; config and state under `~/.n24q02m/telegram/` |
 | Claude Code plugin | `telegram@n24q02m-plugins`, from `plugins/telegram` in [n24q02m/claude-plugins](https://github.com/n24q02m/claude-plugins) |
 | Source | [n24q02m/telegram](https://github.com/n24q02m/telegram) |
 
@@ -27,7 +28,7 @@ brew install n24q02m/tap/telegram
 scoop bucket add n24q02m https://github.com/n24q02m/scoop-bucket
 scoop install telegram
 
-# PyPI (Python 3.13)
+# PyPI (Python 3.11-3.15)
 pip install n24q02m-telegram
 ```
 

@@ -11,6 +11,22 @@ description: "Fast multi-model retrieval runtime: ONNX and GGUF embeddings, rera
 - **Model families**: dense, sparse (SPLADE) and late-interaction (ColBERT) text embeddings; image and late-interaction multimodal (ColPali) embeddings with the `image` extra; cross-encoder and yes/no generative reranking.
 - **Runtimes**: CPython 3.11 to 3.15. onnxruntime has no Python 3.15 wheel yet, so on 3.15 loading an ONNX model raises an `ImportError` that says so.
 
+## Installation
+
+```sh
+# Homebrew (macOS / Linux)
+brew install n24q02m/tap/fastretrieval
+
+# Scoop (Windows)
+scoop bucket add n24q02m https://github.com/n24q02m/scoop-bucket
+scoop install fastretrieval
+
+# PyPI (Python 3.11-3.15)
+pip install fastretrieval
+```
+
+[Homebrew and Scoop](/install/package-managers/) explains how the tap and the bucket pin each release.
+
 ## HTTP server
 
 The `server` extra ships a small ASGI service, so several processes share one model instance instead of each loading its own ONNX/GGUF session:
