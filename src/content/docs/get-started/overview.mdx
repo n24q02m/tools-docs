@@ -2,22 +2,23 @@
 title: Get started
 description: What the toolchain solves and how the tools fit together
 ---
-The toolchain covers the three recurring jobs of running your own software fleet:
+The toolchain covers the core layers of running your own AI-agent and software fleet:
 
 import { CardGrid, LinkCard } from '@astrojs/starlight/components';
 
 <CardGrid>
-  <LinkCard title="Keep secrets out of the repo" href="/skret/overview/" description="skret wraps cloud secret managers (AWS SSM Parameter Store, Azure Key Vault, GCP Secret Manager, OCI Vault) or a local file with a developer-first CLI." />
-  <LinkCard title="Release safely" href="/bsr/overview/" description="better-semantic-release (bsr) is a drop-in fork of python-semantic-release with built-in release-safety guards." />
-  <LinkCard title="Back up and restore (Archived)" href="/bdrive/overview/" description="better-drive was a cross-platform Google Drive sync and virtual-drive mount built on rclone." />
+  <LinkCard title="Keep secrets out of the repo" href="/skret/overview/" description="skret wraps cloud secret managers (AWS SSM Parameter Store, Azure Key Vault, GCP Secret Manager, OCI Vault) or a local file with a single CLI binary and skret mcp." />
+  <LinkCard title="Agent MCP & CLI tools" href="/plugins/servers/" description="Seven 4-surface MCP and CLI tools (wet, mnemo, crg, telegram, email, notion, workspace) plus 8 Claude Code plugins in n24q02m/claude-plugins." />
+  <LinkCard title="Shared core & retrieval" href="/hull/overview/" description="hull (Python/TypeScript core with 3 isolation layers) and fastretrieval (ONNX/GGUF embedding and reranking runtime)." />
+  <LinkCard title="Release safely" href="/bsr/overview/" description="better-semantic-release (bsr) is a drop-in fork of python-semantic-release with signed action-pin and release-safety guards." />
 </CardGrid>
 
-## The typical loop
+## Distribution and installation
 
 <CardGrid>
-  <LinkCard title="Read secrets" href="/skret/overview/" description="Developers read secrets with skret get / skret env; CI reads them via OIDC instead of long-lived keys." />
-  <LinkCard title="Release safely" href="/bsr/overview/" description="Merges to main are released by the bsr GitHub Action: version bump, tag, changelog and release assets — beta first, stable when you say so." />
-  <LinkCard title="Back up and restore (Archived)" href="/bdrive/overview/" description="Machines backed up through better-drive jobs with .driveignore filters; restores are pull-based from the same encrypted remotes. better-drive is archived — use rclone directly for new setups." />
+  <LinkCard title="Homebrew & Scoop (10 packages)" href="/install/package-managers/" description="Install skret, wet, mnemo, crg, telegram, email, notion, workspace, bsr, and fastretrieval via brew or scoop." />
+  <LinkCard title="Claude Code plugin marketplace" href="/plugins/get-started/" description="Add n24q02m/claude-plugins to install the 7 MCP server plugins plus skret (8 plugins total)." />
+  <LinkCard title="Tool matrix" href="/reference/tool-matrix/" description="Compare surfaces, runtimes, state roots, and install channels across the stack." />
 </CardGrid>
 
 ## Where to go next

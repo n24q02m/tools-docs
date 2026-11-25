@@ -11,9 +11,10 @@ Full documentation: [overview](/plugins/servers/notion/overview/), [setup](/plug
 
 | | |
 |---|---|
-| Package | npm `@n24q02m/notion` |
+| Package | npm `@n24q02m/notion` (Node >= 22.12; LTS matrix 22 / 24 / 26) |
 | Commands | `notion`, also installed as `better-notion-mcp` |
 | MCP transport | stdio by default (token from `NOTION_TOKEN` or `notion auth`); Streamable HTTP with `--http` or `MCP_TRANSPORT=http` |
+| Accounts & state | Named multi-account support (`NOTION_ACCOUNT`, `notion auth`); config and state under `~/.n24q02m/notion/` |
 | Claude Code plugin | `notion@n24q02m-plugins`, from `plugins/notion` in [n24q02m/claude-plugins](https://github.com/n24q02m/claude-plugins) |
 | Source | [n24q02m/notion](https://github.com/n24q02m/notion) |
 

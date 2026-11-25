@@ -2,10 +2,23 @@
 title: Install & usage
 description: Wiring bsr (Python Semantic Release action) into a repository workflow
 ---
-`better-semantic-release` (bsr) ships as a composite GitHub Action wrapping
-[python-semantic-release](https://python-semantic-release.readthedocs.io/). Add it
-to a repo as one release step; it detects the next SemVer from conventional
-commits, updates the changelog, tags, and publishes the GitHub release.
+`better-semantic-release` (bsr) ships as a Python CLI (`bsr`, `better-semantic-release`, `semantic-release`, `psr`, `python-semantic-release`) and a composite GitHub Action wrapping [python-semantic-release](https://python-semantic-release.readthedocs.io/). Add it to a repo as one release step; it detects the next SemVer from conventional commits, updates the changelog, tags, and publishes the GitHub release.
+
+## CLI installation
+
+```sh
+# Homebrew (macOS / Linux)
+brew install n24q02m/tap/bsr
+
+# Scoop (Windows)
+scoop bucket add n24q02m https://github.com/n24q02m/scoop-bucket
+scoop install bsr
+
+# PyPI (Python 3.11-3.15)
+pip install better-semantic-release
+```
+
+[Homebrew and Scoop](/install/package-managers/) explains how the tap and the bucket pin each release.
 
 ## Minimal wiring
 
